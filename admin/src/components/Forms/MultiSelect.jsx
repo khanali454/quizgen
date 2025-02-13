@@ -6,8 +6,8 @@ const MultiSelect = ({ id }) => {
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState([]);
   const [show, setShow] = useState(false);
-  const dropdownRef = useRef<any>(null);
-  const trigger = useRef<any>(null);
+  const dropdownRef = useRef(null);
+  const trigger = useRef(null);
 
   useEffect(() => {
     const loadOptions = () => {

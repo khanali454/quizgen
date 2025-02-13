@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const SwitcherOne = () => {
-  const [enabled, setEnabled] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState(false);
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const CheckboxFive = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div>

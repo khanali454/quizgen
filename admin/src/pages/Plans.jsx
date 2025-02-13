@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 const plans = [
   {
@@ -74,6 +75,11 @@ const plans = [
 
 const Plans = () => {
 
+  const navigate = useNavigate();
+  const handleAddNewPlan = () => {
+    navigate('/plans/new');
+  }
+
 
   return (
     <>
@@ -91,7 +97,7 @@ const Plans = () => {
               />
             </div>
             {/* Right Side: Button */}
-            <button className="px-4 text-sm py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+            <button onClick={()=>{handleAddNewPlan()}} className="px-4 text-sm py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
               Add New
             </button>
           </div>

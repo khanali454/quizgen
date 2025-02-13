@@ -7,7 +7,6 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
-import ECommerce from './pages/Dashboard/ECommerce';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import User from './pages/User';
@@ -17,6 +16,11 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import Plans from './pages/Plans';
+import Blog from './pages/Blog';
+import AdminDashboard from './pages/Dashboard/AdminDashboard';
+import NewUser from './pages/NewUser';
+import NewPlan from './pages/NewPlan';
+import SystemSettings from './pages/SystemSettings';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +44,7 @@ function App() {
           element={
             <>
               <PageTitle title="Dashboard - Quizgen" />
-              <ECommerce />
+              <AdminDashboard />
             </>
           }
         />
@@ -63,11 +67,47 @@ function App() {
           }
         />
         <Route
+          path="/user/new"
+          element={
+            <>
+              <PageTitle title="New User - Quizgen" />
+              <NewUser />
+            </>
+          }
+        />
+        <Route
           path="/plans"
           element={
             <>
               <PageTitle title="Plans - Quizgen" />
               <Plans />
+            </>
+          }
+        />
+        <Route
+          path="/plans/new"
+          element={
+            <>
+              <PageTitle title="New Plan - Quizgen" />
+              <NewPlan />
+            </>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <>
+              <PageTitle title="Blogs - Quizgen" />
+              <Blog />
+            </>
+          }
+        />
+        <Route
+          path="/general-settings"
+          element={
+            <>
+              <PageTitle title="System settings - Quizgen" />
+              <SystemSettings />
             </>
           }
         />
