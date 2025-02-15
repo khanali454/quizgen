@@ -70,7 +70,7 @@ const Navbar = () => {
             </button>
           </div>
           <div
-  className={`absolute top-full left-0 w-full bg-gray-800  shadow-md transition-all duration-300 ${
+  className={`bg-white absolute top-full left-0 w-full  shadow-md transition-all duration-300 dark:bg-gray-800 ${
     menuOpen ? "block" : "hidden"
   } lg:static lg:block lg:w-auto lg:shadow-none`}
   id="mobile-menu"

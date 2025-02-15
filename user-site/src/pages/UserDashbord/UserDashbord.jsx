@@ -50,8 +50,8 @@ const DoughnutChart = ({ used, total }) => {
 
 export default function DashboardCards() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-gray-100 fixed top-[90px] left-[250px] 
-      w-[calc(100%-250px)]">
+    <div className="grid mt-[50px]  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4 md:p-8 bg-gray-100 
+      md:ml-[250px] md:w-[calc(100%-250px)] ">
       
        {/* Card 1 - Total MCQs Generated */}
        <Link to="/genrated-mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#FF9800] to-[#FF5722] 
@@ -83,7 +83,6 @@ export default function DashboardCards() {
         <span className="text-sm opacity-80">All Time</span>
       </Link>
 
-
       {/* Card 4 - Enhanced Credits Overview */}
       <Link to="/credits" className="flex flex-col justify-between bg-gradient-to-br from-[#ECFDF5] to-[#D1FAE5] 
         shadow-lg rounded-xl p-6 hover:shadow-xl transition-all duration-300 min-h-[200px] h-auto group
@@ -96,12 +95,10 @@ export default function DashboardCards() {
             <h2 className="text-lg font-semibold text-emerald-900">Credits Overview</h2>
           </div>
             <span className="text-xs opacity-80">Total Credits: 500</span>
-           
         </div>
 
         {/* Main Chart Section */}
         <DoughnutChart used={250} total={500} />
-
   
       </Link>
     </div>
