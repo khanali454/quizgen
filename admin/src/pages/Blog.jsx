@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import DefaultPagination from '../common/DefaultPagination';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 
@@ -34,6 +35,8 @@ const Blog = () => {
         console.log(`Editing blog post at index: ${index}`);
     };
 
+    const navigate = useNavigate();
+
     const handleDelete = (index) => {
         console.log(`Deleting blog post at index: ${index}`);
     };
@@ -54,8 +57,8 @@ const Blog = () => {
                             />
                         </div>
                         {/* Right Side: Button */}
-                        <button className="px-4 text-sm py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                            Add New Blog
+                        <button onClick={()=>{navigate('/blog/new')}} className="px-4 text-sm py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                            Create Blog
                         </button>
                     </div>
 

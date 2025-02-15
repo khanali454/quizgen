@@ -1,26 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
-import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
-import Calendar from './pages/Calendar';
-import Chart from './pages/Chart';
-import FormElements from './pages/Form/FormElements';
-import FormLayout from './pages/Form/FormLayout';
 import User from './pages/User';
 import Settings from './pages/Settings';
-import Tables from './pages/Tables';
-import Alerts from './pages/UiElements/Alerts';
-import Buttons from './pages/UiElements/Buttons';
-import DefaultLayout from './layout/DefaultLayout';
+import AuthenticatedLayout from './layout/AuthenticatedLayout';
 import Plans from './pages/Plans';
 import Blog from './pages/Blog';
 import AdminDashboard from './pages/Dashboard/AdminDashboard';
 import NewUser from './pages/NewUser';
 import NewPlan from './pages/NewPlan';
 import SystemSettings from './pages/SystemSettings';
+import Login from './pages/Auth/Login';
+import GuestLayout from './layout/GuestLayout';
+import Page404 from './pages/Page404';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import CreateBlog from './pages/CreateBlog';
+import './App.css';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -37,163 +33,119 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="Dashboard - Quizgen" />
-              <AdminDashboard />
-            </>
-          }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Calendar />
-            </>
-          }
-        />
-        <Route
-          path="/user"
-          element={
-            <>
-              <PageTitle title="Users - Quizgen" />
-              <User />
-            </>
-          }
-        />
-        <Route
-          path="/user/new"
-          element={
-            <>
-              <PageTitle title="New User - Quizgen" />
-              <NewUser />
-            </>
-          }
-        />
-        <Route
-          path="/plans"
-          element={
-            <>
-              <PageTitle title="Plans - Quizgen" />
-              <Plans />
-            </>
-          }
-        />
-        <Route
-          path="/plans/new"
-          element={
-            <>
-              <PageTitle title="New Plan - Quizgen" />
-              <NewPlan />
-            </>
-          }
-        />
-        <Route
-          path="/blogs"
-          element={
-            <>
-              <PageTitle title="Blogs - Quizgen" />
-              <Blog />
-            </>
-          }
-        />
-        <Route
-          path="/general-settings"
-          element={
-            <>
-              <PageTitle title="System settings - Quizgen" />
-              <SystemSettings />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-elements"
-          element={
-            <>
-              <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormElements />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-layout"
-          element={
-            <>
-              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormLayout />
-            </>
-          }
-        />
-        <Route
-          path="/tables"
-          element={
-            <>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Tables />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
-              <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
-              <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
-              <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
-              <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Buttons />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <SignUp />
-            </>
-          }
-        />
-      </Routes>
-    </DefaultLayout>
+    <Routes>
+      <Route
+        index
+         path="/dashboard"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Dashboard - Mcq AI Admin" />
+            <AdminDashboard />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Users - Mcq Ai Admin" />
+            <User />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/user/new"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="New User - Mcq Ai Admin" />
+            <NewUser />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/plans"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Plans - Mcq Ai Admin" />
+            <Plans />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/plans/new"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="New Plan - Mcq Ai Admin" />
+            <NewPlan />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/blogs"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Blogs - Mcq Ai Admin" />
+            <Blog />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/blog/new"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="New Blog - Mcq Ai Admin" />
+            <CreateBlog />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/system-settings"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="System settings - Mcq Ai Admin" />
+            <SystemSettings />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/edit-profile"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Edit Profile | Mcq AI Admin" />
+            <Settings />
+          </AuthenticatedLayout>
+        }
+      />
+
+      <Route
+        path="/"
+        element={
+          <GuestLayout>
+            <PageTitle title="Login | Mcq AI Admin" />
+            <Login />
+          </GuestLayout>
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          <GuestLayout>
+            <PageTitle title="Forgot Password | Mcq AI Admin" />
+            <ForgotPassword/>
+          </GuestLayout>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <>
+            <Page404 />
+          </>
+        }
+      />
+
+
+    </Routes>
   );
 }
 
