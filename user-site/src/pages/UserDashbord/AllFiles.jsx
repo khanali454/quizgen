@@ -105,7 +105,7 @@ export default function AllFiles() {
           className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg shadow-md 
           disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
-          ← Previous
+          ← 
         </button>
 
         {/* Page Number Display */}
@@ -120,7 +120,7 @@ export default function AllFiles() {
           className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg shadow-md 
           disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
-          Next →
+           →
         </button>
       </div>
     </div>
