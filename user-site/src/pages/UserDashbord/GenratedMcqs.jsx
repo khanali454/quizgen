@@ -9,7 +9,7 @@ import { Upload, RefreshCw, FileText, Trash2, PlusSquare} from "lucide-react";
 export default function GeneratedMcqs() {
   const [file, setFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const filesPerPage = 9; // Desktop: 3 cards per row, total 9 per page
+  const filesPerPage = 8; // Desktop: 3 cards per row, total 9 per page
 
   const handleDrop = (event) => {
     event.preventDefault();

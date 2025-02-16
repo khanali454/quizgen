@@ -8,7 +8,7 @@ import { Upload, RefreshCw, FileText, Trash2 } from "lucide-react";
 export default function AllFiles() {
   const [file, setFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const filesPerPage = 9; // Desktop: 3 cards per row (Total 9 per page)
+  const filesPerPage = 8; // Desktop: 3 cards per row (Total 9 per page)
 
   const handleDrop = (event) => {
     event.preventDefault();
