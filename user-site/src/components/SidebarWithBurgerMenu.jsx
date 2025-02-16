@@ -124,7 +124,12 @@ export function SidebarWithBurgerMenu() {
             >
               <Cog6ToothIcon className="h-6 w-6" /> Settings
             </Link>
-          </div>
+            <div className="border-t border-gray-400 border-dotted my-4"></div>
+
+<Link to="/settings" className="flex items-center gap-3 p-3 text-sm font-normal text-gray-600">
+  <CurrencyDollarIcon className="h-6 w-6" /> Ai Credits: 10 / 100
+</Link>
+</div>
 
           <div className="p-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white shadow-lg">
             <h5 className="mb-2 font-bold">Want More?</h5>
