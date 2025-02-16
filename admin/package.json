@@ -13,10 +13,12 @@
     "email": "developer.aqeelabbas@gmail.com"
   },
   "dependencies": {
+    "@lexical/react": "^0.24.0",
     "apexcharts": "^3.41.0",
     "flatpickr": "^4.6.13",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
+    "lexical": "^0.24.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
