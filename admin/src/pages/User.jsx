@@ -9,9 +9,41 @@ const users = [
     address: "test address pakistan",
     created_at: '2 days ago',
     status: "suspended",
-    role: "admin",
-    plan_detail: {
-      planName: 'premium'
+    role: "user",
+    subscription: {
+      id: 1,
+      startDate: '10-02-2025',
+      endDate: '10-03-2025',
+      billed: 'Monthly',
+      totalCredits: 120,
+      usedCredits: 10,
+      plan_detail: {
+        id: 1,
+        planName: "Basic Plan",
+        type: "trial",
+        features: [
+          {
+            name: "questionsLimit",
+            description: "Generate Up to 30 papers monthly & 400 papers yearly",
+            monthly_credit: "30",
+            yearly_credit: "400",
+          },
+          {
+            name: "specificTopicPrompt",
+            description: "Specify Topic"
+          }
+        ],
+        plans: [
+          {
+            duration: "Monthly",
+            price: "0 SAR",
+          },
+          {
+            duration: "Yearly",
+            price: "0 SAR",
+          },
+        ],
+      }
     }
   },
   {
@@ -21,7 +53,8 @@ const users = [
     address: "Mamori Dera ghazi khan , Punjab",
     created_at: '7 days ago',
     status: "active",
-    role: 'user'
+    role: 'admin',
+    subscription: {}
   }
 ];
 
@@ -109,11 +142,35 @@ const User = () => {
                       </td>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                         <p className="text-black dark:text-white">
-                          <p className='bg-green-400 px-4 py-1 rounded text-xs text-white w-fit'>subscribed</p>
-                          <p>
-                            <b>Details : </b>
-                            <span className="text-green">Monthly</span>
-                          </p>
+                          {user?.subscription?.id && (
+                            <>
+                              <p className='bg-green-400 px-4 py-1 rounded text-xs text-white w-fit'>subscribed</p>
+                              <p className='py-2'>
+                                <span className="text-nowrap text-sm">
+                                  {user?.subscription?.plan_detail?.planName} ( <span className={`${user?.subscription?.plan_detail?.type == "premium" ? 'text-green-400' : 'text-blue-400'} `}>{user?.subscription?.plan_detail?.type}</span> )
+                                </span> <br />
+                                <span className="text-nowrap text-sm">
+                                  <b>Credits : </b> {user?.subscription?.totalCredits - user?.subscription?.usedCredits} / <span className="text-green-400">
+                                    {user?.subscription?.totalCredits}
+                                  </span>
+                                </span> <br />
+                                <span className="text-nowrap text-sm">
+                                  <b>Billed : </b> {user?.subscription?.billed}
+                                </span> <br />
+                                <span className="text-nowrap text-sm">
+                                  <b>Started On : </b> {user?.subscription?.startDate}
+                                </span> <br />
+                                <span className="text-nowrap text-sm">
+                                  <b>Expiry : </b> {user?.subscription?.endDate}
+                                </span> <br />
+                              </p>
+                            </>
+                          )}
+
+                          {!user?.subscription?.id && (
+                            <p className='bg-gray-200 px-4 py-1 rounded text-xs text-gray-600 w-fit text-nowrap'>not subscribed</p>
+                          )}
+
                         </p>
                       </td>
                       <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
