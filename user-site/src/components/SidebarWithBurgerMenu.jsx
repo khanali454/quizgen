@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "@headlessui/react";
@@ -13,13 +12,13 @@ import {
   DocumentIcon,
   DocumentDuplicateIcon,
   CurrencyDollarIcon,
-  GlobeAltIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
 export function SidebarWithBurgerMenu() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [language, setLanguage] = useState("English");
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
   const location = useLocation();
   const sidebarRef = useRef(null);
   const burgerRef = useRef(null);
@@ -47,7 +46,7 @@ export function SidebarWithBurgerMenu() {
   }, [isMobile, isDrawerOpen]);
 
   const toggleSidebar = (e) => {
-    e.stopPropagation(); // 🔴 Prevent event bubbling
+    e.stopPropagation();
     setIsDrawerOpen(!isDrawerOpen);
   };
 
@@ -83,44 +82,43 @@ export function SidebarWithBurgerMenu() {
           </span>
         </a>
 
-        <div className="flex items-center gap-2">
-          {/* Language Dropdown */}
-          <Menu as="div" className="relative inline-block text-left">
+        <div className="flex items-center gap-4">
+          {/* Language Selector Dropdown */}
+          <Menu as="div" className="relative">
             <Menu.Button as={IconButton} variant="text">
-              <div className="flex items-center gap-1">
-                <GlobeAltIcon className="h-6 w-6" />
-                <span className="hidden sm:block text-sm">{language}</span>
-              </div>
+              {selectedLanguage === 'en' ? '🇺🇸' : '🇸🇦'}
             </Menu.Button>
-            <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => setLanguage("English")}
-                    className={`w-full text-left px-4 py-2 text-sm ${
-                      active ? "bg-gray-100" : ""
-                    }`}
-                  >
-                    English
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => setLanguage("العربية")}
-                    className={`w-full text-left px-4 py-2 text-sm ${
-                      active ? "bg-gray-100" : ""
-                    }`}
-                  >
-                    العربية
-                  </button>
-                )}
-              </Menu.Item>
+            <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={() => setSelectedLanguage('en')}
+                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${
+                        active ? 'bg-gray-100' : ''
+                      }`}
+                    >
+                      🇺🇸 English
+                    </button>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={() => setSelectedLanguage('ar')}
+                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${
+                        active ? 'bg-gray-100' : ''
+                      }`}
+                    >
+                      🇸🇦 Arabic
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
             </Menu.Items>
           </Menu>
 
-          {/* User Menu */}
+          {/* User Profile Menu */}
           <Menu as="div" className="relative inline-block text-left">
             <Menu.Button as={IconButton} variant="text">
               <UserCircleIcon className="h-8 w-8" />
@@ -146,7 +144,7 @@ export function SidebarWithBurgerMenu() {
                       active ? "bg-gray-100" : ""
                     }`}
                   >
-                    <Cog6ToothIcon className="h-5 w-5" /> Settings
+                    <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
                   </Link>
                 )}
               </Menu.Item>
@@ -155,14 +153,13 @@ export function SidebarWithBurgerMenu() {
         </div>
       </div>
 
+      {/* Sidebar */}
       <div
         ref={sidebarRef}
         className={`fixed left-0 top-14 h-full w-64 bg-white shadow-lg p-4 z-40 transition-transform duration-300 
         ${isMobile ? (isDrawerOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}`}
       >
-       {/* ... sidebar content ... */}
-
-       <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
+        <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
           <div>
             <Link
               to="create-quiz"
