@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "@headlessui/react";
@@ -12,11 +13,13 @@ import {
   DocumentIcon,
   DocumentDuplicateIcon,
   CurrencyDollarIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 
 export function SidebarWithBurgerMenu() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [language, setLanguage] = useState("English");
   const location = useLocation();
   const sidebarRef = useRef(null);
   const burgerRef = useRef(null);
@@ -59,7 +62,7 @@ export function SidebarWithBurgerMenu() {
             ref={burgerRef}
             variant="text"
             size="lg"
-            onClick={toggleSidebar} // ✅ Use the corrected toggle function
+            onClick={toggleSidebar}
           >
             {isDrawerOpen ? (
               <XMarkIcon className="h-8 w-8 stroke-2" />
@@ -69,8 +72,7 @@ export function SidebarWithBurgerMenu() {
           </IconButton>
         )}
 
-
-       <a href="./" className="flex items-center">
+        <a href="./" className="flex items-center">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="mr-3 h-6 sm:h-9"
@@ -81,47 +83,86 @@ export function SidebarWithBurgerMenu() {
           </span>
         </a>
 
-        <Menu as="div" className="relative inline-block text-left">
-          <Menu.Button as={IconButton} variant="text">
-            <UserCircleIcon className="h-8 w-8" />
-          </Menu.Button>
-          <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="./settings"
-                  className={`flex items-center gap-2 px-4 py-2 text-sm ${
-                    active ? "bg-gray-100" : ""
-                  }`}
-                >
-                  <UserCircleIcon className="h-5 w-5" /> Profile
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to="./settings"
-                  className={`flex items-center gap-2 px-4 py-2 text-sm ${
-                    active ? "bg-gray-100" : ""
-                  }`}
-                >
-                  <Cog6ToothIcon className="h-5 w-5" /> Settings
-                </Link>
-              )}
-            </Menu.Item>
-          </Menu.Items>
-        </Menu>
+        <div className="flex items-center gap-2">
+          {/* Language Dropdown */}
+          <Menu as="div" className="relative inline-block text-left">
+            <Menu.Button as={IconButton} variant="text">
+              <div className="flex items-center gap-1">
+                <GlobeAltIcon className="h-6 w-6" />
+                <span className="hidden sm:block text-sm">{language}</span>
+              </div>
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    onClick={() => setLanguage("English")}
+                    className={`w-full text-left px-4 py-2 text-sm ${
+                      active ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    English
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    onClick={() => setLanguage("العربية")}
+                    className={`w-full text-left px-4 py-2 text-sm ${
+                      active ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    العربية
+                  </button>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
+
+          {/* User Menu */}
+          <Menu as="div" className="relative inline-block text-left">
+            <Menu.Button as={IconButton} variant="text">
+              <UserCircleIcon className="h-8 w-8" />
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to="./settings"
+                    className={`flex items-center gap-2 px-4 py-2 text-sm ${
+                      active ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    <UserCircleIcon className="h-5 w-5" /> Profile
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to="./settings"
+                    className={`flex items-center gap-2 px-4 py-2 text-sm ${
+                      active ? "bg-gray-100" : ""
+                    }`}
+                  >
+                    <Cog6ToothIcon className="h-5 w-5" /> Settings
+                  </Link>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
+        </div>
       </div>
-      {/* Sidebar */}
+
       <div
         ref={sidebarRef}
         className={`fixed left-0 top-14 h-full w-64 bg-white shadow-lg p-4 z-40 transition-transform duration-300 
         ${isMobile ? (isDrawerOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}`}
       >
-        {/* ... sidebar content ... */}
+       {/* ... sidebar content ... */}
 
-        <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
+       <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
           <div>
             <Link
               to="create-quiz"
