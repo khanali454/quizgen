@@ -112,7 +112,7 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all"
               >
                 Send Message
               </button>
@@ -125,7 +125,7 @@ const Contact = () => {
       <div className="mt-16 text-center">
         <Link
           to="/"
-          className="px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition-all"
+          className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition-all"
         >
           Go Back to Home
         </Link>

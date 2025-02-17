@@ -12,7 +12,7 @@ import heroImage from "../assets/heroimage.svg";
 				<br  className="hidden md:inline lg:hidden" /> Enter free AI Quiz Generator - your go-to tool for swift and efficient quiz creation.
 			</p>
 			<div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<a rel="noopener noreferrer" href="/login" className="px-8 py-3 text-lg font-semibold rounded dark:bg-indigo-700 dark:text-gray-50">Generate MCQs</a>
+				<a rel="noopener noreferrer" href="/login" className="px-8 py-3 text-lg font-semibold rounded   dark:bg-gradient-to-r from-blue-500 to-purple-500 dark:text-gray-50">Generate MCQs</a>
 			</div>
 		</div>
 		<div className="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">

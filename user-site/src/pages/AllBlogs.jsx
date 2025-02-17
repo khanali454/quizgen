@@ -47,7 +47,7 @@ const AllBlogs = () => {
                 <div className="mt-4">
                   <Link
                     to={`/blog/${index}`}
-                    className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                    className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all"
                   >
                     Read More →
                   </Link>

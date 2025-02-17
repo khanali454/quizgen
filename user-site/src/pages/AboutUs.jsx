@@ -82,7 +82,7 @@ const AboutUs = () => {
         </p>
         <Link
           to="/register"
-          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all"
         >
           Get Started
         </Link>

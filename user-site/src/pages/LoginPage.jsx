@@ -68,7 +68,7 @@ const Login = () => {
                 </label>
               </div>
 
-              <button onClick={()=>{navigate('/User-Dashbord')}} className="w-full rounded-md border border-indigo-500 bg-indigo-500 py-2 px-5 text-white shadow hover:bg-indigo-600">
+              <button onClick={()=>{navigate('/User-Dashbord')}} className="w-full rounded-md border border-indigo-500 bg-gradient-to-r from-blue-500 to-purple-500 py-2 px-5 text-white shadow hover:bg-indigo-600">
                 Sign in
               </button>
             </form>

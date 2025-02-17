@@ -44,7 +44,7 @@ const PricingPlan = () => {
             <button
               onClick={() => setActiveTab("yearly")}
               className={`w-1/2 text-center rounded-full py-3 px-3 lg:px-11 font-semibold transition-all duration-500 ${
-                activeTab === "yearly" ? "bg-indigo-600 text-white" : "text-gray-400 hover:text-indigo-600"
+                activeTab === "yearly" ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white" : "text-gray-400 hover:text-indigo-600"
               }`}
             >
               Bill Yearly
@@ -52,7 +52,7 @@ const PricingPlan = () => {
             <button
               onClick={() => setActiveTab("monthly")}
               className={`w-1/2 text-center rounded-full py-3 px-3 lg:px-11 font-semibold transition-all duration-500 ${
-                activeTab === "monthly" ? "bg-indigo-600 text-white" : "text-gray-400 hover:text-indigo-600"
+                activeTab === "monthly" ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white" : "text-gray-400 hover:text-indigo-600"
               }`}
             >
               Bill Monthly
@@ -64,7 +64,7 @@ const PricingPlan = () => {
               <div
                 key={plan}
                 className={`group relative flex flex-col mx-auto w-full max-w-sm rounded-2xl p-6 xl:p-12 transition-all duration-300 ${
-                  plan === "Advanced" ? "bg-indigo-600 text-white hover:bg-indigo-700" : "border border-gray-300 text-gray-900 hover:border-indigo-600"
+                  plan === "Advanced" ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:bg-indigo-700" : "border border-gray-300 text-gray-900 hover:border-indigo-600"
                 }`}
               >
                 <h3 className="font-manrope text-2xl font-bold mb-6">{plan}</h3>
@@ -100,7 +100,7 @@ const PricingPlan = () => {
                 <a
                   href="#"
                   className={`py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 ${
-                    plan === "Advanced" ? "bg-white text-indigo-600 hover:bg-gray-200" : "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white"
+                    plan === "Advanced" ? "bg-white text-indigo-600 hover:bg-gray-200" : "bg-indigo-50 text-indigo-600 group-hover:bg-gradient-to-r from-blue-500 to-purple-500 group-hover:text-white"
                   }`}
                 >
                   Purchase Plan
