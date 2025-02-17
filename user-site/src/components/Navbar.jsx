@@ -80,7 +80,7 @@ const Navbar = () => {
   {[
     { name: "Home", path: "/" },
     { name: "Company", path: "/company" },
-    { name: "Blogs", path: "/blogs" },
+    { name: "Blogs", path: "/all-blogs" },
     { name: "Features", path: "/features" },
     { name: "Contact", path: "/contact" },
   ].map((item, index) => (

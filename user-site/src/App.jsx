@@ -2,10 +2,6 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
-
-// Pages
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 import HeroSection from './components/HeroSection';
 import PricingPlan from './components/PricingPlan';
 import NewsletterSection from './components/NewsletterSection';
@@ -22,6 +18,11 @@ import GenratedMcqs from "./pages/UserDashbord/GenratedMcqs";
 import Settings from "./pages/UserDashbord/Settings";
 import AllFiles from "./pages/UserDashbord/AllFiles";
 import PlanManage from "./pages/UserDashbord/PlanManage";
+
+// Pages
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AllBlogs from "./pages/AllBlogs";
 
 function Layout() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function Layout() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/all-blogs" element={<AllBlogs />} />
 
         {/* User Dashboard Routes */}
       
