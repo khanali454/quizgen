@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const AllBlogs = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +41,16 @@ const AllBlogs = () => {
                 <div className="flex items-center justify-between font-medium text-sm">
                   <h6 className="text-gray-500">By {blog.author}</h6>
                   <span className="text-indigo-600">{blog.date}</span>
+                </div>
+
+                {/* Read More Button */}
+                <div className="mt-4">
+                  <Link
+                    to={`/blog/${index}`}
+                    className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                  >
+                    Read More →
+                  </Link>
                 </div>
               </div>
             </div>
@@ -83,17 +94,6 @@ const blogData = [
   { image: "https://pagedone.io/asset/uploads/1696244553.png", title: "Fintech 101: Exploring the Basics of Electronic Payments", author: "Harsh C.", date: "2 years ago" },
   { image: "https://pagedone.io/asset/uploads/1696244579.png", title: "From Classroom to Cyberspace: The Growing Influence of EdTech in Fintech", author: "John D.", date: "2 years ago" },
   { image: "https://pagedone.io/asset/uploads/1696244619.png", title: "Fintech Solutions for Student Loans: Easing the Burden of Education Debt", author: "Alexa H.", date: "2 years ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244553.png", title: "How AI is Shaping the Future of Financial Services", author: "Emily R.", date: "1 year ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244579.png", title: "Cryptocurrency Basics: A Beginner’s Guide", author: "Michael S.", date: "1 year ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244619.png", title: "Neobanks: The Digital-Only Banking Revolution", author: "Sarah W.", date: "1 year ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244553.png", title: "How Blockchain is Disrupting Traditional Banking", author: "Daniel T.", date: "1 year ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244579.png", title: "Robo-Advisors: The Future of Investment Management?", author: "Sophia L.", date: "1 year ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244619.png", title: "Digital Payments: Trends and Future Predictions", author: "Chris B.", date: "6 months ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244553.png", title: "Open Banking: What It Means for Consumers", author: "Olivia P.", date: "6 months ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244579.png", title: "Buy Now, Pay Later: Pros and Cons Explained", author: "James K.", date: "6 months ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244619.png", title: "The Rise of Contactless Payments in a Post-Pandemic World", author: "Liam N.", date: "6 months ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244553.png", title: "Mobile Wallets: Are They Safe to Use?", author: "Emma D.", date: "3 months ago" },
-  { image: "https://pagedone.io/asset/uploads/1696244579.png", title: "The Future of Biometric Authentication in Fintech", author: "Noah W.", date: "3 months ago" },
 ];
 
 export default AllBlogs;

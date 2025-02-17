@@ -23,6 +23,12 @@ import PlanManage from "./pages/UserDashbord/PlanManage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AllBlogs from "./pages/AllBlogs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import AboutUs from "./pages/AboutUs";
+import Contact from "./pages/Contact";
+import BlogDetail from "./pages/BlogDetail"; // Import the new BlogDetail Page
+
 
 function Layout() {
   const location = useLocation();
@@ -49,6 +55,10 @@ function Layout() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/all-blogs" element={<AllBlogs />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/Terms-Conditions" element={<TermsConditions />} />
+        <Route path="/About-Us" element={<AboutUs />} />
+        <Route path="/Contact" element={<Contact />} />
 
         {/* User Dashboard Routes */}
       
@@ -60,6 +70,8 @@ function Layout() {
            <Route path="plan-manage" element={<PlanManage />} />
            <Route path="settings" element={<Settings />} />
         </Route>
+
+          <Route path="/blog/:blogId" element={<BlogDetail />} />
 
       </Routes>
 

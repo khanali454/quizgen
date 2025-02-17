@@ -8,25 +8,21 @@ const Footer = () => {
             <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
             <ul class="text-gray-500 dark:text-gray-400 font-medium">
                 <li class="mb-4">
-                    <a href="#" class=" hover:underline">About</a>
+                    <a href="./About-Us" class=" hover:underline">About Us</a>
                 </li>
                 <li class="mb-4">
-                    <a href="#" class="hover:underline">Careers</a>
+                    <a href="./Contact" class="hover:underline">Contact Us</a>
                 </li>
+             
                 <li class="mb-4">
-                    <a href="#" class="hover:underline">Brand Center</a>
-                </li>
-                <li class="mb-4">
-                    <a href="#" class="hover:underline">Blog</a>
+                    <a href="./all-blogs" class="hover:underline">Blogs</a>
                 </li>
             </ul>
         </div>
         <div>
             <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
             <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                <li class="mb-4">
-                    <a href="#" class="hover:underline">Discord Server</a>
-                </li>
+              
                 <li class="mb-4">
                     <a href="#" class="hover:underline">Twitter</a>
                 </li>
@@ -42,17 +38,17 @@ const Footer = () => {
             <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
             <ul class="text-gray-500 dark:text-gray-400 font-medium">
                 <li class="mb-4">
-                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="./privacy-policy" class="hover:underline">Privacy Policy</a>
                 </li>
                 <li class="mb-4">
                     <a href="#" class="hover:underline">Licensing</a>
                 </li>
                 <li class="mb-4">
-                    <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                    <a href="./Terms-Conditions" class="hover:underline">Terms &amp; Conditions</a>
                 </li>
             </ul>
         </div>
-        <div>
+        {/* <div>
             <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Download</h2>
             <ul class="text-gray-500 dark:text-gray-400 font-medium">
                 <li class="mb-4">
@@ -68,7 +64,7 @@ const Footer = () => {
                     <a href="#" class="hover:underline">MacOS</a>
                 </li>
             </ul>
-        </div>
+        </div> */}
     </div>
   </div>
     <div class="px-4 py-6 w-full border bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">

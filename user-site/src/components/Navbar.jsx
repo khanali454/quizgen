@@ -79,7 +79,7 @@ const Navbar = () => {
             <ul className="flex flex-col text-white mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
   {[
     { name: "Home", path: "/" },
-    { name: "Company", path: "/company" },
+    { name: "Company", path: "/About-Us" },
     { name: "Blogs", path: "/all-blogs" },
     { name: "Features", path: "/features" },
     { name: "Contact", path: "/contact" },
