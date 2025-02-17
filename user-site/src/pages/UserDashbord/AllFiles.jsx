@@ -36,7 +36,7 @@ export default function AllFiles() {
   const totalPages = Math.ceil(fileNames.length / filesPerPage);
 
   return (
-    <div className="flex flex-col items-center mt-[90px] lg:ml-[100px]"> 
+    <div className="flex flex-col items-center mt-[60px] lg:ml-[100px]"> 
       {/* Desktop pe left se 100px space (lg:ml-[100px]), mobile pe 0 */}
       
       {/* Grid Layout for Cards */}

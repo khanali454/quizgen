@@ -21,6 +21,7 @@ import MultiStepQuizForm from "./pages/UserDashbord/MultiStepQuizForm";
 import GenratedMcqs from "./pages/UserDashbord/GenratedMcqs";
 import Settings from "./pages/UserDashbord/Settings";
 import AllFiles from "./pages/UserDashbord/AllFiles";
+import PlanManage from "./pages/UserDashbord/PlanManage";
 
 function Layout() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function Layout() {
            <Route path="create-quiz" element={<MultiStepQuizForm />} />
            <Route path="genrated-mcqs" element={<GenratedMcqs />} />
            <Route path="all-files" element={<AllFiles />} />
+           <Route path="plan-manage" element={<PlanManage />} />
            <Route path="settings" element={<Settings />} />
         </Route>
 

@@ -37,7 +37,7 @@ export default function GeneratedMcqs() {
   const totalPages = Math.ceil(fileNames.length / filesPerPage);
 
   return (
-    <div className="flex flex-col items-center mt-[90px] lg:ml-[100px]"> 
+    <div className="flex flex-col items-center mt-[60px] lg:ml-[100px]"> 
       {/* Grid Layout for Cards */}
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 w-full max-w-6xl">
         

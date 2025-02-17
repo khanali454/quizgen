@@ -89,7 +89,7 @@ export function SidebarWithBurgerMenu() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="/profile"
+                  to="./settings"
                   className={`flex items-center gap-2 px-4 py-2 text-sm ${
                     active ? "bg-gray-100" : ""
                   }`}
@@ -101,7 +101,7 @@ export function SidebarWithBurgerMenu() {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="/settings"
+                  to="./settings"
                   className={`flex items-center gap-2 px-4 py-2 text-sm ${
                     active ? "bg-gray-100" : ""
                   }`}
@@ -170,7 +170,7 @@ export function SidebarWithBurgerMenu() {
             <div className="border-t border-gray-400 border-dotted my-4"></div>
 
             <Link
-              to="/settings"
+              to="#"
               onClick={closeSidebar}
               className="flex items-center gap-3 p-3 text-sm font-normal text-gray-600"
             >
@@ -183,13 +183,14 @@ export function SidebarWithBurgerMenu() {
             <p className="mb-4 text-sm opacity-90">
               Get access to exclusive features and premium support.
             </p>
-            <Button
+            <Link
+              to="plan-manage"
               color="white"
               onClick={closeSidebar}
-              className="flex items-center gap-2 px-4 py-2 text-blue-700 text-sm rounded-full"
+              className="flex items-center gap-2 px-4 py-2 bg-white text-blue-700 text-sm rounded-full"
             >
               <ArrowUpCircleIcon className="h-6 w-6" /> Upgrade Now
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
