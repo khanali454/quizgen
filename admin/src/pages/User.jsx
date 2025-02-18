@@ -1,68 +1,76 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import DefaultPagination from '../common/DefaultPagination';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-const users = [
-  {
-    name: "test",
-    email: "test@gmail.com",
-    phone: "+923361228394",
-    address: "test address pakistan",
-    created_at: '2 days ago',
-    status: "suspended",
-    role: "user",
-    subscription: {
-      id: 1,
-      startDate: '10-02-2025',
-      endDate: '10-03-2025',
-      billed: 'Monthly',
-      totalCredits: 120,
-      usedCredits: 10,
-      plan_detail: {
-        id: 1,
-        planName: "Basic Plan",
-        type: "trial",
-        features: [
-          {
-            name: "questionsLimit",
-            description: "Generate Up to 30 papers monthly & 400 papers yearly",
-            monthly_credit: "30",
-            yearly_credit: "400",
-          },
-          {
-            name: "specificTopicPrompt",
-            description: "Specify Topic"
-          }
-        ],
-        plans: [
-          {
-            duration: "Monthly",
-            price: "0 SAR",
-          },
-          {
-            duration: "Yearly",
-            price: "0 SAR",
-          },
-        ],
-      }
-    }
-  },
-  {
-    name: "another",
-    email: "another@gmail.com",
-    phone: "+92334638394",
-    address: "Mamori Dera ghazi khan , Punjab",
-    created_at: '7 days ago',
-    status: "active",
-    role: 'admin',
-    subscription: {}
-  }
-];
+import { useState } from 'react';
 
 const User = () => {
-
   const navigate = useNavigate();
+
+  const [users,setUsers] = useState([
+    {
+      name: "test",
+      email: "test@gmail.com",
+      phone: "+923361228394",
+      address: "test address pakistan",
+      created_at: '2 days ago',
+      status: "suspended",
+      role: "user",
+      subscription: {
+        id: 1,
+        startDate: '10-02-2025',
+        endDate: '10-03-2025',
+        billed: 'Monthly',
+        totalCredits: 120,
+        usedCredits: 10,
+        plan_detail: {
+          id: 1,
+          planName: "Basic Plan",
+          type: "trial",
+          features: [
+            {
+              name: "questionsLimit",
+              description: "Generate Up to 30 papers monthly & 400 papers yearly",
+              monthly_credit: "30",
+              yearly_credit: "400",
+            },
+            {
+              name: "specificTopicPrompt",
+              description: "Specify Topic"
+            }
+          ],
+          plans: [
+            {
+              duration: "Monthly",
+              price: "0 SAR",
+            },
+            {
+              duration: "Yearly",
+              price: "0 SAR",
+            },
+          ],
+        }
+      }
+    },
+    {
+      name: "another",
+      email: "another@gmail.com",
+      phone: "+92334638394",
+      address: "Mamori Dera ghazi khan , Punjab",
+      created_at: '7 days ago',
+      status: "active",
+      role: 'admin',
+      subscription: {}
+    }
+  ]);
   const handleAddNewUser = () => {
     navigate('/user/new');
+  }
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSearch = (query)=>{
+    setSearchParams({ 'search':query })
+    // search users
   }
 
   return (
@@ -76,6 +84,8 @@ const User = () => {
               <input
                 type="search"
                 name="search"
+                onChange={(e) => { handleSearch(e.target.value) }}
+                value={searchParams.get('search')}
                 placeholder="Search here..."
                 className="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none"
               />

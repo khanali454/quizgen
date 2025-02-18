@@ -7,7 +7,7 @@ const SystemSettings = () => {
     phoneNumber: '',
     address: '',
     websiteName: '',
-    websiteLogo: null,
+    websiteLogo: "https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg",
     socialLinks: {
       facebook: '',
       twitter: '',
@@ -56,13 +56,13 @@ const SystemSettings = () => {
           {/* General Settings Form */}
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">System Settings</h3>
+              <h3 className="font-medium text-black dark:text-white text-xl">System Settings</h3>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="p-6.5">
                 {/* Website Details Section */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">Website Details</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">Website Details</h4>
                   <div className="flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/2">
                       <label className="mb-2.5 block text-black dark:text-white">Website Name</label>
@@ -78,19 +78,36 @@ const SystemSettings = () => {
 
                     <div className="w-full xl:w-1/2">
                       <label className="mb-2.5 block text-black dark:text-white">Website Logo</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      />
+                      {settings.websiteLogo ? (
+                        <div className="mb-4">
+                          <img
+                            src={settings.websiteLogo} // For local file preview
+                            alt="Website Logo"
+                            className="w-24 h-24 object-contain mb-2"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setSettings({ ...settings, websiteLogo: null })}
+                            className="text-red-500 text-sm hover:underline"
+                          >
+                            Remove Logo
+                          </button>
+                        </div>
+                      ) : (
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* Contact Info Section */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">Contact Information</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">Contact Information</h4>
                   <div className="flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/2">
                       <label className="mb-2.5 block text-black dark:text-white">Email</label>
@@ -119,7 +136,7 @@ const SystemSettings = () => {
                 </div>
 
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">Address</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">Address</h4>
                   <input
                     type="text"
                     name="address"
@@ -132,7 +149,7 @@ const SystemSettings = () => {
 
                 {/* Social Links Section */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">Social Links</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">Social Links</h4>
                   <div className="flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/3">
                       <label className="mb-2.5 block text-black dark:text-white">Facebook</label>
@@ -174,7 +191,7 @@ const SystemSettings = () => {
 
                 {/* SMTP Settings Section */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">SMTP Settings</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">SMTP Settings</h4>
                   <div className="flex flex-col gap-6">
                     <div>
                       <label className="mb-2.5 block text-black dark:text-white">SMTP Host</label>
@@ -228,7 +245,7 @@ const SystemSettings = () => {
 
                 {/* OpenAI API Key Section */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-black dark:text-white mb-2">OpenAI API Key</h4>
+                  <h4 className="font-medium text-black dark:text-white text-lg mb-3">OpenAI API Key</h4>
                   <input
                     type="text"
                     name="openAIKey"
