@@ -84,8 +84,8 @@ export function SidebarWithBurgerMenu() {
 
         <div className="flex items-center gap-4">
           {/* Language Selector Dropdown */}
-          <Menu as="div" className="relative">
-            <Menu.Button as={IconButton} variant="text">
+          <Menu as="div" className=" relative">
+            <Menu.Button as={IconButton} variant="text" className="text-lg">
               {selectedLanguage === 'en' ? '🇺🇸' : '🇸🇦'}
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
