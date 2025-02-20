@@ -85,7 +85,7 @@ export function SidebarWithBurgerMenu() {
         <div className="flex items-center gap-4">
           {/* Language Selector Dropdown */}
           <Menu as="div" className=" relative">
-            <Menu.Button as={IconButton} variant="text" className="text-lg">
+            <Menu.Button as={IconButton} variant="text" className="text-lg bg-gray-200">
               {selectedLanguage === 'en' ? '🇺🇸' : '🇸🇦'}
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
@@ -120,7 +120,7 @@ export function SidebarWithBurgerMenu() {
 
           {/* User Profile Menu */}
           <Menu as="div" className="relative inline-block text-left">
-            <Menu.Button as={IconButton} variant="text">
+            <Menu.Button as={IconButton} variant="text" className="bg-gray-200">
               <UserCircleIcon className="h-8 w-8" />
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">

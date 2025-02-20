@@ -36,11 +36,11 @@ export default function AllFiles() {
   const totalPages = Math.ceil(fileNames.length / filesPerPage);
 
   return (
-    <div className="flex flex-col items-center mt-[60px] lg:ml-[100px]"> 
+    <div className="flex bg-gray-200 py-4 flex-col items-center mt-[60px] lg:ml-[100px]"> 
       {/* Desktop pe left se 100px space (lg:ml-[100px]), mobile pe 0 */}
       
       {/* Grid Layout for Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 w-full max-w-6xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 p-6 w-full max-w-6xl">
         
         {/* Upload Card */}
         <label
@@ -63,7 +63,7 @@ export default function AllFiles() {
         
         {/* File Cards */}
         {currentFiles.map((fileName, index) => (
-          <div key={index} className="relative group overflow-hidden rounded-2xl shadow-lg bg-gray-200 p-4 flex flex-col 
+          <div key={index} className="relative group overflow-hidden rounded-2xl shadow-lg bg-gray-100 border-gray-200 border p-4 flex flex-col 
             items-center w-full">
             
             {/* Delete Button */}

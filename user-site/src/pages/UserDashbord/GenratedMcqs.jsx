@@ -78,14 +78,18 @@ export default function GeneratedMcqs() {
             </div>
 
             {/* Download Again Button */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              animate={{ opacity: [0.5, 1, 0.5], transition: { repeat: Infinity, duration: 1.5 } }}
-              className="mt-4 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full 
-              shadow-md flex items-center"
-            >
-              <RefreshCw className="w-5 h-5 mr-2" /> Download Again
-            </motion.button>
+            <motion.a
+  whileHover={{ scale: 1.1 }}
+  animate={{ opacity: [0.5, 1, 0.5], transition: { repeat: Infinity, duration: 1.5 } }}
+  href="./download-view" // Yahan apni link daalain
+  target="_blank"
+  rel="noopener noreferrer"
+  className="mt-4 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full 
+  shadow-md flex items-center"
+>
+  <RefreshCw className="w-5 h-5 mr-2" /> Download & View
+</motion.a>
+
           </div>
         ))}
       </div>

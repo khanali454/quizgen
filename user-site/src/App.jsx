@@ -18,6 +18,7 @@ import GenratedMcqs from "./pages/UserDashbord/GenratedMcqs";
 import Settings from "./pages/UserDashbord/Settings";
 import AllFiles from "./pages/UserDashbord/AllFiles";
 import PlanManage from "./pages/UserDashbord/PlanManage";
+import DownloadView from "./pages/UserDashbord/DownloadView";
 
 // Pages
 import LoginPage from "./pages/LoginPage";
@@ -67,6 +68,7 @@ function Layout() {
            <Route path="create-quiz" element={<MultiStepQuizForm />} />
            <Route path="genrated-mcqs" element={<GenratedMcqs />} />
            <Route path="all-files" element={<AllFiles />} />
+           <Route path="download-view" element={<DownloadView />} />
            <Route path="plan-manage" element={<PlanManage />} />
            <Route path="settings" element={<Settings />} />
         </Route>
