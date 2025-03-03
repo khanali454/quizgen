@@ -121,15 +121,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
-      <div className="mt-16 text-center">
-        <Link
-          to="/"
-          className="px-6 py-3 bg-white text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 transition-all"
-        >
-          Go Back to Home
-        </Link>
-      </div>
+
     </section>
   );
 };

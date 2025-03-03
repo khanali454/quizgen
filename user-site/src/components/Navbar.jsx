@@ -13,10 +13,10 @@ const Navbar = () => {
     setIsLanguageMenuOpen(false);
   };
 
+  console.log("base url : ",import.meta.env.VITE_API_BASE_URL)
 
   const isLoggedIn = () => {
     let token = localStorage.getItem('token');
-
     if (token == undefined || token == "" || token == null) {
       return false
     } else {
@@ -166,8 +166,8 @@ const Navbar = () => {
               {[
                 { name: "Home", path: "/" },
                 { name: "Company", path: "/About-Us" },
-                { name: "Blogs", path: "/all-blogs" },
-                { name: "Features", path: "/features" },
+                { name: "Blogs", path: "/blogs" },
+                // { name: "Features", path: "/features" },
                 { name: "Contact", path: "/contact" },
               ].map((item, index) => (
                 <li key={index}>
