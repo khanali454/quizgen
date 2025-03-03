@@ -34,7 +34,7 @@ export function SidebarWithBurgerMenu() {
       if (isMobile && isDrawerOpen) {
         const clickedOnSidebar = sidebarRef.current?.contains(event.target);
         const clickedOnBurger = burgerRef.current?.contains(event.target);
-        
+
         if (!clickedOnSidebar && !clickedOnBurger) {
           setIsDrawerOpen(false);
         }
@@ -94,9 +94,8 @@ export function SidebarWithBurgerMenu() {
                   {({ active }) => (
                     <button
                       onClick={() => setSelectedLanguage('en')}
-                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${
-                        active ? 'bg-gray-100' : ''
-                      }`}
+                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''
+                        }`}
                     >
                       🇺🇸 English
                     </button>
@@ -106,9 +105,8 @@ export function SidebarWithBurgerMenu() {
                   {({ active }) => (
                     <button
                       onClick={() => setSelectedLanguage('ar')}
-                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${
-                        active ? 'bg-gray-100' : ''
-                      }`}
+                      className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''
+                        }`}
                     >
                       🇸🇦 Arabic
                     </button>
@@ -128,9 +126,8 @@ export function SidebarWithBurgerMenu() {
                 {({ active }) => (
                   <Link
                     to="./settings"
-                    className={`flex items-center gap-2 px-4 py-2 text-sm ${
-                      active ? "bg-gray-100" : ""
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
+                      }`}
                   >
                     <UserCircleIcon className="h-5 w-5" /> Profile
                   </Link>
@@ -140,9 +137,8 @@ export function SidebarWithBurgerMenu() {
                 {({ active }) => (
                   <Link
                     to="./settings"
-                    className={`flex items-center gap-2 px-4 py-2 text-sm ${
-                      active ? "bg-gray-100" : ""
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
+                      }`}
                   >
                     <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
                   </Link>
@@ -170,10 +166,10 @@ export function SidebarWithBurgerMenu() {
             </Link>
 
             <Link
-              to="/User-Dashbord"
+              to="/dashboard"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
-                ${location.pathname === "/User-Dashbord" ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+                ${location.pathname === "dashboard" ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
               <HomeIcon className="h-6 w-6" /> Dashboard
             </Link>

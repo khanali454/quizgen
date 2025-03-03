@@ -25,7 +25,7 @@ const User = () => {
         plan_detail: {
           id: 1,
           planName: "Basic Plan",
-          type: "trial",
+          type: "premium",
           features: [
             {
               name: "questionsLimit",

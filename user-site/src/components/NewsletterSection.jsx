@@ -1,4 +1,4 @@
-// NewsletterSection 
+// news letter section on the guest landing page 
 const NewsletterSection = () => {
   return (
     <section className="bg-white dark:bg-gray-900">

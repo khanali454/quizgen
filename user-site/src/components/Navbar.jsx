@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Navbar for guest User
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -9,8 +11,18 @@ const Navbar = () => {
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
     setIsLanguageMenuOpen(false);
-    // Add your language change logic here
   };
+
+
+  const isLoggedIn = () => {
+    let token = localStorage.getItem('token');
+
+    if (token == undefined || token == "" || token == null) {
+      return false
+    } else {
+      return true;
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50">
@@ -75,19 +87,40 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center lg:order-2">
-            <Link
-              to="/login"
-              className="hidden md:block text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2  lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-            >
-              Log in
-            </Link>
 
-            <Link
-              to="/register"
-              className="text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
-            >
-              Get started
-            </Link>
+            {/* if user is not logged in*/}
+            {!isLoggedIn && (
+              <>
+                <Link
+                  to="/login"
+                  className="hidden md:block text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2  lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                >
+                  Log in
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                >
+                  Get started
+                </Link>
+              </>
+            )}
+
+
+            {/* when user is logged in */}
+
+            {isLoggedIn && (
+              <Link
+                to="/dashboard"
+                className="text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+              >
+                Dashboard
+              </Link>
+            )}
+
+
+
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -125,9 +158,8 @@ const Navbar = () => {
             </button>
           </div>
           <div
-            className={`bg-white absolute top-full left-0 w-full shadow-md transition-all duration-300 dark:bg-gray-800 ${
-              menuOpen ? "block" : "hidden"
-            } lg:static lg:block lg:w-auto lg:shadow-none`}
+            className={`bg-white absolute top-full left-0 w-full shadow-md transition-all duration-300 dark:bg-gray-800 ${menuOpen ? "block" : "hidden"
+              } lg:static lg:block lg:w-auto lg:shadow-none`}
             id="mobile-menu"
           >
             <ul className="flex flex-col text-white mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">

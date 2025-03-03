@@ -1,3 +1,4 @@
+// review section for the homepage
 import React, { useRef, useEffect } from "react";
 import KeenSlider from "keen-slider";
 import "keen-slider/keen-slider.min.css";
