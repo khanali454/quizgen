@@ -125,7 +125,7 @@ export function SidebarWithBurgerMenu() {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to="./settings"
+                    to="/settings"
                     className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
                       }`}
                   >
@@ -136,7 +136,7 @@ export function SidebarWithBurgerMenu() {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to="./settings"
+                    to="/settings"
                     className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
                       }`}
                   >
@@ -158,7 +158,7 @@ export function SidebarWithBurgerMenu() {
         <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
           <div>
             <Link
-              to="create-quiz"
+              to="/mcq/new"
               onClick={closeSidebar}
               className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white gap-3 p-3 text-normal font-normal"
             >
@@ -175,28 +175,28 @@ export function SidebarWithBurgerMenu() {
             </Link>
 
             <Link
-              to="genrated-mcqs"
+              to="/mcqs"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
-                ${location.pathname.endsWith("genrated-mcqs") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+                ${location.pathname.endsWith("/mcqs") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
               <DocumentIcon className="h-6 w-6" /> Generated MCQs
             </Link>
 
             <Link
-              to="all-files"
+              to="/files"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
-                ${location.pathname.endsWith("all-files") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+                ${location.pathname.endsWith("/files") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
               <DocumentDuplicateIcon className="h-6 w-6" /> All Files
             </Link>
 
             <Link
-              to="settings"
+              to="/settings"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
-                ${location.pathname.endsWith("settings") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+                ${location.pathname.endsWith("/settings") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
               <Cog6ToothIcon className="h-6 w-6" /> Settings
             </Link>
@@ -218,7 +218,7 @@ export function SidebarWithBurgerMenu() {
               Get access to exclusive features and premium support.
             </p>
             <Link
-              to="plan-manage"
+              to="/manage-subscription"
               color="white"
               onClick={closeSidebar}
               className="flex items-center gap-2 px-4 py-2 bg-white text-blue-700 text-sm rounded-full"

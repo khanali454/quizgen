@@ -37,12 +37,12 @@ function App() {
         {/* Authenticated Routes */}
         <Route element={<AuthenticatedLayout />}>
           <Route path="/dashboard" element={<UserDashbord />} />
-          <Route path="/dashboard/quiz/new" element={<MultiStepQuizForm />} />
-          <Route path="/dashboard/mcqs" element={<GenratedMcqs />} />
-          <Route path="/dashboard/files" element={<AllFiles />} />
-          <Route path="/dashboard/mcq/:id" element={<DownloadView />} />
-          <Route path="/dashboard/manage-subscription" element={<PlanManage />} />
-          <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/mcq/new" element={<MultiStepQuizForm />} />
+          <Route path="/mcqs" element={<GenratedMcqs />} />
+          <Route path="/mcqs/:id" element={<DownloadView />} />
+          <Route path="/files" element={<AllFiles />} />
+          <Route path="/manage-subscription" element={<PlanManage />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         {/* Guest Routes -  for the guest user */}
