@@ -17,26 +17,33 @@ import Page404 from './pages/Page404';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import CreateBlog from './pages/CreateBlog';
 import './App.css';
+import EditPlan from './pages/EditPlan';
+import EditBlog from './pages/EditBlog';
 
 function App() {
+  // for loading state
   const [loading, setLoading] = useState(true);
+  // to get url path name
   const { pathname } = useLocation();
 
+  // scroll postion to x,y : 0,0
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // set loading to false after 1 second
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
 
+  // if loading state is true - show loader else relevant route component loaded
   return loading ? (
     <Loader />
   ) : (
     <Routes>
       <Route
         index
-         path="/dashboard"
+        path="/dashboard"
         element={
           <AuthenticatedLayout>
             <PageTitle title="Dashboard - Mcq AI Admin" />
@@ -81,6 +88,15 @@ function App() {
         }
       />
       <Route
+        path="/plans/edit/:id"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Edit Plan - Mcq Ai Admin" />
+            <EditPlan />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
         path="/blogs"
         element={
           <AuthenticatedLayout>
@@ -90,7 +106,16 @@ function App() {
         }
       />
       <Route
-        path="/blog/new"
+        path="/blog/edit/:id"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Edit Blog - Mcq Ai Admin" />
+            <EditBlog />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/blog/:id"
         element={
           <AuthenticatedLayout>
             <PageTitle title="New Blog - Mcq Ai Admin" />
@@ -131,7 +156,7 @@ function App() {
         element={
           <GuestLayout>
             <PageTitle title="Forgot Password | Mcq AI Admin" />
-            <ForgotPassword/>
+            <ForgotPassword />
           </GuestLayout>
         }
       />

@@ -1,26 +1,67 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-export default function Login() {
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import Processor from '../../common/Processor';
+import { useEffect } from 'react';
+
+
+function Login() {
     const navigate = useNavigate();
-    const [data, setData] = useState({
-        email: '',
-        password: '',
-        remember: false,
-    });
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [processing, setProcessing] = useState(false);
+
+    // check if user is logged in then redirect to dashboard
+    useEffect(() => {
+        let token = localStorage.getItem('adminAuthToken');
+        if (token != null && token != "") {
+            navigate('/dashboard');
+        }
+    }, []);
 
     // on submitting the login form
-    const submit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
+        try {
+            if (!email) {
+                toast.error("Please enter email");
+                return false;
+            }
+            if (!password) {
+                toast.error("Please enter password");
+                return false;
+            }
 
-        navigate('/dashboard');
-
+            setProcessing(true);
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/auth`,
+                {
+                    email: email,
+                    password: password
+                })
+                .then((response) => {
+                    if (response?.data?.status) {
+                        localStorage.setItem("adminAuthToken", response?.data?.token);
+                        localStorage.setItem("adminUser", JSON.stringify(response?.data?.user));
+                        navigate('/dashboard');
+                    } else {
+                        toast.error(response?.data?.msg)
+                    }
+                })
+                .catch((error) => {
+                    toast.error("Something went wrong, Please try again later")
+                    console.error("Error fetching plans:", error)
+                }).finally(() => {
+                    setProcessing(false);
+                });
+        } catch (error) {
+            toast.error(error?.message);
+            console.log("Some error : ", error);
+            setProcessing(false);
+        }
     };
 
-
-
     return (
-
-
         <div className="rounded-sm bg-white dark:bg-boxdark">
             <div className="flex flex-wrap items-center">
                 {/* left side with banner on the login form */}
@@ -163,7 +204,7 @@ export default function Login() {
                             Admin Login
                         </h2>
                         {/* login form*/}
-                        <form onSubmit={submit}>
+                        <div>
                             <div className="mb-4">
                                 <label className="mb-2.5 block font-medium text-black dark:text-white">
                                     Email
@@ -172,9 +213,9 @@ export default function Login() {
                                     <input
                                         type="email"
                                         name='email'
-                                        value={data.email}
+                                        defaultValue={email}
                                         autoComplete="username"
-                                        onChange={(e) => setData('email', e.target.value)}
+                                        onChange={(e) => { setEmail(e.target.value) }}
                                         placeholder="Enter your email"
                                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                     />
@@ -207,9 +248,9 @@ export default function Login() {
                                     <input
                                         type="password"
                                         name="password"
-                                        value={data.password}
+                                        defaultValue={password}
                                         autoComplete="current-password"
-                                        onChange={(e) => setData('password', e.target.value)}
+                                        onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter Your Password"
                                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                                     />
@@ -237,23 +278,9 @@ export default function Login() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="mb-6 flex items-center justify-between">
+                            <div className="mb-6 flex items-center justify-end">
 
-                                {/* remember me  */}
-                                <label className="flex items-center">
-                                    <input
-                                        type='checkbox'
-                                        name="remember"
-                                        checked={data.remember}
-                                        className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                                        onChange={(e) =>
-                                            setData('remember', e.target.checked)
-                                        }
-                                    />
-                                    <span className="ms-2 font-normal text-black dark:text-white">
-                                        Remember me
-                                    </span>
-                                </label>
+
 
                                 {/* forgot password  */}
 
@@ -267,14 +294,18 @@ export default function Login() {
                             </div>
                             {/* submit form button */}
                             <div className="mb-5">
-                                <input
-                                    type="submit"
-                                    value="Sign In"
-                                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                                />
+
+                                <button
+                                    onClick={() => { handleSubmit() }}
+                                    disabled={processing}
+                                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex items-center justify-center"
+                                >
+                                    {processing && (<Processor widthValue={4} heightValue={4} borderColorValue={'white'} />)} <span className="ml-2">Sign In</span>
+
+                                </button>
                             </div>
 
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,3 +313,5 @@ export default function Login() {
 
     );
 };
+
+export default Login

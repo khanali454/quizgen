@@ -1,11 +1,41 @@
 import { useState } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
-import { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export default function AuthenticatedLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // check if user is logged in then redirect to dashboard
+  useEffect(() => {
+    let token = localStorage.getItem('adminAuthToken');
+    if (token != null && token != "") {
+
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then((response) => {
+          localStorage.setItem("adminUser", JSON.stringify(response?.data));
+        })
+        .catch((error) => {
+          if (error.status == 401) {
+            toast.error("Unauthorized User");
+            localStorage.removeItem('adminAuthToken');
+            localStorage.removeItem('adminUser');
+            navigate('/');
+          }
+        });
+
+    } else {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">

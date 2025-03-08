@@ -4,12 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthenticatedLayout from './layouts/AuthenticatedLayout';
 import GuestLayout from './layouts/GuestLayout';
 
-// Components for homepage
-import HeroSection from './components/HeroSection';
-import PricingPlan from './components/PricingPlan';
-import NewsletterSection from './components/NewsletterSection';
-import ReviewSection from "./components/ReviewSection";
-import BlogsSection from "./components/BlogsSection";
+
 
 // Pages
 import LoginPage from "./pages/LoginPage";
@@ -29,8 +24,11 @@ import Settings from "./pages/UserDashbord/Settings";
 import AllFiles from "./pages/UserDashbord/AllFiles";
 import PlanManage from "./pages/UserDashbord/PlanManage";
 import DownloadView from "./pages/UserDashbord/DownloadView";
+import Home from './pages/Home';
+
 
 function App() {
+
   return (
     <Router>
       <Routes>
@@ -46,16 +44,8 @@ function App() {
         </Route>
 
         {/* Guest Routes -  for the guest user */}
-        <Route element={<GuestLayout />}>
-          <Route path="/" element={
-            <>
-              <HeroSection />
-              <PricingPlan />
-              <BlogsSection />
-              <ReviewSection />
-              <NewsletterSection />
-            </>
-          } />
+        <Route element={<GuestLayout/>}>
+          <Route path="/" element={<Home/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/blogs" element={<AllBlogs />} />

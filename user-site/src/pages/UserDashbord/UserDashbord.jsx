@@ -9,7 +9,7 @@ ChartJS.register(ArcElement, Tooltip);
 // Enhanced Doughnut Chart Component
 const DoughnutChart = ({ used, total }) => {
   const percentageUsed = ((used / total) * 100).toFixed(1);
-  
+
   const data = {
     labels: ['Used Credits', 'Remaining Credits'],
     datasets: [{
@@ -52,9 +52,9 @@ export default function DashboardCards() {
   return (
     <div className="grid mt-[50px]  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4 md:p-8 bg-gray-100 
       md:ml-[250px] md:w-[calc(100%-250px)] ">
-      
-       {/* Card 1 - Total MCQs Generated */}
-       <Link to="genrated-mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#FF9800] to-[#FF5722] 
+
+      {/* Card 1 - Total MCQs Generated */}
+      <Link to="/mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#FF9800] to-[#FF5722] 
         shadow-lg rounded-xl p-6 text-white hover:scale-105 transition-transform min-h-[150px] h-auto">
         <DocumentIcon className="h-10 w-10 opacity-80" />
         <h2 className="text-lg font-semibold mt-2">MCQs Generated</h2>
@@ -64,7 +64,7 @@ export default function DashboardCards() {
       </Link>
 
       {/* Card 2 - Total Files Uploaded */}
-      <Link to="all-files" className="flex flex-col justify-between bg-gradient-to-r from-[#673AB7] to-[#3F51B5] 
+      <Link to="/files" className="flex flex-col justify-between bg-gradient-to-r from-[#673AB7] to-[#3F51B5] 
         shadow-lg rounded-xl p-6 text-white hover:scale-105 transition-transform min-h-[150px] h-auto">
         <CloudArrowUpIcon className="h-10 w-10 opacity-80" />
         <h2 className="text-lg font-semibold mt-2">Files Uploaded</h2>
@@ -74,7 +74,7 @@ export default function DashboardCards() {
       </Link>
 
       {/* Card 3 - Total Downloaded Files */}
-      <Link to="genrated-mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#2196F3] to-[#03A9F4] 
+      <Link to="/mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#2196F3] to-[#03A9F4] 
         shadow-lg rounded-xl p-6 text-white hover:scale-105 transition-transform min-h-[150px] h-auto">
         <ArrowDownTrayIcon className="h-10 w-10 opacity-80" />
         <h2 className="text-lg font-semibold mt-2">Downloaded Files</h2>
@@ -84,22 +84,22 @@ export default function DashboardCards() {
       </Link>
 
       {/* Card 4 - Enhanced Credits Overview */}
-      <Link to="plan-manage" className="flex flex-col justify-between bg-gradient-to-br from-[#ECFDF5] to-[#D1FAE5] 
+      <Link to="/manage-subscription" className="flex flex-col justify-between bg-gradient-to-br from-[#ECFDF5] to-[#D1FAE5] 
         shadow-lg rounded-xl p-6 hover:shadow-xl transition-all duration-300 min-h-[200px] h-auto group
         hover:ring-2 hover:ring-emerald-100">
-        
+
         {/* Header Section */}
         <div className="flex justify-between items-start">
           <div className="flex flex-col">
             <BoltIcon className="h-8 w-8 text-emerald-600 mb-2 group-hover:animate-pulse" />
             <h2 className="text-lg font-semibold text-emerald-900">Credits Overview</h2>
           </div>
-            <span className="text-xs opacity-80">Total Credits: 500</span>
+          <span className="text-xs opacity-80">Total Credits: 500</span>
         </div>
 
         {/* Main Chart Section */}
         <DoughnutChart used={250} total={500} />
-  
+
       </Link>
     </div>
   );

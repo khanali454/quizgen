@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { AlertCircle } from "lucide-react";
+import HomeLoader from "../components/HomeLoader";
 
 const BlogDetail = () => {
-  const { blogId } = useParams();
-  const blog = blogData[blogId];
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!blog) {
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_BASE_URL}/guest/blogs/${id}`)
+      .then((response) => {
+        if (response.data?.status) {
+          setBlog(response.data.blog);
+        } else {
+          setError(true);
+        }
+      })
+      .catch(() => {
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <HomeLoader />;
+  }
+
+  if (error || !blog) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <h2 className="text-2xl font-semibold text-red-500">Blog not found!</h2>
+      <div className="flex flex-col items-center justify-center w-full p-6 mt-6 rounded-lg">
+        <AlertCircle className="w-10 h-10 text-gray-500" />
+        <p className="mt-2 text-sm text-gray-600">No blog was found</p>
       </div>
     );
   }
@@ -18,7 +46,7 @@ const BlogDetail = () => {
       {/* Blog Cover Image */}
       <div className="mb-8">
         <img
-          src={blog.image}
+          src={blog.feature_image}
           alt={blog.title}
           className="w-full rounded-xl shadow-lg"
         />
@@ -31,107 +59,37 @@ const BlogDetail = () => {
       <div className="flex items-center space-x-4 mb-6">
         <div className="flex items-center space-x-2">
           <img
-            src="https://i.pravatar.cc/40" // Dummy author image
-            alt={blog.author}
+            src="https://i.pravatar.cc/40"
+            alt={blog.author.name}
             className="w-10 h-10 rounded-full"
           />
-          <span className="text-lg font-medium text-gray-700">{blog.author}</span>
+          <span className="text-lg font-medium text-gray-700">
+            {blog.author.name}
+          </span>
         </div>
-        <span className="text-gray-500 text-sm">• {blog.date}</span>
+        <span className="text-gray-500 text-sm">
+          • {new Date(blog.created_at).toDateString()}
+        </span>
       </div>
 
-      {/* Blog Content */}
-      <article className="text-lg leading-8 text-gray-700">
-        <p className="mb-6">
-          {blog.intro}
-        </p>
-
-        <h2 className="text-2xl font-semibold text-gray-900 mt-6 mb-4">
-          {blog.section1.title}
-        </h2>
-        <p className="mb-4">{blog.section1.content}</p>
-        <img
-          src={blog.section1.image}
-          alt="Blog section"
-          className="rounded-lg shadow-md mb-6 w-full"
-        />
-
-        <h2 className="text-2xl font-semibold text-gray-900 mt-6 mb-4">
-          {blog.section2.title}
-        </h2>
-        <p className="mb-4">{blog.section2.content}</p>
-        <img
-          src={blog.section2.image}
-          alt="Blog section"
-          className="rounded-lg shadow-md mb-6 w-full"
-        />
-
-        <h2 className="text-2xl font-semibold text-gray-900 mt-6 mb-4">
-          Conclusion
-        </h2>
-        <p className="mb-4">{blog.conclusion}</p>
-      </article>
+      {/* Blog Content (Render HTML) */}
+      <article
+        className="text-lg leading-8 text-gray-700 blog prose"
+        dangerouslySetInnerHTML={{ __html: blog.content }}
+      ></article>
 
       {/* Back to All Blogs */}
       <div className="mt-10">
         <Link
-          to="/all-blogs"
+          to="/blogs"
           className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md 
           hover:bg-indigo-700 transition-all"
         >
-          ← Back to Blogs
+          View All Blogs
         </Link>
       </div>
     </section>
   );
 };
-
-// Sample Blog Data
-const blogData = [
-  {
-    image: "https://pagedone.io/asset/uploads/1696244553.png",
-    title: "Fintech 101: Exploring the Basics of Electronic Payments",
-    author: "Harsh C.",
-    date: "2 years ago",
-    intro:
-      "Financial technology, or Fintech, has revolutionized how we handle money. From digital wallets to cryptocurrency, the landscape of finance is evolving rapidly.",
-    section1: {
-      title: "The Rise of Digital Payments",
-      content:
-        "Over the past decade, digital payments have become the norm. Services like PayPal, Apple Pay, and Google Pay have made transactions seamless and secure.",
-      image: "https://source.unsplash.com/800x400/?digital-payment",
-    },
-    section2: {
-      title: "How Secure Are Electronic Transactions?",
-      content:
-        "Security in electronic payments is critical. Encryption, biometric authentication, and blockchain technology help protect users from fraud.",
-      image: "https://source.unsplash.com/800x400/?cybersecurity",
-    },
-    conclusion:
-      "The future of Fintech is promising, with AI-driven banking and blockchain advancements leading the way. The key is ensuring security and accessibility for all users.",
-  },
-  {
-    image: "https://pagedone.io/asset/uploads/1696244579.png",
-    title: "Cryptocurrency Basics: A Beginner’s Guide",
-    author: "John D.",
-    date: "1 year ago",
-    intro:
-      "Cryptocurrency has emerged as a disruptive force in the financial industry. Bitcoin, Ethereum, and thousands of altcoins offer new opportunities and challenges.",
-    section1: {
-      title: "Understanding Blockchain Technology",
-      content:
-        "Cryptocurrencies operate on blockchain technology, a decentralized ledger that ensures transparency and security.",
-      image: "https://source.unsplash.com/800x400/?blockchain",
-    },
-    section2: {
-      title: "Investing in Crypto: Risks and Rewards",
-      content:
-        "Crypto investments can yield high returns, but volatility makes them risky. Proper research and risk management are essential.",
-      image: "https://source.unsplash.com/800x400/?bitcoin",
-    },
-    conclusion:
-      "While cryptocurrency offers immense potential, understanding the risks and staying informed is crucial for investors and enthusiasts.",
-  },
-];
 
 export default BlogDetail;

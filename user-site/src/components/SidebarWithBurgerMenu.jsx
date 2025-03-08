@@ -169,7 +169,7 @@ export function SidebarWithBurgerMenu() {
               to="/dashboard"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
-                ${location.pathname === "dashboard" ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+                ${location.pathname.endsWith("/dashboard") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
               <HomeIcon className="h-6 w-6" /> Dashboard
             </Link>

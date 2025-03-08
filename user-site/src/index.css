@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+/* blog styling */
+.blog {
+    @apply max-w-none text-gray-800;
+}
+
+.blog h1 {
+    @apply text-3xl font-extrabold text-gray-900 mt-4 mb-3;
+}
+
+.blog h2 {
+    @apply text-2xl font-bold text-gray-900 mt-4 mb-2;
+}
+
+.blog ol {
+    @apply list-decimal pl-6 space-y-1;
+}
+
+.blog ul {
+    @apply list-disc pl-6 space-y-1;
+}
+
+.blog li {
+    @apply text-gray-700 leading-relaxed;
+}
+
+.blog p {
+    @apply text-gray-700 leading-relaxed mb-4;
+}
+
+.blog p strong {
+    @apply font-bold text-gray-900;
+}
+
+.blog p u {
+    @apply underline;
+}
+
+.blog a {
+    @apply text-blue-600 underline hover:text-blue-800;
+}
+
+.blog blockquote {
+    @apply border-l-4 border-gray-300 italic text-gray-600 pl-4 py-4 my-2;
+}
