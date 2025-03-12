@@ -1,15 +1,92 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import userThree from '../images/user/user-03.png';
-import { useEffect } from 'react';
+import axios from 'axios';
+import Processor from '../common/Processor';
+import toast from 'react-hot-toast';
 
 const Settings = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
+  const [processingProfile, setProcessingProfile] = useState(false);
+  const [processingPic, setProcessingPic] = useState(false);
+  const [password, setPassword] = useState('');
+  const token = localStorage.getItem('adminAuthToken');
 
   useEffect(() => {
-    let admin_user = localStorage.getItem('adminUser');
-    setUser(JSON.parse(admin_user))
-  }, [])
+    const adminUser = localStorage.getItem('adminUser');
+    if (adminUser) {
+      setUser(JSON.parse(adminUser));
+    }
+  }, []);
+
+  const handleProfileSubmit = async (e) => {
+    e.preventDefault();
+    setProcessingProfile(true);
+
+    const formData = new FormData(e.target);
+    if (formData.get('password')) {
+      formData.append('password_confirmation', formData.get('password'));
+    }
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/admin/user/update/profile?_method=PUT`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success(response.data.msg);
+      const updatedUser = { ...user, ...response.data.user };
+      setUser(updatedUser);
+      localStorage.setItem('adminUser', JSON.stringify(updatedUser));
+      setPassword('');
+    } catch (error) {
+      toast.error(error.response?.data?.msg || 'Failed to update profile');
+    } finally {
+      setProcessingProfile(false);
+    }
+  };
+
+  const handleProfilePicSubmit = async (e) => {
+    e.preventDefault();
+    setProcessingPic(true);
+    const formData = new FormData();
+    const fileInput = e.target.querySelector('input[type="file"]');
+
+    if (!fileInput.files.length) {
+      toast.error('Please select a profile picture');
+      setProcessingPic(false);
+      return;
+    }
+
+    formData.append('profile_picture', fileInput.files[0]);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/admin/user/update/profile-pic?_method=PUT`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      toast.success(response.data.msg);
+      const updatedUser = { ...user, profile_picture: response.data.profile_picture };
+      setUser(updatedUser);
+      localStorage.setItem('adminUser', JSON.stringify(updatedUser));
+    } catch (error) {
+      toast.error(error.response?.data?.msg || 'Failed to update profile picture');
+    } finally {
+      setProcessingPic(false);
+    }
+  };
+
   return (
     <>
       <div className="mx-auto max-w-270">
@@ -24,48 +101,24 @@ const Settings = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleProfileSubmit}>
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="fullName"
+                        htmlFor="name"
                       >
                         Full Name
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4.5 top-4">
-                          <svg
-                            className="fill-current"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g opacity="0.8">
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M3.72039 12.887C4.50179 12.1056 5.5616 11.6666 6.66667 11.6666H13.3333C14.4384 11.6666 15.4982 12.1056 16.2796 12.887C17.061 13.6684 17.5 14.7282 17.5 15.8333V17.5C17.5 17.9602 17.1269 18.3333 16.6667 18.3333C16.2064 18.3333 15.8333 17.9602 15.8333 17.5V15.8333C15.8333 15.1703 15.5699 14.5344 15.1011 14.0655C14.6323 13.5967 13.9964 13.3333 13.3333 13.3333H6.66667C6.00363 13.3333 5.36774 13.5967 4.8989 14.0655C4.43006 14.5344 4.16667 15.1703 4.16667 15.8333V17.5C4.16667 17.9602 3.79357 18.3333 3.33333 18.3333C2.8731 18.3333 2.5 17.9602 2.5 17.5V15.8333C2.5 14.7282 2.93899 13.6684 3.72039 12.887Z"
-                                fill=""
-                              />
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M9.99967 3.33329C8.61896 3.33329 7.49967 4.45258 7.49967 5.83329C7.49967 7.214 8.61896 8.33329 9.99967 8.33329C11.3804 8.33329 12.4997 7.214 12.4997 5.83329C12.4997 4.45258 11.3804 3.33329 9.99967 3.33329ZM5.83301 5.83329C5.83301 3.53211 7.69849 1.66663 9.99967 1.66663C12.3009 1.66663 14.1663 3.53211 14.1663 5.83329C14.1663 8.13448 12.3009 9.99996 9.99967 9.99996C7.69849 9.99996 5.83301 8.13448 5.83301 5.83329Z"
-                                fill=""
-                              />
-                            </g>
-                          </svg>
-                        </span>
                         <input
-                          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                          className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           type="text"
-                          name="fullName"
-                          id="fullName"
+                          name="name"
+                          id="name"
                           placeholder="Your Name"
-                          defaultValue={user?.name}
+                          value={user?.name || ''}
+                          onChange={(e) => setUser(prev => ({ ...prev, name: e.target.value }))}
                         />
                       </div>
                     </div>
@@ -73,17 +126,18 @@ const Settings = () => {
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber"
+                        htmlFor="phone_number"
                       >
                         Phone Number
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="Your Phone Numer"
-                        defaultValue={user?.phone_number}
+                        name="phone_number"
+                        id="phone_number"
+                        placeholder="Your Phone Number"
+                        value={user?.phone_number || ''}
+                        onChange={(e) => setUser(prev => ({ ...prev, phone_number: e.target.value }))}
                       />
                     </div>
                   </div>
@@ -91,43 +145,19 @@ const Settings = () => {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="emailAddress"
+                      htmlFor="email"
                     >
                       Email Address
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4.5 top-4">
-                        <svg
-                          className="fill-current"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g opacity="0.8">
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M3.33301 4.16667C2.87658 4.16667 2.49967 4.54357 2.49967 5V15C2.49967 15.4564 2.87658 15.8333 3.33301 15.8333H16.6663C17.1228 15.8333 17.4997 15.4564 17.4997 15V5C17.4997 4.54357 17.1228 4.16667 16.6663 4.16667H3.33301ZM0.833008 5C0.833008 3.6231 1.9561 2.5 3.33301 2.5H16.6663C18.0432 2.5 19.1663 3.6231 19.1663 5V15C19.1663 16.3769 18.0432 17.5 16.6663 17.5H3.33301C1.9561 17.5 0.833008 16.3769 0.833008 15V5Z"
-                              fill=""
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M0.983719 4.52215C1.24765 4.1451 1.76726 4.05341 2.1443 4.31734L9.99975 9.81615L17.8552 4.31734C18.2322 4.05341 18.7518 4.1451 19.0158 4.52215C19.2797 4.89919 19.188 5.4188 18.811 5.68272L10.4776 11.5161C10.1907 11.7169 9.80879 11.7169 9.52186 11.5161L1.18853 5.68272C0.811486 5.4188 0.719791 4.89919 0.983719 4.52215Z"
-                              fill=""
-                            />
-                          </g>
-                        </svg>
-                      </span>
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="email"
-                        name="emailAddress"
-                        id="emailAddress"
+                        name="email"
+                        id="email"
                         placeholder="Your Email Address"
-                        defaultValue={user?.email}
+                        value={user?.email || ''}
+                        onChange={(e) => setUser(prev => ({ ...prev, email: e.target.value }))}
                       />
                     </div>
                   </div>
@@ -140,38 +170,14 @@ const Settings = () => {
                       Address
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4.5 top-4">
-                        <svg
-                          className="fill-current"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g opacity="0.8">
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M3.33301 4.16667C2.87658 4.16667 2.49967 4.54357 2.49967 5V15C2.49967 15.4564 2.87658 15.8333 3.33301 15.8333H16.6663C17.1228 15.8333 17.4997 15.4564 17.4997 15V5C17.4997 4.54357 17.1228 4.16667 16.6663 4.16667H3.33301ZM0.833008 5C0.833008 3.6231 1.9561 2.5 3.33301 2.5H16.6663C18.0432 2.5 19.1663 3.6231 19.1663 5V15C19.1663 16.3769 18.0432 17.5 16.6663 17.5H3.33301C1.9561 17.5 0.833008 16.3769 0.833008 15V5Z"
-                              fill=""
-                            />
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M0.983719 4.52215C1.24765 4.1451 1.76726 4.05341 2.1443 4.31734L9.99975 9.81615L17.8552 4.31734C18.2322 4.05341 18.7518 4.1451 19.0158 4.52215C19.2797 4.89919 19.188 5.4188 18.811 5.68272L10.4776 11.5161C10.1907 11.7169 9.80879 11.7169 9.52186 11.5161L1.18853 5.68272C0.811486 5.4188 0.719791 4.89919 0.983719 4.52215Z"
-                              fill=""
-                            />
-                          </g>
-                        </svg>
-                      </span>
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
                         name="address"
                         id="address"
                         placeholder="Your Address"
-                        defaultValue={user?.address}
+                        value={user?.address || ''}
+                        onChange={(e) => setUser(prev => ({ ...prev, address: e.target.value }))}
                       />
                     </div>
                   </div>
@@ -179,34 +185,36 @@ const Settings = () => {
                   <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Password"
+                      htmlFor="password"
                     >
                       Password
                     </label>
                     <input
                       className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       type="password"
-                      name="Password"
-                      id="Password"
-                      placeholder="enter password to update"
-                      defaultValue=""
+                      name="password"
+                      id="password"
+                      placeholder="Enter password to update"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
-                 
-
                   <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Cancel
-                    </button>
+
                     <button
                       className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
                       type="submit"
+                      disabled={processingProfile}
                     >
-                      Save
+                      {processingProfile ? (
+                        <div className="flex items-center justify-center">
+                          <Processor borderColorValue="white" widthValue={4} heightValue={4} />
+                          <span className="ml-2">Saving...</span>
+                        </div>
+                      ) : (
+                        'Save'
+                      )}
                     </button>
                   </div>
                 </form>
@@ -221,10 +229,15 @@ const Settings = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleProfilePicSubmit}>
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="h-14 w-14 rounded-full">
-                      <img src={userThree} alt="User" />
+                    <div className="h-14 w-14 rounded-full overflow-hidden">
+                      <img
+                        src={user?.profile_picture
+                          ? user.profile_picture
+                          : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
+                        alt="User"
+                      />
                     </div>
                     <div>
                       <span className="mb-1.5 text-black dark:text-white">
@@ -232,10 +245,7 @@ const Settings = () => {
                       </span>
                       <span className="flex gap-2.5">
                         <button className="text-sm hover:text-primary">
-                          Delete
-                        </button>
-                        <button className="text-sm hover:text-primary">
-                          Update
+                          Remove profile
                         </button>
                       </span>
                     </div>
@@ -280,26 +290,28 @@ const Settings = () => {
                         </svg>
                       </span>
                       <p>
-                        <span className="text-primary">Click to upload</span> or
-                        drag and drop
+                        <span className="text-primary">Click to upload</span>
                       </p>
                       <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                      <p>(max, 800 X 800px)</p>
+                      <p>(max 2MB, preferred 100 X 100px)</p>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Cancel
-                    </button>
+
                     <button
                       className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
                       type="submit"
+                      disabled={processingPic}
                     >
-                      Save
+                      {processingPic ? (
+                        <div className="flex items-center justify-center">
+                          <Processor borderColorValue="white" widthValue={4} heightValue={4} />
+                          <span className="ml-2">Saving...</span>
+                        </div>
+                      ) : (
+                        'Save'
+                      )}
                     </button>
                   </div>
                 </form>

@@ -11,6 +11,8 @@ import { MdOutlineArticle } from "react-icons/md";
 
 const Blog = () => {
     const navigate = useNavigate();
+    // search query
+    const [query, setQuery] = useState("");
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +28,7 @@ const Blog = () => {
     // Fetch blogs from API
     const fetchBlogs = async (page = 1) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/blogs?page=${page}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/blogs/${query ? query : ""}?page=${page}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -42,6 +44,11 @@ const Blog = () => {
             setLoading(false);
         }
     };
+
+
+    useEffect(() => {
+        fetchBlogs();
+    }, [query])
 
     useEffect(() => {
         setLoading(true);
@@ -92,11 +99,13 @@ const Blog = () => {
             <div className="flex flex-col gap-10">
                 <div className="rounded-sm border border-stroke bg-white px-4 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
                     <div className="flex items-center justify-between mt-5 mb-3">
-                        <div className="flex items-center w-1/3">
+                        <div className="flex items-center w-[200px]">
                             <input
                                 type="search"
                                 name="search"
                                 placeholder="Search blogs..."
+                                onChange={(e) => { setLoading(true);setQuery(e.target.value) }}
+                                autoComplete='false'
                                 className="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none"
                             />
                         </div>
@@ -144,7 +153,7 @@ const Blog = () => {
                                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                         <h5>{post.title}</h5>
                                                     </td>
-                                                   
+
                                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                         {post.author?.name || 'Unknown'}
                                                     </td>

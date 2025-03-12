@@ -16,34 +16,42 @@ const BlogSection = ({ recent_blogs }) => {
             <p className="mt-2 text-sm text-gray-600">No blog was found</p>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center gap-y-8 lg:gap-y-0 lg:flex-nowrap lg:flex-row lg:justify-between lg:gap-x-8 mb-14">
-            {recent_blogs.map((blog, index) => (
-              <Link
-              to={`/blog/${blog?.id}`}
-                key={index}
-                className="group cursor-pointer w-full max-lg:max-w-xl lg:w-1/3 border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
-              >
-                <div className="flex items-center mb-6">
-                  <img
-                    src={blog?.feature_image}
-                    alt={blog?.author?.name + " image"}
-                    className="rounded-lg w-full object-cover"
-                  />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+          {recent_blogs.map((blog) => (
+            <div
+              key={blog.id}
+              className="group cursor-pointer border border-gray-300 rounded-2xl p-5 transition-all duration-300 hover:border-indigo-600"
+            >
+              <div className="mb-6">
+                <img
+                  src={blog.feature_image}
+                  alt={blog.title}
+                  className="rounded-lg w-full object-cover h-52"
+                />
+              </div>
+              <div>
+                <h4 className="text-gray-900 font-medium leading-8 mb-4">
+                  {blog.title}
+                </h4>
+                <div className="flex items-center justify-between font-medium text-sm">
+                  <h6 className="text-gray-500">By {blog.author.name}</h6>
+                  <span className="text-indigo-600">
+                    {new Date(blog.created_at).toLocaleDateString()}
+                  </span>
                 </div>
-                <div>
-                  <h4 className="text-gray-900 font-medium leading-8 mb-9">
-                    {blog?.title}
-                  </h4>
-                  <div className="flex items-center justify-between font-medium">
-                    <h6 className="text-sm text-gray-500">By {blog?.author?.name}</h6>
-                    <span className="text-sm text-indigo-600">
-                      {new Date(blog?.created_at).toDateString()}
-                    </span>
-                  </div>
+
+                <div className="mt-4">
+                  <Link
+                    to={`/blog/${blog.id}`}
+                    className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                  >
+                    Read More →
+                  </Link>
                 </div>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
+        </div>
         )}
 
         {/* View All Blogs Button */}

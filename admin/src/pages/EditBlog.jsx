@@ -7,6 +7,7 @@ import { FaUpload } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Processor from '../common/Processor';
+import Loader from '../common/Loader';
 
 const EditBlog = () => {
   const { id } = useParams();
@@ -24,17 +25,18 @@ const EditBlog = () => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/admin/blogs/${id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/admin/blog/${id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const { data } = response.data;
-        setTitle(data.title);
+        setTitle(data?.title);
         // Since image paths are already absolute, we use them directly
-        const imageUrl = data.feature_image || '';
+        const imageUrl = data?.feature_image || '';
         setExistingImage(imageUrl);
         setImagePreview(imageUrl);
-        setContent(data.content);
+        setContent(data?.content);
       } catch (error) {
+        console.log("error : ",error);
         toast.error(error.response?.data?.msg || 'Failed to fetch blog');
       } finally {
         setLoading(false);
@@ -69,28 +71,26 @@ const EditBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
-
-    // Ensure title and content are provided
+  
     if (!title.trim() || !content.trim()) {
       toast.error('Title and content are required.');
       setProcessing(false);
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-
-    // Append the new image file if uploaded; otherwise, send a flag if image is removed
+  
     if (featureImage) {
       formData.append('feature_image', featureImage);
     } else if (!imagePreview && existingImage) {
       formData.append('remove_feature_image', 'true');
     }
-
+  
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}/admin/blogs/${id}`,
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/admin/blogs/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -99,16 +99,17 @@ const EditBlog = () => {
           },
         }
       );
-      toast.success('Blog updated successfully');
+      toast.success(response.data.msg);
     } catch (error) {
       toast.error(error.response?.data?.msg || 'Failed to update blog');
     } finally {
       setProcessing(false);
     }
   };
+  
 
   if (loading) {
-    return <Processor borderColorValue="black" widthValue={6} heightValue={6} />;
+    return <Loader/>;
   }
 
   return (
@@ -157,13 +158,7 @@ const EditBlog = () => {
                           className="w-full h-auto rounded-md mb-4"
                         />
                         <div className="flex justify-center gap-4">
-                          <button
-                            type="button"
-                            onClick={removeImage}
-                            className="text-red-500 underline"
-                          >
-                            Remove Image
-                          </button>
+                         
                           <label className="cursor-pointer text-primary underline">
                             Change Image
                             <input

@@ -31,11 +31,7 @@ const CreateBlog = () => {
     setProcessing(true);
 
     const token = localStorage.getItem('adminAuthToken');
-    if (!token) {
-      toast.error('Authentication token missing');
-      setProcessing(false);
-      return;
-    }
+
 
     const formData = new FormData();
     formData.append('title', title);
@@ -50,11 +46,15 @@ const CreateBlog = () => {
         },
       });
 
-      toast.success('Blog created successfully');
-      setTitle('');
-      setFeatureImage(null);
-      setImagePreview('');
-      setContent('');
+      if (response?.data.status) {
+        toast.success('Blog created successfully');
+        setTitle('');
+        setFeatureImage(null);
+        setImagePreview('');
+        setContent('');
+      } else {
+        toast.error(response?.data?.msg || 'Failed to create blog');
+      }
     } catch (error) {
       toast.error(error.response?.data?.msg || 'Failed to create blog');
     } finally {
@@ -100,7 +100,7 @@ const CreateBlog = () => {
                     ) : (
                       <>
                         <img src={imagePreview} alt="Preview" className="w-full h-auto object-cover rounded-md mb-4" />
-                        <button type="button" onClick={() => setImagePreview('')} className="mt-2 text-red-500 hover:text-red-700">Remove Image</button>
+                        <button type="button" onClick={() => {setImagePreview('');setFeatureImage(null)}} className="mt-2 text-red-500 hover:text-red-700">Remove Image</button>
                       </>
                     )}
                   </div>
