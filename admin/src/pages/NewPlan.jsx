@@ -336,7 +336,7 @@ const NewPlan = () => {
                                 <div className="mb-4.5">
                                     <label className="mb-2.5 block text-black dark:text-white">Download Formats</label>
                                     <div className="flex gap-4">
-                                        {['PDF', 'DOC'].map(format => (
+                                        {['PDF', 'DOC','PPT'].map(format => (
                                             <label key={format} className="flex items-center gap-2">
                                                 <input
                                                     type="checkbox"

@@ -43,6 +43,7 @@ const EditPlan = () => {
         }).then((response) => {
             if (response?.data?.status) {
                 let plan = response?.data?.plan;
+                console.log(" plan : ",plan);
                 setPlanData({
                     planType: plan.plan_type, // 'trial' or 'paid'
                     planName: plan.plan_name,
