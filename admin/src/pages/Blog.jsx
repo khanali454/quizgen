@@ -28,7 +28,7 @@ const Blog = () => {
     // Fetch blogs from API
     const fetchBlogs = async (page = 1) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/blogs${query ? query : ""}?page=${page}`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/blogs${query ? "/"+query : ""}?page=${page}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

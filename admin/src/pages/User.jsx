@@ -30,7 +30,7 @@ const User = () => {
   // for fetching user
   const fetchUsers = async (page = 1) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/users/${roleFilter ? roleFilter : "all"}${query ? query : ""}?page=${page}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/users/${roleFilter ? roleFilter : "all"}${query ? "/"+query : ""}?page=${page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
