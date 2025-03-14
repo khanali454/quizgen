@@ -233,7 +233,7 @@ const Settings = () => {
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full overflow-hidden">
                       <img
-                        src={user?.profile_picture
+                        src={(user?.profile_picture && user?.profile_picture != null)
                           ? user.profile_picture
                           : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
                         alt="User"

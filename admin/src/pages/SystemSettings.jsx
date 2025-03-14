@@ -3,7 +3,7 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Loader from '../common/Loader';
-import Processor from '../common/Processor'; 
+import Processor from '../common/Processor';
 
 const SystemSettings = () => {
   const [settings, setSettings] = useState({
@@ -25,7 +25,7 @@ const SystemSettings = () => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [logoFile, setLogoFile] = useState(null);
+  const [logoFile, setLogoFile] = useState();
   const [processing, setProcessing] = useState(false);
   const token = localStorage.getItem('adminAuthToken');
 
@@ -77,9 +77,12 @@ const SystemSettings = () => {
       formData.append(key, settings[key]);
     });
 
-    if (logoFile) {
-      formData.append('logo', logoFile);
-    }
+if (logoFile) {
+  formData.append('logo', logoFile);
+}else{
+  formData.delete('logo');
+}
+
 
     try {
       // Update general settings
@@ -147,6 +150,7 @@ const SystemSettings = () => {
                             />
                             <input
                               type="file"
+                              name='logo'
                               accept="image/*"
                               onChange={handleFileChange}
                               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -155,6 +159,7 @@ const SystemSettings = () => {
                         ) : (
                           <input
                             type="file"
+                            name='logo'
                             accept="image/*"
                             onChange={handleFileChange}
                             className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"

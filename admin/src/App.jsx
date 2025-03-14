@@ -19,6 +19,7 @@ import CreateBlog from './pages/CreateBlog';
 import './App.css';
 import EditPlan from './pages/EditPlan';
 import EditBlog from './pages/EditBlog';
+import Subscriptions from './pages/Subscriptions';
 
 function App() {
   // for loading state
@@ -102,6 +103,15 @@ function App() {
           <AuthenticatedLayout>
             <PageTitle title="Blogs - Mcq Ai Admin" />
             <Blog />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/subscriptions"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Subscriptions - Mcq Ai Admin" />
+            <Subscriptions />
           </AuthenticatedLayout>
         }
       />

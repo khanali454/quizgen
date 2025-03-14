@@ -230,21 +230,13 @@ const User = () => {
                                   <p className='bg-green-400 px-4 py-1 rounded text-xs text-white w-fit'>subscribed</p>
                                   <p className='py-2'>
                                     <span className="text-nowrap text-sm">
-                                      {user?.subscription?.plan_detail?.planName} ( <span className={`${user?.subscription?.plan_detail?.type == "premium" ? 'text-green-400' : 'text-blue-400'} `}>{user?.subscription?.plan_detail?.type}</span> )
+                                      {user?.subscription?.plan?.plan_name} ( <span className={`${user?.subscription?.plan?.plan_type == "paid" ? 'text-green-400' : 'text-blue-400'} `}>{user?.subscription?.plan?.plan_type}</span> )
                                     </span> <br />
                                     <span className="text-nowrap text-sm">
-                                      <b>Credits : </b> {user?.subscription?.totalCredits - user?.subscription?.usedCredits} / <span className="text-green-400">
-                                        {user?.subscription?.totalCredits}
-                                      </span>
+                                      <b>Started On : </b> {user?.subscription?.start_date}
                                     </span> <br />
                                     <span className="text-nowrap text-sm">
-                                      <b>Billed : </b> {user?.subscription?.billed}
-                                    </span> <br />
-                                    <span className="text-nowrap text-sm">
-                                      <b>Started On : </b> {user?.subscription?.startDate}
-                                    </span> <br />
-                                    <span className="text-nowrap text-sm">
-                                      <b>Expiry : </b> {user?.subscription?.endDate}
+                                      <b>Expiry : </b> {user?.subscription?.end_date}
                                     </span> <br />
                                   </p>
                                 </>

@@ -43,20 +43,20 @@ const EditPlan = () => {
         }).then((response) => {
             if (response?.data?.status) {
                 let plan = response?.data?.plan;
-                console.log(" plan : ",plan);
+                console.log(" plan : ", plan);
                 setPlanData({
                     planType: plan.plan_type, // 'trial' or 'paid'
                     planName: plan.plan_name,
                     billingInterval: plan?.billing_interval, // monthly or yearly
                     filesUploadLimit: plan?.files_upload_limit,
-                    uploadFormats: JSON.parse(plan?.upload_formats),
+                    uploadFormats: plan?.upload_formats,
                     mcqPerRequest: plan?.mcq_per_request,
-                    mcqTypes: JSON.parse(plan?.mcq_types),
-                    difficultyLevels: JSON.parse(plan?.difficulty_levels),
+                    mcqTypes: plan?.mcq_types,
+                    difficultyLevels: plan?.difficulty_levels,
                     specificSubject: plan?.specific_subject,
-                    languageSupport: JSON.parse(plan?.language_support),
+                    languageSupport: plan?.language_support,
                     onlineTest: plan?.online_test,
-                    downloadFormats: JSON.parse(plan?.download_formats),
+                    downloadFormats: plan?.download_formats,
                     requests: plan?.requests,
                     price: plan?.price
                 });
@@ -72,9 +72,9 @@ const EditPlan = () => {
     }, [])
 
 
-    useEffect(()=>{
-        console.log("planData : ",planData);
-    },[planData])
+    useEffect(() => {
+        console.log("planData : ", planData);
+    }, [planData])
 
     /**
      *  on any input change , it will get triggered
@@ -100,9 +100,9 @@ const EditPlan = () => {
      * on checkbox change - it will adjust/toggle values in planData
      */
     const handleCheckboxChange = (field, value) => (e) => {
-        console.log("value : ",field);
-        console.log("value : ",value);
-        console.log("values : ",e.target.checked);
+        console.log("value : ", field);
+        console.log("value : ", value);
+        console.log("values : ", e.target.checked);
         const newValues = e.target.checked
             ? [...planData[field], value]
             : planData[field].filter(item => item !== value);

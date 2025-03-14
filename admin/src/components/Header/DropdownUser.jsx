@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/user/user-01.png';
 import { useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -52,8 +51,13 @@ const DropdownUser = () => {
           <span className="block text-xs">{user?.role}</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        <span className="h-12 w-12 rounded-full overflow-hidden">
+        <img
+            src={(user?.profile_picture && user?.profile_picture != null)
+              ? user.profile_picture
+              : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
+            alt="User"
+          />
         </span>
 
         <svg
