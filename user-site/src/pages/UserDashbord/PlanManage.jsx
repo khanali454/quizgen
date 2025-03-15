@@ -1,8 +1,4 @@
-import { Link } from "react-router-dom";
-import SidebarWithBurgerMenu from "../../components/SidebarWithBurgerMenu";
-import { motion } from "framer-motion";
-import { Upload, RefreshCw, FileText, Trash2 } from "lucide-react"; 
-import { useState } from "react";
+import React, { useState } from "react";
 
 const PricingPlan = () => {
   const [activeTab, setActiveTab] = useState("yearly");
@@ -39,9 +35,9 @@ const PricingPlan = () => {
                 />
               </svg>
 
-              <span
-                className="inline-block whitespace-nowrap text-xs leading-4 font-semibold tracking-wide bg-indigo-50 text-indigo-600 rounded-full py-2 px-4"
-                >Save 20%</span>
+              <span className="inline-block whitespace-nowrap text-xs leading-4 font-semibold tracking-wide bg-indigo-50 text-indigo-600 rounded-full py-2 px-4">
+                Save 20%
+              </span>
             </span>
           </div>
           <div className="flex justify-center items-center bg-gray-100 rounded-full p-1.5 max-w-sm mx-auto">
@@ -68,7 +64,11 @@ const PricingPlan = () => {
               <div
                 key={plan}
                 className={`group relative flex flex-col mx-auto w-full max-w-sm rounded-2xl p-3 xl:p-8 transition-all duration-300 ${
-                  plan === "Advanced" ? "bg-indigo-600 text-white hover:bg-indigo-700" : "border border-gray-300 text-gray-900 hover:border-indigo-600"
+                  plan === "Advanced"
+                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                    : plan === "Free"
+                    ? "bg-gray-50 border border-gray-200 text-gray-900 hover:border-indigo-600"
+                    : "border border-gray-300 text-gray-900 hover:border-indigo-600"
                 }`}
               >
                 <h3 className="font-manrope text-2xl font-bold mb-6">{plan}</h3>
@@ -95,20 +95,50 @@ const PricingPlan = () => {
                 </div>
                 <div className="mb-10 flex flex-col">
                   <span className="font-manrope text-6xl font-semibold mb-2">
-                    {plan === "Free" ? "$0" : activeTab === "yearly" ? `$${index === 1 ? "150" : "180"}` : `$${index === 1 ? "39" : "49"}`}
+                    {plan === "Free"
+                      ? "$0"
+                      : activeTab === "yearly"
+                      ? `$${index === 1 ? "150" : "180"}`
+                      : `$${index === 1 ? "39" : "49"}`}
                   </span>
                   <span className="text-xl text-gray-400">
-                    {plan === "Free" ? "Lifetime" : activeTab === "yearly" ? "Per Year" : "Per Month"}
+                    {plan === "Free"
+                      ? "Lifetime"
+                      : activeTab === "yearly"
+                      ? "Per Year"
+                      : "Per Month"}
                   </span>
                 </div>
-                <a
-                  href="#"
-                  className={`py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 ${
-                    plan === "Advanced" ? "bg-white text-indigo-600 hover:bg-gray-200" : "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white"
-                  }`}
-                >
-                  Purchase Plan
-                </a>
+                <div className="flex flex-col space-y-3">
+                  {plan === "Free" ? (
+                    <button
+                      className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all duration-300"
+                      disabled
+                    >
+                      Current Plan
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        className={`py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto ${
+                          plan === "Advanced"
+                            ? "bg-white text-indigo-600 hover:bg-gray-200"
+                            : "bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                        } transition-all duration-300`}
+                      >
+                        {plan === "Team" ? "Downgrade" : "Upgrade"}
+                      </button>
+                      {plan === "Advanced" && (
+                        <button
+                          className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto bg-gray-100 text-gray-500 cursor-not-allowed"
+                          disabled
+                        >
+                          Current Plan
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             ))}
           </div>
