@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Upload, RefreshCw, FileText, Trash2 } from "lucide-react";
 import { CameraIcon } from "@heroicons/react/24/outline";
-import HomeLoader from "../../Components/HomeLoader";
-import Processor from "../../Components/Processor";
+import HomeLoader from "../../components/HomeLoader";
+import Processor from "../../components/Processor";
 import axios from "axios";
 import toast from "react-hot-toast";
 
