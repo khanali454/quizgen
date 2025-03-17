@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import Processor from '../Components/Processor';
+import Processor from '../components/Processor';
 
 const LoginPage = () => {
   const navigate = useNavigate(); // for page navigations
