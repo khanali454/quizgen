@@ -50,8 +50,7 @@ const DoughnutChart = ({ used, total }) => {
 
 export default function DashboardCards() {
   return (
-    <div className="grid mt-[50px]  grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4 md:p-8 bg-gray-100 
-      md:ml-[250px] md:w-[calc(100%-250px)] ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
 
       {/* Card 1 - Total MCQs Generated */}
       <Link to="/mcqs" className="flex flex-col justify-between bg-gradient-to-r from-[#FF9800] to-[#FF5722] 

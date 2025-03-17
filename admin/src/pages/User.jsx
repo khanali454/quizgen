@@ -255,7 +255,7 @@ const User = () => {
                           </td>
                           <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                             <p className="text-black dark:text-white">
-                              {user.created_at}
+                              {new Date(user?.created_at).toDateString()}
                             </p>
                           </td>
                           <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -272,7 +272,7 @@ const User = () => {
                           </td>
                           <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                             <div className="flex items-center space-x-3.5">
-                              <button className="hover:text-primary">
+                              <button className="hover:text-primary" onClick={()=>{navigate(`/user/edit/${user?.id}`)}}>
                                 <svg width="18"
                                   height="18"
                                   viewBox="0 0 18 18" fill="currentColor" className="bi bi-pencil-square">

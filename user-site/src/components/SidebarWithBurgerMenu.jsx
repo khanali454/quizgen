@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Processor from "../../../admin/src/common/Processor";
 import { Menu } from "@headlessui/react";
 import { IconButton, Button } from "@material-tailwind/react";
 import {
@@ -14,6 +15,10 @@ import {
   CurrencyDollarIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { ArrowRightCircleIcon, LogOutIcon } from "lucide-react";
+import axios from "axios";
+import { LoggedUserContext } from "../layouts/LoggedUserContext";
+
 
 export function SidebarWithBurgerMenu() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -22,7 +27,8 @@ export function SidebarWithBurgerMenu() {
   const location = useLocation();
   const sidebarRef = useRef(null);
   const burgerRef = useRef(null);
-
+  const [isOpenUserNav, setIsOpenUserNav] = useState(false);
+  const loggedUser = useContext(LoggedUserContext);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
@@ -51,6 +57,31 @@ export function SidebarWithBurgerMenu() {
   };
 
   const closeSidebar = () => isMobile && setIsDrawerOpen(false);
+
+
+  // logout handling
+  const [processing, setProcessing] = useState(false);
+  const navigate = useNavigate();
+
+
+
+  const logoutUser = () => {
+    setProcessing(true);
+    let token = localStorage.getItem('token');
+    localStorage.removeItem('token');
+    navigate('/login');
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        console.log(response?.data?.msg);
+        toast.success(response?.data?.msg)
+      }).finally(() => {
+        setProcessing(false);
+      });
+  }
 
   return (
     <>
@@ -117,42 +148,45 @@ export function SidebarWithBurgerMenu() {
           </Menu>
 
           {/* User Profile Menu */}
-          <Menu as="div" className="relative inline-block text-left">
-            <Menu.Button as={IconButton} variant="text" className="bg-gray-200">
+          <div as="div" className="relative inline-block text-left">
+            <div onClick={() => { setIsOpenUserNav(!isOpenUserNav) }} as={IconButton} variant="text" className="bg-gray-200">
               <UserCircleIcon className="h-8 w-8" />
-            </Menu.Button>
-            <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/settings"
-                    className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
-                      }`}
-                  >
-                    <UserCircleIcon className="h-5 w-5" /> Profile
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/settings"
-                    className={`flex items-center gap-2 px-4 py-2 text-sm ${active ? "bg-gray-100" : ""
-                      }`}
-                  >
-                    <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
-                  </Link>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
+            </div>
+            {isOpenUserNav && (
+              <div className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+
+                <Link
+                  to={'/settings'}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm`}
+                >
+                  <UserCircleIcon className="h-5 w-5" /> Profile
+                </Link>
+
+                <button
+                  onClick={(e) => { logoutUser(); }}
+                  className={`w-full flex items-center gap-2 px-4 py-2 text-sm cursor-pointer`}
+                >
+                  {processing ? (
+                    <>
+                      <LogOutIcon className="h-5 w-5" />
+                      <span className="mr-2">Logout</span>
+                      <Processor widthValue={4} heightValue={4} />
+                    </>
+                  ) : (
+                    <><LogOutIcon className="h-5 w-5" /> Logout</>
+                  )}
+                </button>
+
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Sidebar */}
       <div
         ref={sidebarRef}
-        className={`fixed left-0 top-14 h-full w-64 bg-white shadow-lg p-4 z-40 transition-transform duration-300 
+        className={`${isMobile ? 'fixed' : ''} h-[calc(100vh-56px)] mt-14 w-72 bg-white shadow-lg p-4 z-40 transition-transform duration-300 
         ${isMobile ? (isDrawerOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0"}`}
       >
         <div className="flex h-[calc(100vh-90px)] flex-col justify-between space-y-4">
@@ -208,7 +242,8 @@ export function SidebarWithBurgerMenu() {
               onClick={closeSidebar}
               className="flex items-center gap-3 p-3 text-sm font-normal text-gray-600"
             >
-              <CurrencyDollarIcon className="h-6 w-6" /> Ai Credits: 10 / 100
+              <CurrencyDollarIcon className="h-6 w-6" /> 
+              Ai Credits: {loggedUser?.subscription?.sent_requests} / {loggedUser?.subscription?.plan?.requests}
             </Link>
           </div>
 

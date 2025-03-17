@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
 
 const Contact = () => {
+  const generalInfo = useContext(GeneralInfoContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,15 +44,15 @@ const Contact = () => {
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold">Address</h3>
-              <p className="text-gray-600">123 AI Street, Tech City, AI World</p>
+              <p className="text-gray-600">{generalInfo?.website_address?generalInfo?.website_address:"Makkah, Saudi Arabia"}</p>
             </div>
             <div>
               <h3 className="font-semibold">Email</h3>
-              <p className="text-gray-600">contact@aiexample.com</p>
+              <p className="text-gray-600">{generalInfo?.website_email?generalInfo?.website_email:"owner@website.com"}</p>
             </div>
             <div>
               <h3 className="font-semibold">Phone</h3>
-              <p className="text-gray-600">+123 456 7890</p>
+              <p className="text-gray-600">{generalInfo?.website_phone?generalInfo?.website_phone:"+123 456 7890"}</p>
             </div>
           </div>
         </div>

@@ -61,6 +61,14 @@ function Login() {
         }
     };
 
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    };
+
+
     return (
         <div className="rounded-sm bg-white dark:bg-boxdark">
             <div className="flex flex-wrap items-center">
@@ -215,6 +223,7 @@ function Login() {
                                         name='email'
                                         defaultValue={email}
                                         autoComplete="username"
+                                        onKeyDown={handleKeyDown}
                                         onChange={(e) => { setEmail(e.target.value) }}
                                         placeholder="Enter your email"
                                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -249,6 +258,7 @@ function Login() {
                                         type="password"
                                         name="password"
                                         defaultValue={password}
+                                        onKeyDown={handleKeyDown}
                                         autoComplete="current-password"
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter Your Password"

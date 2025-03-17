@@ -78,9 +78,10 @@ const Subscriptions = () => {
             <Breadcrumb pageName="Subscriptions" />
             <div className="flex flex-col gap-10">
                 <div className="rounded-sm border border-stroke bg-white px-4 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
-                    <div className="flex items-center justify-between mt-5 mb-3">
-                        <div className="flex items-center w-[200px]">
+                    {/* <div className="flex items-center justify-between mt-5 mb-3">
+                        <div className="flex items-center w-[200px]" aria-disabled>
                             <input
+                                disabled
                                 type="search"
                                 name="search"
                                 placeholder="Search subscriptions..."
@@ -89,7 +90,7 @@ const Subscriptions = () => {
                                 className="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none"
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div>
                         {loading ? (

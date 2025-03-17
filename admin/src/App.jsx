@@ -18,6 +18,7 @@ import ForgotPassword from './pages/Auth/ForgotPassword';
 import CreateBlog from './pages/CreateBlog';
 import './App.css';
 import EditPlan from './pages/EditPlan';
+import EditUser from './pages/EditUser';
 import EditBlog from './pages/EditBlog';
 import Subscriptions from './pages/Subscriptions';
 
@@ -67,6 +68,15 @@ function App() {
           <AuthenticatedLayout>
             <PageTitle title="New User - Mcq Ai Admin" />
             <NewUser />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/user/edit/:id"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Edit User - Mcq Ai Admin" />
+            <EditUser />
           </AuthenticatedLayout>
         }
       />

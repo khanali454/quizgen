@@ -4,8 +4,10 @@ import toast from 'react-hot-toast';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import Loader from '../common/Loader';
 import Processor from '../common/Processor';
+import { useParams } from 'react-router-dom';
 
-const NewUser = () => {
+const EditUser = () => {
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [userData, setUserData] = useState({
@@ -38,10 +40,31 @@ const NewUser = () => {
       }
     }).then((response) => {
       setPlans(response?.data?.plans);
-    }).finally(() => {
+
+      axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        let user_data = response?.data?.user;
+        setUserData({
+          name: user_data?.name,
+          email: user_data?.email,
+          password: '',
+          phone_number: user_data?.phone_number,
+          role: user_data?.role,
+          plan: user_data?.subscription?.plan_id,
+          address: user_data?.address,
+          status: user_data?.status
+        });
+      }).finally(() => {
+        setLoading(false);
+      })
+    }).catch((error) => {
+      toast.error('Error occured while fetching the user');
       setLoading(false);
-    })
-  }, [])
+    });
+  }, [id]);
 
 
 
@@ -55,7 +78,7 @@ const NewUser = () => {
     setProcessing(true);
 
 
-    axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/users`, userData, {
+    axios.put(`${import.meta.env.VITE_API_BASE_URL}/admin/users/${id}`, userData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -63,16 +86,6 @@ const NewUser = () => {
       if (response?.data?.status) {
         toast.success(response?.data?.msg);
       }
-      setUserData({
-        name: '',
-        email: '',
-        password: '',
-        phone_number: '',
-        role: '',
-        plan: '',
-        address: '',
-        status: 'active'
-      });
     }).catch((error) => {
       toast.error(error.response.data.msg);
     }).finally(() => {
@@ -82,17 +95,17 @@ const NewUser = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Create New User" />
+      <Breadcrumb pageName="Edit User" />
       <div className="grid grid-cols-1 gap-9">
         <div className="flex flex-col gap-9">
-          {/* <!-- New User Form --> */}
+          {/* <!-- edit User Form --> */}
           {loading ? (
             <Loader />
           ) : (
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
-                  Add New User
+                  Edit User
                 </h3>
               </div>
               <form onSubmit={handleSubmit}>
@@ -106,7 +119,7 @@ const NewUser = () => {
                         type="text"
                         name="name"
                         placeholder="Enter full name"
-                        value={userData.name}
+                        defaultValue={userData.name}
                         onChange={handleChange}
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
@@ -119,7 +132,7 @@ const NewUser = () => {
                         type="email"
                         name="email"
                         placeholder="Enter email address"
-                        value={userData.email}
+                        defaultValue={userData.email}
                         onChange={handleChange}
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
@@ -149,7 +162,7 @@ const NewUser = () => {
                         type="number"
                         name="phone_number"
                         placeholder="Enter phone number"
-                        value={userData.phone_number}
+                        defaultValue={userData.phone_number}
                         onChange={handleChange}
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
@@ -170,15 +183,11 @@ const NewUser = () => {
                           onChange={handleChange}
                           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary`}
                         >
-                          <option value="" disabled className="text-body dark:text-bodydark">
-                            Select role
-                          </option>
-                          <option value="user" className="text-body dark:text-bodydark">
-                            User
-                          </option>
-                          <option value="admin" className="text-body dark:text-bodydark">
-                            Admin
-                          </option>
+                          {['User','Admin'].map((role) => (
+                            <option value={role?.toLowerCase()} selected={userData?.role?.toLowerCase()==role?.toLowerCase()} className="text-body dark:text-bodydark">
+                              {role}
+                            </option>
+                          ))}
                         </select>
                         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                           <svg
@@ -216,7 +225,7 @@ const NewUser = () => {
                             Select Plan
                           </option>
                           {plans?.length > 0 && plans.map((plan) => (
-                            <option value={plan?.id} className="text-body dark:text-bodydark">
+                            <option value={plan?.id} selected={plan.id==userData.plan} className="text-body dark:text-bodydark">
                               {plan?.plan_name}
                             </option>
                           ))}
@@ -273,12 +282,11 @@ const NewUser = () => {
                           onChange={handleChange}
                           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary`}
                         >
-                          <option value="active" className="text-body dark:text-bodydark">
-                            Active
-                          </option>
-                          <option value="blocked" className="text-body dark:text-bodydark">
-                            Blocked
-                          </option>
+                           {['Active','Blocked'].map((status) => (
+                            <option value={status?.toLowerCase()} selected={userData?.status?.toLowerCase()==status?.toLowerCase()} className="text-body dark:text-bodydark">
+                              {status}
+                            </option>
+                          ))}
                         </select>
                         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                           <svg
@@ -309,10 +317,10 @@ const NewUser = () => {
                     {processing ? (
                       <div className='flex items-center justify-center'>
                         <Processor borderColorValue='white' widthValue={4} heightValue={4} />
-                        <span className="ml-2">Create User</span>
+                        <span className="ml-2">Saving...</span>
                       </div>
                     ) : (
-                      <>Create User</>
+                      <>Save</>
                     )}
                   </button>
                 </div>
@@ -326,4 +334,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default EditUser;

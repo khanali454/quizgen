@@ -42,7 +42,7 @@ const Settings = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/admin/user/update/profile?_method=PUT`,
+        `${import.meta.env.VITE_API_BASE_URL}/user/update/profile?_method=PUT`,
         formData,
         {
           headers: {
@@ -79,7 +79,7 @@ const Settings = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/admin/user/update/profile-pic?_method=PUT`,
+        `${import.meta.env.VITE_API_BASE_URL}/user/update/profile-pic?_method=PUT`,
         formData,
         {
           headers: {
@@ -104,7 +104,7 @@ const Settings = () => {
 
   const removeProfilePicture = () => {
     setRemoving(true);
-    axios.delete(`${import.meta.env.VITE_API_BASE_URL}/admin/user/delete/profile`, {
+    axios.delete(`${import.meta.env.VITE_API_BASE_URL}/user/delete/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
