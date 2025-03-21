@@ -15,9 +15,11 @@ import {
   CurrencyDollarIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
-import { ArrowRightCircleIcon, LogOutIcon } from "lucide-react";
+import { ArrowRightCircleIcon, LogOutIcon, ReceiptIcon } from "lucide-react";
 import axios from "axios";
 import { LoggedUserContext } from "../layouts/LoggedUserContext";
+import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
+import { FaFileInvoice, FaFileInvoiceDollar } from "react-icons/fa";
 
 
 export function SidebarWithBurgerMenu() {
@@ -34,6 +36,8 @@ export function SidebarWithBurgerMenu() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const generalInfo = useContext(GeneralInfoContext);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -102,14 +106,9 @@ export function SidebarWithBurgerMenu() {
           </IconButton>
         )}
 
-        <a href="./" className="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="mr-3 h-6 sm:h-9"
-            alt="Flowbite Logo"
-          />
-          <span className="self-center text-xl font-semibold whitespace-nowrap">
-            Ai MCQs
+        <a href="/" className="flex items-center">
+          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white mr-3">
+            {generalInfo?.website_name ? generalInfo?.website_name : "Sowlf Ai"}
           </span>
         </a>
 
@@ -149,8 +148,16 @@ export function SidebarWithBurgerMenu() {
 
           {/* User Profile Menu */}
           <div as="div" className="relative inline-block text-left">
-            <div onClick={() => { setIsOpenUserNav(!isOpenUserNav) }} as={IconButton} variant="text" className="bg-gray-200">
-              <UserCircleIcon className="h-8 w-8" />
+            <div onClick={() => { setIsOpenUserNav(!isOpenUserNav) }} as={IconButton} variant="text">
+              <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                <img
+                  src={(loggedUser?.profile_picture && loggedUser?.profile_picture != null)
+                    ? loggedUser.profile_picture
+                    : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
+                  alt="User"
+                />
+              </div>
+
             </div>
             {isOpenUserNav && (
               <div className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
@@ -227,6 +234,15 @@ export function SidebarWithBurgerMenu() {
             </Link>
 
             <Link
+              to="/transactions"
+              onClick={closeSidebar}
+              className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
+                ${location.pathname.endsWith("/transactions") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
+            >
+              <ReceiptIcon className="h-6 w-6" /> My Transactions
+            </Link>
+
+            <Link
               to="/settings"
               onClick={closeSidebar}
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
@@ -242,8 +258,8 @@ export function SidebarWithBurgerMenu() {
               onClick={closeSidebar}
               className="flex items-center gap-3 p-3 text-sm font-normal text-gray-600"
             >
-              <CurrencyDollarIcon className="h-6 w-6" /> 
-              Ai Credits: {loggedUser?.subscription?.sent_requests} / {loggedUser?.subscription?.plan?.requests}
+              <CurrencyDollarIcon className="h-6 w-6" />
+              Ai Credits: {loggedUser?.subscription?.status=="active"?(<> {loggedUser?.subscription?.sent_requests || 0} / {loggedUser?.subscription?.plan?.requests || 0}</>):(<>0</>)}
             </Link>
           </div>
 

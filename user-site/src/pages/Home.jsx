@@ -9,9 +9,9 @@ import HomeLoader from '../components/HomeLoader';
 import axios from 'axios';
 function Home() {
     const [loading, setLoading] = useState(true);
+    const [recent_blogs, setRecentBlogs] = useState([]);
     const [monthlyPlans, setMonthlyPlans] = useState([]);
     const [yearlyPlans, setYearlyPlans] = useState([]);
-    const [recent_blogs, setRecentBlogs] = useState([]);
   
   
     useEffect(() => {
@@ -41,7 +41,7 @@ function Home() {
                     <PricingPlan monthlyPlans={monthlyPlans} yearlyPlans={yearlyPlans} setMonthlyPlans={setMonthlyPlans} setYearlyPlans={setYearlyPlans}/>
                     <BlogsSection recent_blogs={recent_blogs} setRecentBlogs={setRecentBlogs}/>
                     <ReviewSection />
-                    <NewsletterSection />
+                    {/* <NewsletterSection /> */}
                 </>
             )}
 

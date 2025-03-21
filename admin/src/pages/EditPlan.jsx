@@ -22,7 +22,7 @@ const EditPlan = () => {
             planName: '',
             billingInterval: 'monthly', // monthly or yearly
             filesUploadLimit: 3,
-            uploadFormats: ['DOC'],
+            uploadFormats: ['DOCX'],
             mcqPerRequest: 10,
             mcqTypes: ['True_False'],
             difficultyLevels: ['Easy'],
@@ -278,7 +278,7 @@ const EditPlan = () => {
                                     <div className="mb-4.5">
                                         <label className="mb-2.5 block text-black dark:text-white">Upload Formats</label>
                                         <div className="flex gap-4">
-                                            {['DOC', 'TXT', 'PDF'].map(format => (
+                                            {['DOCX', 'TXT', 'PDF','PPTX'].map(format => (
                                                 <label key={format} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
@@ -378,7 +378,7 @@ const EditPlan = () => {
                                     <div className="mb-4.5">
                                         <label className="mb-2.5 block text-black dark:text-white">Download Formats</label>
                                         <div className="flex gap-4">
-                                            {['PDF', 'DOC'].map(format => (
+                                            {['PDF', 'DOCX','PPTX'].map(format => (
                                                 <label key={format} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"

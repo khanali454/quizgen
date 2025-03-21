@@ -145,7 +145,7 @@ const AdminDashboard = () => {
         </CardDataStats>
 
         {/* Total Earning */}
-        <CardDataStats title="Total Earning" total={stats?.earning + " SAR"}>
+        <CardDataStats title="Total Earning" total={stats?.earning + " $"}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

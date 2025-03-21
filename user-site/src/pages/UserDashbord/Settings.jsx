@@ -206,7 +206,7 @@ export default function Settings() {
             <div className="">
               <div className="rounded-sm bg-white shadow-default">
                 <div className="border-b py-4 px-7 border-gray-200">
-                  <h3 className="font-medium text-black dark:text-white">
+                  <h3 className="font-medium text-black">
                     Your Photo
                   </h3>
                 </div>
@@ -222,7 +222,7 @@ export default function Settings() {
                         />
                       </div>
                       <div>
-                        <span className="mb-1.5 text-black dark:text-white">
+                        <span className="mb-1.5 text-black ">
                           Edit your photo
                         </span>
                         <span className="flex gap-2.5">

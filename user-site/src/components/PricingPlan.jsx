@@ -1,17 +1,16 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { AlertCircle } from "lucide-react";
-import Loader from "./HomeLoader";
 
-const PricingPlan = ({monthlyPlans,yearlyPlans,setMonthlyPlans,setYearlyPlans}) => {
+const PricingPlan = ({ monthlyPlans, yearlyPlans, setMonthlyPlans, setYearlyPlans }) => {
   const [activeTab, setActiveTab] = useState("monthly");
- 
+
 
 
   const plans = activeTab === "yearly" ? yearlyPlans : monthlyPlans;
 
   return (
-    <section className="py-24">
+    <section className="py-2">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="font-manrope text-5xl font-bold text-gray-900 mb-4">
@@ -36,14 +35,14 @@ const PricingPlan = ({monthlyPlans,yearlyPlans,setMonthlyPlans,setYearlyPlans}) 
           </div>
 
 
-          {plans.length == 0  && (
+          {plans.length == 0 && (
             <div className="flex flex-col items-center justify-center w-full p-6 mt-6 rounded-lg ">
               <AlertCircle className="w-10 h-10 text-gray-500" />
               <p className="mt-2 text-sm text-gray-600">No plan was found</p>
             </div>
           )}
 
-        
+
 
           {plans.length > 0 && (
             <div className="mt-12 grid lg:grid-cols-3 gap-8">
@@ -76,21 +75,21 @@ const PricingPlan = ({monthlyPlans,yearlyPlans,setMonthlyPlans,setYearlyPlans}) 
                     <span className="font-manrope text-6xl font-semibold mb-2">
                       ${plan.price}
                     </span>
-                    
-                      <span className="text-xl text-white">
-                        Per {plan?.billing_interval == "monthly" ? "Month" : "Year"}
-                      </span>
-                   
-                    
+
+                    <span className="text-xl text-white">
+                      Per {plan?.billing_interval == "monthly" ? "Month" : "Year"}
+                    </span>
+
+
 
                   </div>
                   <a
-                    href="#"
+                    href={`/register`}
                     className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 bg-white text-indigo-600 hover:bg-gray-200"
                   >
                     {plan?.plan_type == "trial" ? (
-                     <b className="text-green-400">Get Free Trial</b>
-                    ):(<>Purchase Plan</>)}
+                      <>Get Started</>
+                    ) : (<>Get Started</>)}
                   </a>
                 </div>
               ))}

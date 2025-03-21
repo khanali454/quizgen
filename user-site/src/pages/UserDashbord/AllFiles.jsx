@@ -64,8 +64,8 @@ export default function AllFiles() {
 
   useEffect(() => {
     setLoading(true);
-    fetchFiles(1);
-  }, [])
+    fetchFiles(currentPage);
+  }, [currentPage])
 
   // on clicking delete button
   const handleDelete = async (bid) => {
@@ -187,7 +187,7 @@ export default function AllFiles() {
                   </div>
 
                   {/* Generate New Quiz Button */}
-                  <Link to="/User-Dashbord/create-quiz">
+                  <Link to={`/mcq/new/${file?.id}`}>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       // animate={{ opacity: [0.5, 1, 0.5], transition: { repeat: Infinity, duration: 1.5 } }}

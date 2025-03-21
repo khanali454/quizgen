@@ -1,27 +1,94 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import HomeLoader from "../../components/HomeLoader";
+import * as clipboard from "clipboard-polyfill";
+import { FaCopy, FaFilePdf, FaFilePowerpoint, FaFileWord } from "react-icons/fa";
+import { LoggedUserContext } from "../../layouts/LoggedUserContext";
 
 const DownloadView = () => {
   const [activeTab, setActiveTab] = useState("question");
+  const [loading, setLoading] = useState(true);
+  const [mcqs, setMcqs] = useState([]);
+  const [language, setLanguage] = useState("English");
+  let token = localStorage.getItem("token");
+  const { id } = useParams();
+  const user = useContext(LoggedUserContext);
+  const [download_formats, setDownloadFormats] = useState([]);
 
-  // Sample MCQs data
-  const mcqs = [
-    { id: 1, question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
-    { id: 2, question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], answer: "Paris" },
-    { id: 3, question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
-    { id: 4, question: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], answer: "Pacific" },
-    { id: 5, question: "Who wrote 'To Kill a Mockingbird'?", options: ["Harper Lee", "Mark Twain", "J.K. Rowling", "Ernest Hemingway"], answer: "Harper Lee" },
-    { id: 6, question: "What is the chemical symbol for water?", options: ["H2O", "CO2", "NaCl", "O2"], answer: "H2O" },
-    { id: 7, question: "Which country is known as the Land of the Rising Sun?", options: ["China", "Japan", "India", "South Korea"], answer: "Japan" },
-    { id: 8, question: "What is the smallest prime number?", options: ["1", "2", "3", "5"], answer: "2" },
-    { id: 9, question: "Who painted the Mona Lisa?", options: ["Vincent Van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"], answer: "Leonardo da Vinci" },
-    { id: 10, question: "What is the square root of 64?", options: ["6", "7", "8", "9"], answer: "8" },
-  ];
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/mcqs/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        setDownloadFormats(response?.data?.mcq?.download_formats);
+        setLanguage(response?.data?.mcq?.language);
+        setMcqs(JSON.parse(response?.data?.mcq?.generated_paper));
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.msg || error?.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+
+  const downloadPaper = async (format) => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/download-paper/${id}/${format}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob'
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `paper.${format}`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Download error:', error);
+      if(error.status==404){
+        toast.error("Paper does not exists in our records, Try refreshing the page and request again");
+      }else if(error.status==403){
+        toast.error("You are not allowed to download paper in this format");
+      }else{
+        toast.error("Error in downloading the paper");
+      }
+    }
+  };
+
+
+  const copyQuestions = () => {
+    let textToCopy = "";
+
+    mcqs?.questions?.forEach((question, index) => {
+      textToCopy += `Question ${index + 1}: ${question?.question}\n`;
+
+      if (question?.options && question?.options?.length > 0) {
+        textToCopy += "Options:\n";
+        question?.options?.forEach((option, optionIndex) => {
+          textToCopy += `  ${optionIndex + 1}. ${option}\n`;
+        });
+      }
+
+      textToCopy += `Answer: ${mcqs?.answers[index]?.answer}\n\n`;
+    });
+    clipboard.writeText(textToCopy).then(
+      () => { toast.success("Copied to clipboard successfully") },
+      () => { console.log("Copy to clipboard failed"); }
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 items-center lg:ml-[240px]">
-      {/* Top Space */}
-      <div className="h-[60px]"></div>
-
+    <div className="min-h-screen p-4 bg-gray-50 items-center relative">
       {/* Tabs */}
       <div className="flex space-x-4 border-b border-gray-200 mb-4">
         <button
@@ -39,50 +106,106 @@ const DownloadView = () => {
       </div>
 
       {/* Content */}
-      <div className="overflow-y-auto h-[calc(100vh-180px)]">
-        {activeTab === "question" ? (
-          <div className="space-y-4">
-            {mcqs.map((mcq) => (
-              <div key={mcq.id} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="text-lg font-semibold text-gray-800">{mcq.question}</h3>
-                <ul className="mt-3 space-y-2">
-                  {mcq.options.map((option, index) => (
-                    <li key={index} className="flex items-center">
-                      <input
-                        type="radio"
-                        name={`mcq-${mcq.id}`}
-                        id={`option-${mcq.id}-${index}`}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`option-${mcq.id}-${index}`} className="text-gray-700">
-                        {option}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {mcqs.map((mcq) => (
-              <div key={mcq.id} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="text-lg font-semibold text-gray-800">{mcq.question}</h3>
-                <p className="mt-2 text-green-600 font-medium">Answer: {mcq.answer}</p>
-              </div>
-            ))}
-          </div>
-        )}
+      <div className=" pb-4">
+        {loading ? (<>
+          <HomeLoader />
+        </>) : (<>
+          {activeTab === "question" ? (
+            <div className="space-y-4">
+              {mcqs?.questions?.map((mcq, index) => (
+                <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-lg font-semibold text-gray-800" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                    {index + 1}. {mcq?.question}
+                  </h3>
+                  <ul className="mt-3 space-y-2">
+                    {mcq?.options?.map((option, index) => (
+                      <li key={index} className="flex items-center" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                        <input
+                          type="radio"
+                          name={`mcq-${mcq?.id}`}
+                          id={`option-${mcq?.id}-${index}`}
+                          className={`${language == "Arabic" ? "ml-2" : "mr-2"}`}
+                        />
+                        <label htmlFor={`option-${mcq?.id}-${index}`} className="text-gray-700">
+                          {option}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {mcqs?.answers?.map((qans, index) => (
+                <div key={index} className="bg-green-50 p-4 rounded-lg">
+                  <p className="font-medium text-gray-800" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                    {index + 1}. {qans?.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </>)}
+
       </div>
 
       {/* Fixed Bottom Buttons */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg flex justify-center space-x-4">
-        <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-          Download
-        </button>
-        <button className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors">
-          Copy
-        </button>
+      <div className="bg-white p-4 flex justify-center space-x-4">
+
+
+        <div className="flex flex-wrap gap-3">
+
+
+
+
+          {/* PDF Download Button */}
+          <button
+          onClick={()=>{downloadPaper('pdf')}}
+            disabled={loading || !download_formats?.includes('PDF')}
+            className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            <FaFilePdf className="w-4 h-4 mr-2" />
+            PDF
+          </button>
+
+          {/* PPT Download Button */}
+
+
+          <button
+          onClick={()=>{downloadPaper('ppt')}}
+            disabled={loading || !download_formats?.includes('PPTX')}
+            className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            <FaFilePowerpoint className="w-4 h-4 mr-2" />
+            PPT
+          </button>
+
+
+
+          {/* DOCX Download Button */}
+          <button
+          onClick={()=>{downloadPaper('docx')}}
+            disabled={loading || !download_formats?.includes('DOCX')}
+            className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            <FaFileWord className="w-4 h-4 mr-2" />
+            DOC
+          </button>
+
+
+
+
+          {/* Copy Button */}
+          <button
+            onClick={copyQuestions}
+            disabled={loading}
+            className="inline-flex items-center disabled:opacity-50 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+          >
+            <FaCopy className="w-4 h-4 mr-2" />
+            Copy
+          </button>
+        </div>
       </div>
     </div>
   );

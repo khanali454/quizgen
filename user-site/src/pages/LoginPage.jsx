@@ -37,16 +37,19 @@ const LoginPage = () => {
         })
         .then((response) => {
           if (response?.data?.status) {
-            localStorage.setItem("token", response?.data?.token);
-            localStorage.setItem("user", JSON.stringify(response?.data?.user));
-            navigate('/dashboard');
+            if (response?.data?.action == "redirect") {
+              // verify email otp
+              navigate(`/verify-email`,{state:{email:email}});
+            } else {
+              localStorage.setItem("token", response?.data?.token);
+              navigate('/dashboard');
+            }
           } else {
             toast.error(response?.data?.msg)
           }
         })
         .catch((error) => {
           toast.error("Something went wrong, Please try again later")
-          console.error("Error fetching plans:", error)
         }).finally(() => {
           setProcessing(false);
         });
@@ -108,9 +111,9 @@ const LoginPage = () => {
                   <label htmlFor="password" className="mb-2 text-xs font-medium uppercase text-gray-700">
                     Password
                   </label>
-                  <a href="#" className="text-indigo-500 hover:text-indigo-600 text-sm">
+                  <Link to="/forget-password" className="text-indigo-500 hover:text-indigo-600 text-sm">
                     Forgot Password?
-                  </a>
+                  </Link>
                 </div>
                 <input
                   type="password"

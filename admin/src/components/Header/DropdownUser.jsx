@@ -24,7 +24,7 @@ const DropdownUser = () => {
     localStorage.removeItem('adminAuthToken');
     localStorage.removeItem('adminUser');
     navigate('/');
-    axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin/logout`, {}, {
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/logout`, {}, {
       headers: {
         Authorization: `Bearer ${token}`
       }

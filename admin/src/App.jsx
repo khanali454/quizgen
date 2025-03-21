@@ -21,6 +21,7 @@ import EditPlan from './pages/EditPlan';
 import EditUser from './pages/EditUser';
 import EditBlog from './pages/EditBlog';
 import Subscriptions from './pages/Subscriptions';
+import Invoices from './pages/Invoices';
 
 function App() {
   // for loading state
@@ -122,6 +123,15 @@ function App() {
           <AuthenticatedLayout>
             <PageTitle title="Subscriptions - Mcq Ai Admin" />
             <Subscriptions />
+          </AuthenticatedLayout>
+        }
+      />
+      <Route
+        path="/invoices"
+        element={
+          <AuthenticatedLayout>
+            <PageTitle title="Invoices - Mcq Ai Admin" />
+            <Invoices />
           </AuthenticatedLayout>
         }
       />

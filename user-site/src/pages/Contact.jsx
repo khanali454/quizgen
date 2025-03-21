@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
+import Processor from '../components/Processor';
 
 const Contact = () => {
   const generalInfo = useContext(GeneralInfoContext);
@@ -9,19 +11,46 @@ const Contact = () => {
     email: "",
     message: "",
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now just showing confirmation
-    setIsSubmitted(true);
-    // In a real-world scenario, form data would be sent to an API or email service.
-    console.log(formData);
+    setIsProcessing(true);
+    const toastId = toast.loading('Sending your message...');
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/guest/contact`,
+        formData
+      );
+
+      if (response.data.status) {
+        toast.success(response.data.msg || 'Message sent successfully!', { id: toastId });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        toast.error(response.data.msg || 'Failed to send message', { id: toastId });
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.msg || 
+                      error.message || 
+                      'Failed to send message. Please try again.';
+      
+      toast.error(errorMsg, { id: toastId });
+
+      // Handle validation errors
+      if (error.response?.data?.errors) {
+        Object.values(error.response.data.errors).forEach(errors => {
+          errors.forEach(err => toast.error(err));
+        });
+      }
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -33,7 +62,6 @@ const Contact = () => {
         </p>
       </div>
 
-      {/* Contact Form */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="space-y-6">
           <h2 className="text-3xl font-semibold">Get in Touch</h2>
@@ -44,28 +72,28 @@ const Contact = () => {
           <div className="space-y-4">
             <div>
               <h3 className="font-semibold">Address</h3>
-              <p className="text-gray-600">{generalInfo?.website_address?generalInfo?.website_address:"Makkah, Saudi Arabia"}</p>
+              <p className="text-gray-600">
+                {generalInfo?.website_address || "Makkah, Saudi Arabia"}
+              </p>
             </div>
             <div>
               <h3 className="font-semibold">Email</h3>
-              <p className="text-gray-600">{generalInfo?.website_email?generalInfo?.website_email:"owner@website.com"}</p>
+              <p className="text-gray-600">
+                {generalInfo?.website_email || "owner@website.com"}
+              </p>
             </div>
             <div>
               <h3 className="font-semibold">Phone</h3>
-              <p className="text-gray-600">{generalInfo?.website_phone?generalInfo?.website_phone:"+123 456 7890"}</p>
+              <p className="text-gray-600">
+                {generalInfo?.website_phone || "+123 456 7890"}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Form Section */}
         <div>
           <h2 className="text-3xl font-semibold mb-4">Send Us a Message</h2>
-          {isSubmitted ? (
-            <div className="p-6 border border-gray-300 rounded-xl shadow-lg text-center">
-              <h3 className="text-xl font-semibold text-green-600">Thank you!</h3>
-              <p className="text-gray-600">Your message has been sent successfully. We will get back to you shortly.</p>
-            </div>
-          ) : (
+          
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -79,6 +107,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="mt-2 px-4 py-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                  disabled={isProcessing}
                 />
               </div>
 
@@ -94,6 +123,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="mt-2 px-4 py-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                  disabled={isProcessing}
                 />
               </div>
 
@@ -109,21 +139,28 @@ const Contact = () => {
                   required
                   className="mt-2 px-4 py-3 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
                   rows="6"
+                  disabled={isProcessing}
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all relative"
+                disabled={isProcessing}
               >
-                Send Message
+                {isProcessing ? (
+                  <span className="flex items-center justify-center">
+                    <Processor widthValue={4} heightValue={4} />
+                    <span className="ml-2">Sending...</span>
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
-          )}
+         
         </div>
       </div>
-
-
     </section>
   );
 };
