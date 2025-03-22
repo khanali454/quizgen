@@ -497,7 +497,7 @@ export default function MultiStepQuizForm() {
                                     <label
                                       dir={`${language == "Arabic" ? "rtl" : "ltr"}`}
                                       key={"o"+index}
-                                      labelFor={"q"+qindex}
+                                      htmlFor={"q"+qindex}
                                       className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded cursor-pointer"
                                     >
                                       <input

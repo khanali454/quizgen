@@ -112,21 +112,21 @@ const DownloadView = () => {
         </>) : (<>
           {activeTab === "question" ? (
             <div className="space-y-4">
-              {mcqs?.questions?.map((mcq, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              {mcqs?.questions?.map((mcq, qindex) => (
+                <div key={"q"+qindex} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                   <h3 className="text-lg font-semibold text-gray-800" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
-                    {index + 1}. {mcq?.question}
+                    {qindex + 1}. {mcq?.question}
                   </h3>
                   <ul className="mt-3 space-y-2">
                     {mcq?.options?.map((option, index) => (
-                      <li key={index} className="flex items-center" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                      <li key={"o"+index} className="flex items-center" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
                         <input
                           type="radio"
-                          name={`mcq-${mcq?.id}`}
-                          id={`option-${mcq?.id}-${index}`}
+                          name={`mcq-${qindex}`}
+                          id={`option-${qindex}`}
                           className={`${language == "Arabic" ? "ml-2" : "mr-2"}`}
                         />
-                        <label htmlFor={`option-${mcq?.id}-${index}`} className="text-gray-700">
+                        <label htmlFor={`option-${qindex}`} className="text-gray-700">
                           {option}
                         </label>
                       </li>
