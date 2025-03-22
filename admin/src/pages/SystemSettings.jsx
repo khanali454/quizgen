@@ -311,7 +311,7 @@ if (logoFile) {
                       <div>
                         <label className="mb-2.5 block text-black dark:text-white">SMTP Password</label>
                         <input
-                          type="password"
+                          type="text"
                           name="website_smtp_password"
                           defaultValue={settings.website_smtp_password}
                           onChange={handleInputChange}
