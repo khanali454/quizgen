@@ -496,12 +496,12 @@ export default function MultiStepQuizForm() {
                                   {mcq?.options?.map((option, index) => (
                                     <label
                                       dir={`${language == "Arabic" ? "rtl" : "ltr"}`}
-                                      key={index}
-                                      labelFor=""
+                                      key={"o"+index}
+                                      labelFor={"q"+qindex}
                                       className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded cursor-pointer"
                                     >
                                       <input
-                                      id={`${qindex}`}
+                                      id={`q${qindex}`}
                                         type="radio"
                                         name={`q${qindex}`}
                                         className="h-5 w-5 text-blue-600 border-gray-300"
@@ -516,10 +516,10 @@ export default function MultiStepQuizForm() {
                       </>
                     ) : (
                       <div className="space-y-4">
-                        {generated?.answers?.map((qans, index) => (
-                          <div key={index} className="bg-green-50 p-4 rounded-lg" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                        {generated?.answers?.map((qans, aindex) => (
+                          <div key={"a"+aindex} className="bg-green-50 p-4 rounded-lg" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
                             <p className="font-medium text-gray-800" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
-                              {index + 1}. {qans?.answer}
+                              {aindex + 1}. {qans?.answer}
                             </p>
                           </div>
                         ))}
