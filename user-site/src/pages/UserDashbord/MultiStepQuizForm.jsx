@@ -497,11 +497,11 @@ export default function MultiStepQuizForm() {
                                     <label
                                       dir={`${language == "Arabic" ? "rtl" : "ltr"}`}
                                       key={"o"+index}
-                                      htmlFor={"q"+index}
+                                      htmlFor={"q"+qindex+index}
                                       className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded cursor-pointer"
                                     >
                                       <input
-                                      id={`q${index}`}
+                                      id={`q${qindex}${index}`}
                                         type="radio"
                                         name={`q${qindex}`}
                                         className="h-5 w-5 text-blue-600 border-gray-300"
