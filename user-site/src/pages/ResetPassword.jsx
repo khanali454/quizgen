@@ -22,11 +22,11 @@ const ResetPassword = () => {
   const handleSubmit = () => {
     try {
       if (!token) {
-        toast.error("Please enter your reset token");
+        toast.error("Something went wrong,open the url again");
         return;
       }
       if (!email) {
-        toast.error("Please enter your email address");
+        toast.error("Something went wrong, open the url again");
         return;
       }
       if (!password) {
@@ -91,35 +91,6 @@ const ResetPassword = () => {
             </p>
 
             <div className="mb-4">
-              <div className="mb-6">
-                <label htmlFor="token" className="mb-2 block text-xs font-medium uppercase text-gray-700">
-                  Reset Token
-                </label>
-                <input
-                  type="text"
-                  id="token"
-                  value={token}
-                  readOnly={!!searchParams.get('token')}
-                  onChange={(e) => setToken(e.target.value)}
-                  className="block w-full rounded-md border border-gray-400 py-2 px-3 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
-                  placeholder="Enter reset token from email"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="email" className="mb-2 block text-xs font-medium uppercase text-gray-700">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  readOnly={!!searchParams.get('email')}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-md border border-gray-400 py-2 px-3 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
-                  placeholder="Enter your registered email"
-                />
-              </div>
 
               <div className="mb-6">
                 <label htmlFor="password" className="mb-2 block text-xs font-medium uppercase text-gray-700">
