@@ -17,8 +17,10 @@ const SystemSettings = () => {
     website_linkedin: '',
     website_smtp_host: '',
     website_smtp_port: '',
+    website_smtp_encryption: '',
     website_smtp_username: '',
     website_smtp_password: '',
+    website_smtp_from_name: '',
     website_openai_api_key: '',
     website_moyassar_publishible_key: '',
     website_moyassar_secret_key: '',
@@ -271,6 +273,18 @@ if (logoFile) {
                       </div>
 
                       <div>
+                        <label className="mb-2.5 block text-black dark:text-white">SMTP Encryption</label>
+                        <input
+                          type="text"
+                          name="website_smtp_encryption"
+                          defaultValue={settings.website_smtp_encryption}
+                          onChange={handleInputChange}
+                          placeholder="Enter SMTP encryption i.e SSL,TLS"
+                          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        />
+                      </div>
+
+                      <div>
                         <label className="mb-2.5 block text-black dark:text-white">SMTP Port</label>
                         <input
                           type="number"
@@ -305,6 +319,18 @@ if (logoFile) {
                           className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                         />
                       </div>
+                      
+                      <div>
+                        <label className="mb-2.5 block text-black dark:text-white">SMTP From Name</label>
+                        <input
+                          type="password"
+                          name="website_smtp_from_name"
+                          defaultValue={settings.website_smtp_from_name}
+                          onChange={handleInputChange}
+                          placeholder="Enter SMTP From Name"
+                          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -326,25 +352,25 @@ if (logoFile) {
                     <h4 className="font-medium text-black dark:text-white text-lg mb-3">Payment Gateway Keys</h4>
                     <div className="flex flex-col gap-6 xl:flex-row p-3 py-6">
                       <div className="w-full xl:w-1/2">
-                        <label className="mb-2.5 block text-black dark:text-white">Moyassar Publishable Key</label>
+                        <label className="mb-2.5 block text-black dark:text-white">Moyasar Publishable Key</label>
                         <input
                           type="text"
                           name="website_moyassar_publishible_key"
                           defaultValue={settings.website_moyassar_publishible_key}
                           onChange={handleInputChange}
-                          placeholder="Enter Moyassar Publishable Key"
+                          placeholder="Enter Moyasar Publishable Key"
                           className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                         />
                       </div>
 
                       <div className="w-full xl:w-1/2">
-                        <label className="mb-2.5 block text-black dark:text-white">Moyassar Secret Key</label>
+                        <label className="mb-2.5 block text-black dark:text-white">Moyasar Secret Key</label>
                         <input
                           type="text"
                           name="website_moyassar_secret_key"
                           defaultValue={settings.website_moyassar_secret_key}
                           onChange={handleInputChange}
-                          placeholder="Enter Moyassar Secret Key"
+                          placeholder="Enter Moyasar Secret Key"
                           className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                         />
                       </div>
