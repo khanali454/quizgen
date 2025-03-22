@@ -323,7 +323,7 @@ if (logoFile) {
                       <div>
                         <label className="mb-2.5 block text-black dark:text-white">SMTP From Name</label>
                         <input
-                          type="password"
+                          type="text"
                           name="website_smtp_from_name"
                           defaultValue={settings.website_smtp_from_name}
                           onChange={handleInputChange}
