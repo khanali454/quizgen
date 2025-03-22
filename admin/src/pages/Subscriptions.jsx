@@ -14,6 +14,7 @@ const Subscriptions = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [notifying,setNotifying] = useState("");
 
     const token = localStorage.getItem('adminAuthToken');
 
@@ -52,10 +53,10 @@ const Subscriptions = () => {
     };
 
     const handleNotifyUser = async (subscriptionId) => {
+        setNotifying(subscriptionId);
         try {
-            const response = await axios.post(
+            const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/admin/subscriptions/${subscriptionId}/notify`,
-                {},
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -65,11 +66,13 @@ const Subscriptions = () => {
             if (response?.data?.status) {
                 toast.success(response?.data?.msg);
             } else {
-                toast.error(response?.data?.msg);
+                toast.error(response?.data?.msg || "Failed to notify user.");
             }
         } catch (error) {
             console.error('Error notifying user:', error);
             toast.error('Failed to notify user.');
+        }finally{
+            setNotifying("");
         }
     };
 
@@ -78,20 +81,6 @@ const Subscriptions = () => {
             <Breadcrumb pageName="Subscriptions" />
             <div className="flex flex-col gap-10">
                 <div className="rounded-sm border border-stroke bg-white px-4 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
-                    {/* <div className="flex items-center justify-between mt-5 mb-3">
-                        <div className="flex items-center w-[200px]" aria-disabled>
-                            <input
-                                disabled
-                                type="search"
-                                name="search"
-                                placeholder="Search subscriptions..."
-                                onChange={(e) => { setLoading(true); setQuery(e.target.value) }}
-                                autoComplete='false'
-                                className="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none"
-                            />
-                        </div>
-                    </div> */}
-
                     <div>
                         {loading ? (
                             <div className="py-4 w-full flex items-center justify-center">
@@ -141,10 +130,17 @@ const Subscriptions = () => {
                                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                                         <div className="flex items-center space-x-3.5">
                                                             <button
-                                                                className="hover:text-primary"
+                                                            disabled={notifying==subscription?.id}
+                                                                className="bg-primary px-4 py-2 text-white rounded-md flex items-center justify-center"
                                                                 onClick={() => handleNotifyUser(subscription.id)}
                                                             >
+                                                               {notifying==subscription?.id?(<>
+                                                                <Processor widthValue={4} heightValue={4} borderColorValue='white'/> <span className='ml-2'>Notify User</span>
+                                                               </>):(
+                                                                <>
                                                                 Notify User
+                                                                </>
+                                                               )}
                                                             </button>
                                                         </div>
                                                     </td>

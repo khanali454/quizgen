@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import HomeLoader from '../components/HomeLoader';
+import './moyassar.css';
 
 function Checkout() {
   const { plan_id } = useParams();
@@ -38,13 +39,9 @@ function Checkout() {
       });
   }, [plan_id, token]);
 
+  
   // Add Moyasar CSS and JS to the <head>
   useEffect(() => {
-    // Add Moyasar CSS
-    const moyasarCSS = document.createElement('link');
-    moyasarCSS.rel = 'stylesheet';
-    moyasarCSS.href = 'https://cdn.moyasar.com/mpf/1.15.0/moyasar.css';
-    document.head.appendChild(moyasarCSS);
 
     // Add Polyfill Script
     const polyfillScript = document.createElement('script');
@@ -111,7 +108,6 @@ function Checkout() {
 
     // Cleanup function to remove added elements
     return () => {
-      document.head.removeChild(moyasarCSS);
       document.head.removeChild(polyfillScript);
       document.head.removeChild(moyasarScript);
     };
@@ -155,7 +151,7 @@ function Checkout() {
               <div>
                 <h4 className="text-md font-semibold text-gray-700">Features</h4>
                 <ul className="mt-2 text-sm text-gray-600 list-disc list-inside">
-                  {plan.plan.PlanFeatures.split(" | ").map((feature, index) => (
+                  {plan.plan.PlanFeatures.split("|").map((feature, index) => (
                     <li key={index}>{feature}</li>
                   ))}
                 </ul>
@@ -182,7 +178,9 @@ function Checkout() {
             </div>
 
             {/* Moyasar Payment Form */}
+            <div className="moyasar-scope">
             <div className="moyasar-form mt-8"></div>
+            </div>
           </div>
         </div>
       </div>

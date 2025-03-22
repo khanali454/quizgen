@@ -23,7 +23,7 @@ function VerifyPayment() {
         if (response.data.status) {
           setVerificationStatus(response.data); // Set verification status on success
         } else {
-          setError("Payment verification failed. Please try again.");
+          setError(response?.data?.msg||"Payment verification failed. Please try again.");
         }
       } catch (error) {
         console.error("Error verifying payment:", error);
@@ -81,7 +81,7 @@ function VerifyPayment() {
           </div>
           <button
             className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-            onClick={() => (window.location.href = '/')} // Redirect to homepage or dashboard
+            onClick={() => (window.location.href = '/dashboard')}
           >
             Go to Dashboard
           </button>

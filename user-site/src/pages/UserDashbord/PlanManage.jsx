@@ -2,8 +2,10 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { AlertCircle } from "lucide-react";
 import HomeLoader from "../../components/HomeLoader";
+import Processor from "../../components/Processor";
 import { LoggedUserContext } from "../../layouts/LoggedUserContext";
 import { Link } from "react-router-dom";
+import toast from 'react-hot-toast'
 
 const PlanManage = () => {
   const [activeTab, setActiveTab] = useState("monthly");
@@ -13,6 +15,30 @@ const PlanManage = () => {
   const user = useContext(LoggedUserContext);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
+
+  const [availing_trial, setAvailingTrial] = useState(false);
+
+  const availFreeTrial = (pid) => {
+    setAvailingTrial(true);
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/user/avail-trial/${pid}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        if (response?.data?.status) {
+          toast.success(response?.data?.msg);
+          window.location.href="/dashboard";
+        } else {
+          toast.error(response?.data?.msg || "Error in availing free trial, Please try again");
+        }
+      })
+      .catch((error) => {
+        toast.error("Error in availing free trial, Please try again");
+      }).finally(() => {
+        setAvailingTrial(false);
+      });
+  }
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/user/plans/management`, {
@@ -121,13 +147,20 @@ const PlanManage = () => {
                       <>
                         {plan?.plan_type == "trial" ? (
                           <button
-                            className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 bg-white text-indigo-600 hover:bg-gray-200"
+                            disabled={availing_trial}
+                            onClick={() => { availFreeTrial(plan?.id) }}
+                            className="py-2.5 px-5 rounded-full font-semibold text-center w-fit flex items-center justify-center mx-auto transition-all duration-300 bg-white text-indigo-600 hover:bg-gray-200"
                           >
-                            <b className="text-green-400">Avail Free Trial</b>
+                            {availing_trial ? (<>
+                              <Processor widthValue={4} heightValue={4} />
+                              <span className="ml-2">Availing</span>
+                            </>) : (<>
+                              <b className="text-green-400">Avail Free Trial</b>
+                            </>)}
                           </button>
                         ) : (
                           <Link
-                          to={`/checkout/${plan?.id}`}
+                            to={`/checkout/${plan?.id}`}
                             className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 bg-white text-indigo-600 hover:bg-gray-200"
                           >
                             Choose Plan
