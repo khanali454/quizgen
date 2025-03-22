@@ -123,10 +123,10 @@ const DownloadView = () => {
                         <input
                           type="radio"
                           name={`mcq-${qindex}`}
-                          id={`option-${qindex}`}
+                          id={`option-${index}`}
                           className={`${language == "Arabic" ? "ml-2" : "mr-2"}`}
                         />
-                        <label htmlFor={`option-${qindex}`} className="text-gray-700">
+                        <label htmlFor={`option-${index}`} className="text-gray-700">
                           {option}
                         </label>
                       </li>
