@@ -131,7 +131,7 @@ const Subscriptions = () => {
                                                         <div className="flex items-center space-x-3.5">
                                                             <button
                                                             disabled={notifying==subscription?.id}
-                                                                className="bg-primary px-4 py-2 text-white rounded-md flex items-center justify-center"
+                                                                className="bg-primary px-4 py-2 text-white rounded-md flex items-center justify-center w-fit text-nowrap"
                                                                 onClick={() => handleNotifyUser(subscription.id)}
                                                             >
                                                                {notifying==subscription?.id?(<>

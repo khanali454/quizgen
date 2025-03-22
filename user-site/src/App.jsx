@@ -33,7 +33,7 @@ import Checkout from './pages/Checkout';
 import VerifyPayment from './pages/VerifyPayment';
 import DefaultLayout from './layouts/DefaultLayout';
 import Invoices from './pages/UserDashbord/Invoices';
-import ResetPassword from './pages/ForgetPassword';
+import ResetPassword from './pages/ResetPassword';
 import ForgetPassword from './pages/ForgetPassword';
 
 
@@ -110,6 +110,9 @@ function App() {
           } />
           <Route path="/forget-password" element={
             <><PageTitle title={"Forgot Password"} /><ForgetPassword /></>
+          } />
+          <Route path="/reset-password" element={
+            <><PageTitle title={"Reset Password"} /><ResetPassword /></>
           } />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
