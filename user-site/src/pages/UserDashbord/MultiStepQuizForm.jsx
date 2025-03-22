@@ -489,19 +489,21 @@ export default function MultiStepQuizForm() {
                           </div>
                         ) : (
                           <>
-                            {generated?.questions?.map((mcq, index) => (
-                              <div key={index} className="mb-6 last:mb-0 bg-white p-4 rounded-lg shadow-sm">
-                                <h3 dir={`${language == "Arabic" ? "rtl" : "ltr"}`} className="font-medium text-gray-800 mb-4">{index + 1}. {mcq?.question}</h3>
+                            {generated?.questions?.map((mcq, qindex) => (
+                              <div key={qindex} className="mb-6 last:mb-0 bg-white p-4 rounded-lg shadow-sm">
+                                <h3 dir={`${language == "Arabic" ? "rtl" : "ltr"}`} className="font-medium text-gray-800 mb-4">{qindex + 1}. {mcq?.question}</h3>
                                 <div className="grid gap-2" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
                                   {mcq?.options?.map((option, index) => (
                                     <label
                                       dir={`${language == "Arabic" ? "rtl" : "ltr"}`}
                                       key={index}
+                                      labelFor=""
                                       className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded cursor-pointer"
                                     >
                                       <input
+                                      id={`${qindex}`}
                                         type="radio"
-                                        name={`q${index}`}
+                                        name={`q${qindex}`}
                                         className="h-5 w-5 text-blue-600 border-gray-300"
                                       />
                                       <span className="text-gray-700">{option}</span>
