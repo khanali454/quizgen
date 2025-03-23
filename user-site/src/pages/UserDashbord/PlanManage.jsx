@@ -5,6 +5,8 @@ import HomeLoader from "../../components/HomeLoader";
 import Processor from "../../components/Processor";
 import { LoggedUserContext } from "../../layouts/LoggedUserContext";
 import { Link } from "react-router-dom";
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import toast from 'react-hot-toast'
 
 const PlanManage = () => {
@@ -75,13 +77,23 @@ const PlanManage = () => {
               <button
                 onClick={() => setActiveTab("yearly")}
                 className={`w-1/2 text-center rounded-full py-3 px-3 lg:px-11 font-semibold transition-all duration-500 ${activeTab === "yearly" ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white" : "text-gray-400 hover:text-indigo-600"}`}
-              >
+                style={{
+                  background: "linear-gradient(to right, #3b82f6, #9333ea)", 
+                  background: "-webkit-linear-gradient(left, #3b82f6, #9333ea)", 
+                  background: "-moz-linear-gradient(left, #3b82f6, #9333ea)", 
+                  background: "-o-linear-gradient(left, #3b82f6, #9333ea)"
+                }} >
                 Bill Yearly
               </button>
               <button
                 onClick={() => setActiveTab("monthly")}
                 className={`w-1/2 text-center rounded-full py-3 px-3 lg:px-11 font-semibold transition-all duration-500 ${activeTab === "monthly" ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white" : "text-gray-400 hover:text-indigo-600"}`}
-              >
+                style={{
+                  background: "linear-gradient(to right, #3b82f6, #9333ea)", 
+                  background: "-webkit-linear-gradient(left, #3b82f6, #9333ea)", 
+                  background: "-moz-linear-gradient(left, #3b82f6, #9333ea)", 
+                  background: "-o-linear-gradient(left, #3b82f6, #9333ea)"
+                }} >
                 Bill Monthly
               </button>
             </div>
@@ -102,7 +114,12 @@ const PlanManage = () => {
                   <div
                     key={plan.id}
                     className="group relative flex flex-col mx-auto w-full max-w-sm rounded-2xl p-6 xl:p-12 transition-all duration-300 bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:bg-indigo-700"
-                  >
+                    style={{
+                      background: "linear-gradient(to right, #3b82f6, #9333ea)", 
+                      background: "-webkit-linear-gradient(left, #3b82f6, #9333ea)", 
+                      background: "-moz-linear-gradient(left, #3b82f6, #9333ea)", 
+                      background: "-o-linear-gradient(left, #3b82f6, #9333ea)"
+                    }}   >
                     <h3 className="font-manrope text-2xl font-bold mb-6">{plan.plan_name}</h3>
                     <ul className="space-y-4 text-left mb-6">
                       {plan.PlanFeatures.split("|").map((feature, index) => (
