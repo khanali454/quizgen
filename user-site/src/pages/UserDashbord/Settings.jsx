@@ -8,8 +8,11 @@ import HomeLoader from "../../components/HomeLoader";
 import Processor from "../../components/Processor";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useUser } from "../../layouts/LoggedUserContext";
 
 export default function Settings() {
+  const { user1, updateUser } = useUser();
+
   const [user, setUser] = useState({});
   const [processingProfile, setProcessingProfile] = useState(false);
   const [processingPic, setProcessingPic] = useState(false);
@@ -58,7 +61,8 @@ export default function Settings() {
       toast.success(response.data.msg);
       const updatedUser = { ...user, ...response.data.user };
       setUser(updatedUser);
-      localStorage.setItem('adminUser', JSON.stringify(updatedUser));
+      
+
       setPassword('');
     } catch (error) {
       toast.error(error.response?.data?.msg || 'Failed to update profile');
@@ -96,8 +100,9 @@ export default function Settings() {
       toast.success(response.data.msg);
       const updatedUser = { ...user, profile_picture: response.data.profile_picture };
       setUser(updatedUser);
-      localStorage.setItem('adminUser', JSON.stringify(updatedUser));
+      updateUser({ ...user, profile_picture: response.data.profile_picture });
     } catch (error) {
+      console.log("error : ",error);
       toast.error(error.response?.data?.msg || 'Failed to update profile picture');
     } finally {
       setProcessingPic(false);
@@ -115,6 +120,7 @@ export default function Settings() {
     }).then((response) => {
       if (response?.data?.status) {
         toast.success(response?.data?.msg);
+        updateUser({ ...user, profile_picture: null });
       } else {
         toast.error(response?.data?.msg);
       }

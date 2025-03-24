@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';

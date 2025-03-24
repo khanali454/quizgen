@@ -54,11 +54,16 @@ const AuthenticatedLayout = () => {
 
 
 
+  // Function to update the user data
+  const updateUser = (updatedData) => {
+    setLoggedUser((prevUser) => ({ ...prevUser, ...updatedData }));
+  };
+
   return (
     <>
       {loading ? (<><HomeLoader /></>) : (
         <GeneralInfoContext.Provider value={generalInfo}>
-          <LoggedUserContext.Provider value={loggedUser}>
+          <LoggedUserContext.Provider value={{loggedUser,updateUser}}>
             <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
               <SidebarWithBurgerMenu />
               <div className="h-[calc(100vh-56px)] relative w-full mt-14 p-4 overflow-y-auto">

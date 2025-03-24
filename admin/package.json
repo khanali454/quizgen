@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.3.8",
   "type": "module",
-  "homepage": "/admin",
+  "homepage": "https://tutor.sowlf.ai/admin/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

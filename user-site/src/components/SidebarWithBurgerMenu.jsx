@@ -17,7 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ArrowRightCircleIcon, LogOutIcon, ReceiptIcon } from "lucide-react";
 import axios from "axios";
-import { LoggedUserContext } from "../layouts/LoggedUserContext";
+import { useUser } from "../layouts/LoggedUserContext";
 import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
 import { FaFileInvoice, FaFileInvoiceDollar } from "react-icons/fa";
 
@@ -30,7 +30,7 @@ export function SidebarWithBurgerMenu() {
   const sidebarRef = useRef(null);
   const burgerRef = useRef(null);
   const [isOpenUserNav, setIsOpenUserNav] = useState(false);
-  const loggedUser = useContext(LoggedUserContext);
+  const {loggedUser,updateUser} = useUser();
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
