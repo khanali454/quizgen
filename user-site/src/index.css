@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 /* blog styling */
+/* blog styling */
+
 .blog {
     @apply max-w-none text-gray-800;
 }
