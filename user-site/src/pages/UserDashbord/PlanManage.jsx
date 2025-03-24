@@ -5,8 +5,6 @@ import HomeLoader from "../../components/HomeLoader";
 import Processor from "../../components/Processor";
 import { LoggedUserContext } from "../../layouts/LoggedUserContext";
 import { Link } from "react-router-dom";
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import toast from 'react-hot-toast'
 
 const PlanManage = () => {
