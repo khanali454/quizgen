@@ -97,6 +97,7 @@ export function SidebarWithBurgerMenu() {
             variant="text"
             size="lg"
             onClick={toggleSidebar}
+            className="flex items-center justify-center"
           >
             {isDrawerOpen ? (
               <XMarkIcon className="h-8 w-8 stroke-2" />
@@ -115,7 +116,7 @@ export function SidebarWithBurgerMenu() {
         <div className="flex items-center gap-4">
           {/* Language Selector Dropdown */}
           <Menu as="div" className=" relative">
-            <Menu.Button as={IconButton} variant="text" className="text-lg bg-gray-200">
+            <Menu.Button as={IconButton} variant="text" className="text-lg bg-gray-200 flex items-center justify-center">
               {selectedLanguage === 'en' ? '🇺🇸' : '🇸🇦'}
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
