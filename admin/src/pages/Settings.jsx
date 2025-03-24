@@ -271,7 +271,7 @@ const Settings = () => {
                         <img
                           src={(user?.profile_picture && user?.profile_picture != null)
                             ? user.profile_picture
-                            : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
+                            : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/public/default-profile.jpg`}
                           alt="User"
                         />
                       </div>

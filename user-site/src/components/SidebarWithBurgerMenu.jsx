@@ -154,7 +154,7 @@ export function SidebarWithBurgerMenu() {
                 <img
                   src={(loggedUser?.profile_picture && loggedUser?.profile_picture != null)
                     ? loggedUser.profile_picture
-                    : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/default-profile.jpg`}
+                    : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/public/default-profile.jpg`}
                   alt="User"
                 />
               </div>
