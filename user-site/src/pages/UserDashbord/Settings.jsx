@@ -1,9 +1,5 @@
-import { Link } from "react-router-dom";
-import SidebarWithBurgerMenu from "../../components/SidebarWithBurgerMenu";
+
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Upload, RefreshCw, FileText, Trash2 } from "lucide-react";
-import { CameraIcon } from "@heroicons/react/24/outline";
 import HomeLoader from "../../components/HomeLoader";
 import Processor from "../../components/Processor";
 import axios from "axios";
@@ -11,9 +7,7 @@ import toast from "react-hot-toast";
 import { useUser } from "../../layouts/LoggedUserContext";
 
 export default function Settings() {
-  const { user1, updateUser } = useUser();
-
-  const [user, setUser] = useState({});
+  const {loggedUser,updateUser} = useUser();
   const [processingProfile, setProcessingProfile] = useState(false);
   const [processingPic, setProcessingPic] = useState(false);
   const [removing, setRemoving] = useState(false); // for profile removing process - state ...
@@ -29,7 +23,7 @@ export default function Settings() {
       }
     })
       .then((response) => {
-        setUser(response?.data);
+        updateUser(response?.data);
       })
       .catch((error) => {
         toast.error("Error in fetching user");
@@ -60,9 +54,7 @@ export default function Settings() {
 
       toast.success(response.data.msg);
       const updatedUser = { ...user, ...response.data.user };
-      setUser(updatedUser);
-      
-
+      updateUser(updateUser);
       setPassword('');
     } catch (error) {
       toast.error(error.response?.data?.msg || 'Failed to update profile');
@@ -98,8 +90,6 @@ export default function Settings() {
       );
 
       toast.success(response.data.msg);
-      const updatedUser = { ...user, profile_picture: response.data.profile_picture };
-      setUser(updatedUser);
       updateUser({ ...user, profile_picture: response.data.profile_picture });
     } catch (error) {
       console.log("error : ",error);
@@ -150,7 +140,7 @@ export default function Settings() {
                   <input
                     type="text"
                     name="name"
-                    value={user.name}
+                    value={loggedUser?.name}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
 
                   />
@@ -161,7 +151,7 @@ export default function Settings() {
                   <input
                     type="text"
                     name="phone_number"
-                    value={user.phone_number}
+                    value={loggedUser?.phone_number}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
 
                   />
@@ -172,7 +162,7 @@ export default function Settings() {
                   <input
                     type="email"
                     name="email"
-                    value={user.email}
+                    value={loggedUser?.email}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
 
                   />
@@ -193,7 +183,7 @@ export default function Settings() {
                   <input
                     type="text"
                     name="address"
-                    defaultValue={user?.address}
+                    defaultValue={loggedUser?.address}
                     placeholder="Enter address"
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md"
                   />
@@ -221,8 +211,8 @@ export default function Settings() {
                     <div className="mb-4 flex items-center gap-3">
                       <div className="h-14 w-14 rounded-full overflow-hidden">
                         <img
-                          src={(user?.profile_picture && user?.profile_picture != null)
-                            ? user.profile_picture
+                          src={(loggedUser?.profile_picture && loggedUser?.profile_picture != null)
+                            ? loggedUser?.profile_picture
                             : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/public/default-profile.jpg`}
                           alt="User"
                         />
@@ -232,7 +222,7 @@ export default function Settings() {
                           Edit your photo
                         </span>
                         <span className="flex gap-2.5">
-                          {(user?.profile_picture && user?.profile_picture != null) && (
+                          {(loggedUser?.profile_picture && loggedUser?.profile_picture != null) && (
                             <button type='button' className={`text-sm hover:text-primary flex items-center`} onClick={removeProfilePicture}>
                               {removing ? (<><Processor widthValue={4} heightValue={4} /> <span className='ml-2'>Removing..</span></>) : (
                                 <>Remove profile</>

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { DocumentIcon, CloudArrowUpIcon, ArrowDownTrayIcon, BoltIcon } from "@heroicons/react/24/outline";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
-import { useContext, useEffect, useState } from "react";
-import { LoggedUserContext } from "../../layouts/LoggedUserContext";
+import { useEffect, useState } from "react";
+import { useUser } from "../../layouts/LoggedUserContext";
 import axios from "axios";
 import HomeLoader from '../../components/HomeLoader';
 
@@ -55,15 +55,15 @@ const DoughnutChart = ({ used, total }) => {
 
 export default function DashboardCards() {
 
-  const loggedUser = useContext(LoggedUserContext);
+  const { loggedUser, updateUser } = useUser();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState();
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/user/dashboard/stats`,{
-      headers:{
-        Authorization:`Bearer ${token}`
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/user/dashboard/stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
       .then((response) => {
@@ -121,12 +121,12 @@ export default function DashboardCards() {
                 <BoltIcon className="h-8 w-8 text-emerald-600 mb-2 group-hover:animate-pulse" />
                 <h2 className="text-lg font-semibold text-emerald-900">Credits Overview</h2>
               </div>
-              <span className="text-xs opacity-80">Total Credits: {loggedUser?.subscription?.status=="active"?loggedUser?.subscription?.plan?.requests:0 || 0}</span>
+              <span className="text-xs opacity-80">Total Credits: {loggedUser?.subscription?.status == "active" ? loggedUser?.subscription?.plan?.requests : 0 || 0}</span>
             </div>
 
             {/* Main Chart Section */}
             {loggedUser?.subscription?.plan?.requests > 0 && (
-              <DoughnutChart used={loggedUser?.subscription?.status=="active"?loggedUser?.subscription?.sent_requests:0 || 0} total={loggedUser?.subscription?.status=="active"?loggedUser?.subscription?.plan?.requests:0 || 0} />
+              <DoughnutChart used={loggedUser?.subscription?.status == "active" ? loggedUser?.subscription?.sent_requests : 0 || 0} total={loggedUser?.subscription?.status == "active" ? loggedUser?.subscription?.plan?.requests : 0 || 0} />
             )}
 
           </Link>

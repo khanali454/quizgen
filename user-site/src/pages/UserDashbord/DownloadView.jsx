@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import HomeLoader from "../../components/HomeLoader";
 import * as clipboard from "clipboard-polyfill";
 import { FaCopy, FaFilePdf, FaFilePowerpoint, FaFileWord } from "react-icons/fa";
-import { LoggedUserContext } from "../../layouts/LoggedUserContext";
+import { useUser } from "../../layouts/LoggedUserContext";
 
 const DownloadView = () => {
   const [activeTab, setActiveTab] = useState("question");
@@ -14,7 +14,7 @@ const DownloadView = () => {
   const [language, setLanguage] = useState("English");
   let token = localStorage.getItem("token");
   const { id } = useParams();
-  const user = useContext(LoggedUserContext);
+  const {loggedUser,updateUser} = useUser();
   const [download_formats, setDownloadFormats] = useState([]);
 
   useEffect(() => {

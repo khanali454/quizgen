@@ -23,6 +23,7 @@ import EditUser from './pages/EditUser';
 import EditBlog from './pages/EditBlog';
 import Subscriptions from './pages/Subscriptions';
 import Invoices from './pages/Invoices';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 function App() {
   // for loading state
@@ -188,6 +189,15 @@ function App() {
           <GuestLayout>
             <PageTitle title="Forgot Password | Mcq AI Admin" />
             <ForgotPassword />
+          </GuestLayout>
+        }
+      />
+      <Route
+        path="/reset-password"
+        element={
+          <GuestLayout>
+            <PageTitle title="Reset Password | Mcq AI Admin" />
+            <ResetPassword />
           </GuestLayout>
         }
       />

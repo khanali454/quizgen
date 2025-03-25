@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import { SSE } from 'sse.js';
 import axios from 'axios';
-import { LoggedUserContext } from "../../layouts/LoggedUserContext";
+import { useUser } from "../../layouts/LoggedUserContext";
 import Processor from '../../components/Processor';
 import toast from 'react-hot-toast'
 import HomeLoader from "../../components/HomeLoader";
-import { createJsonAutocomplete } from "@bonniernews/json-autocomplete";
 import { jsonAutocomplete } from "@bonniernews/json-autocomplete";
 import * as clipboard from "clipboard-polyfill";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -38,9 +37,25 @@ export default function MultiStepQuizForm() {
 
   const [generated, setGenerated] = useState();
   const navigate = useNavigate();
-  const user = useContext(LoggedUserContext);
+  const { loggedUser, updateUser } = useUser();
+
+
+  // update user to update credits:-
+  const fetchUserAgain = () => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        updateUser(response?.data);
+      }).catch((error)=>{
+        console.log("error in updating user data :",error);
+      });
+  }
 
   useEffect(() => {
+
     if (id != null) {
       setLoading(true);
       axios.get(
@@ -65,6 +80,8 @@ export default function MultiStepQuizForm() {
     }
   }, [id])
 
+
+
   const handleDrop = (event) => {
     event.preventDefault();
     const newFile = event.dataTransfer.files[0];
@@ -78,7 +95,7 @@ export default function MultiStepQuizForm() {
     setChoosenFileId(null);
   };
 
-  let token = localStorage.getItem('token'); // logged in user token
+  let token = localStorage.getItem('token');
 
   const uploadFile = () => {
     if (choosen_file_id) {
@@ -156,7 +173,7 @@ export default function MultiStepQuizForm() {
   // generate questions
   const generatePaper = async () => {
 
-    if (!user?.subscription || user?.subscription?.status != "active") {
+    if (!loggedUser?.subscription || loggedUser?.subscription?.status != "active") {
       toast.error("You don't have an active subscription. Please subscribe a plan");
       navigate('/manage-subscription');
       return;
@@ -173,8 +190,8 @@ export default function MultiStepQuizForm() {
       language: language
     }
 
-    if (gen_data?.no_of_questions <= 0 || gen_data?.no_of_questions > user?.subscription?.plan?.mcq_per_request) {
-      toast.error(`Please enter a valid number of questions in the range: 1 to ${user?.subscription?.plan?.mcq_per_request}.`);
+    if (gen_data?.no_of_questions <= 0 || gen_data?.no_of_questions > loggedUser?.subscription?.plan?.mcq_per_request) {
+      toast.error(`Please enter a valid number of questions in the range: 1 to ${loggedUser?.subscription?.plan?.mcq_per_request}.`);
       return;
     }
     if (gen_data?.question_type == "") {
@@ -227,18 +244,20 @@ export default function MultiStepQuizForm() {
       let data = JSON.parse(e?.data);
       setDownloadFormats(data?.download_formats);
       setPaperId(data?.paper_id);
-      console.log("data on completed : ",data);
+      console.log("data on completed : ", data);
 
     });
     source.addEventListener('thread.run.completed', function (e) {
       // run completed
       setStreaming(false);
+      fetchUserAgain();
 
     });
     source.addEventListener('error', function (e) {
       setStep(2);
       setStreaming(false);
       setGenerating(false);
+      fetchUserAgain();
       toast.error(JSON.parse(e.data)?.msg);
     });
   }
@@ -247,7 +266,7 @@ export default function MultiStepQuizForm() {
 
 
   const downloadPaper = async (format) => {
-    if(!paper_id){
+    if (!paper_id) {
       toast.error("Error in downloading paper,Try again later");
     }
     try {
@@ -266,11 +285,11 @@ export default function MultiStepQuizForm() {
       link.remove();
     } catch (error) {
       console.error('Download error:', error);
-      if(error.status==404){
+      if (error.status == 404) {
         toast.error("Paper does not exists in our records, Try refreshing the page and request again");
-      }else if(error.status==403){
+      } else if (error.status == 403) {
         toast.error("You are not allowed to download paper in this format");
-      }else{
+      } else {
         toast.error("Error in downloading the paper");
       }
     }
@@ -342,7 +361,7 @@ export default function MultiStepQuizForm() {
                     ) : (<></>)}
                     <>
                       <p className="text-gray-700 font-medium">Drag & drop files or click to upload</p>
-                      <p className="text-sm text-gray-500 mt-1">Supported formats: {user?.subscription?.plan?.upload_formats?.toString()}</p>
+                      <p className="text-sm text-gray-500 mt-1">Supported formats: {loggedUser?.subscription?.plan?.upload_formats?.toString()}</p>
                       {uploading && (<div className="flex items-center justify-center text-gray-400 my-2"><Processor widthValue={4} heightValue={4} borderColorValue="primary" /> <span className="ml-2">Please wait</span> </div>)}
                     </>
 
@@ -370,7 +389,7 @@ export default function MultiStepQuizForm() {
                   onChange={(e) => setMcqCount(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   min="1"
-                  max={user?.subscription?.plan?.mcq_per_request || 50}
+                  max={loggedUser?.subscription?.plan?.mcq_per_request || 50}
                 />
               </div>
 
@@ -378,7 +397,7 @@ export default function MultiStepQuizForm() {
               <div className="space-y-4">
                 <label className="block text-gray-700 font-medium">Question Type</label>
                 <div className="flex gap-3 flex-wrap">
-                  {(user?.subscription?.plan?.mcq_types || ["True_False"]).map(type => (
+                  {(loggedUser?.subscription?.plan?.mcq_types || ["True_False"]).map(type => (
                     <OptionButton
                       key={type}
                       active={mcqType === type}
@@ -394,7 +413,7 @@ export default function MultiStepQuizForm() {
               <div className="space-y-4">
                 <label className="block text-gray-700 font-medium">Difficulty Level</label>
                 <div className="flex gap-3 flex-wrap">
-                  {(user?.subscription?.plan?.difficulty_levels || ["Easy"]).map(level => (
+                  {(loggedUser?.subscription?.plan?.difficulty_levels || ["Easy"]).map(level => (
                     <OptionButton
                       key={level}
                       active={difficulty === level}
@@ -411,7 +430,7 @@ export default function MultiStepQuizForm() {
               <div className="space-y-4">
                 <label className="block text-gray-700 font-medium">Language</label>
                 <div className="flex gap-3 flex-wrap">
-                  {(user?.subscription?.plan?.language_support || ["English"]).map(lang => (
+                  {(loggedUser?.subscription?.plan?.language_support || ["English"]).map(lang => (
                     <OptionButton
                       key={lang}
                       active={language === lang}
@@ -424,12 +443,12 @@ export default function MultiStepQuizForm() {
               </div>
 
               <div className="space-y-4">
-                <label className={`block ${user?.subscription?.plan?.specific_subject == 0 ? "text-gray-300" : "text-gray-700"} font-medium`}>Specific subject/topic {user?.subscription?.plan?.specific_subject == 0 ? (<span className="text-red-400 text-xs">(Upgrade Plan)</span>) : (<></>)}
+                <label className={`block ${loggedUser?.subscription?.plan?.specific_subject == 0 ? "text-gray-300" : "text-gray-700"} font-medium`}>Specific subject/topic {loggedUser?.subscription?.plan?.specific_subject == 0 ? (<span className="text-red-400 text-xs">(Upgrade Plan)</span>) : (<></>)}
                 </label>
                 <textarea
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  disabled={user?.subscription?.plan?.specific_subject == 0 ? true : false}
+                  disabled={loggedUser?.subscription?.plan?.specific_subject == 0 ? true : false}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg placeholder-gray-400"
                   placeholder="Topic focus prompt from the document"
                   rows="3"
@@ -496,12 +515,12 @@ export default function MultiStepQuizForm() {
                                   {mcq?.options?.map((option, index) => (
                                     <label
                                       dir={`${language == "Arabic" ? "rtl" : "ltr"}`}
-                                      key={"o"+index}
-                                      htmlFor={"q"+qindex+index}
+                                      key={"o" + index}
+                                      htmlFor={"q" + qindex + index}
                                       className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded cursor-pointer"
                                     >
                                       <input
-                                      id={`q${qindex}${index}`}
+                                        id={`q${qindex}${index}`}
                                         type="radio"
                                         name={`q${qindex}`}
                                         className="h-5 w-5 text-blue-600 border-gray-300"
@@ -517,7 +536,7 @@ export default function MultiStepQuizForm() {
                     ) : (
                       <div className="space-y-4">
                         {generated?.answers?.map((qans, aindex) => (
-                          <div key={"a"+aindex} className="bg-green-50 p-4 rounded-lg" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
+                          <div key={"a" + aindex} className="bg-green-50 p-4 rounded-lg" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
                             <p className="font-medium text-gray-800" dir={`${language == "Arabic" ? "rtl" : "ltr"}`}>
                               {aindex + 1}. {qans?.answer}
                             </p>
@@ -542,7 +561,7 @@ export default function MultiStepQuizForm() {
 
                   {/* PDF Download Button */}
                   <button
-                  onClick={()=>{downloadPaper('pdf')}}
+                    onClick={() => { downloadPaper('pdf') }}
                     disabled={generating || streaming || !download_formats?.includes('PDF')}
                     className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                   >
@@ -553,7 +572,7 @@ export default function MultiStepQuizForm() {
 
 
                   <button
-                  onClick={()=>{downloadPaper('ppt')}}
+                    onClick={() => { downloadPaper('ppt') }}
                     disabled={generating || streaming || !download_formats?.includes('PPTX')}
                     className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                   >
@@ -564,7 +583,7 @@ export default function MultiStepQuizForm() {
 
                   {/* DOCX Download Button */}
                   <button
-                  onClick={()=>{downloadPaper('docx')}}
+                    onClick={() => { downloadPaper('docx') }}
                     disabled={generating || streaming || !download_formats?.includes('DOCX')}
                     className="inline-flex items-center disabled:opacity-50 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                   >

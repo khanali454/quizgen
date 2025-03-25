@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { AlertCircle } from "lucide-react";
 import HomeLoader from "../../components/HomeLoader";
 import Processor from "../../components/Processor";
-import { LoggedUserContext } from "../../layouts/LoggedUserContext";
+import {useUser } from "../../layouts/LoggedUserContext";
 import { Link } from "react-router-dom";
 import toast from 'react-hot-toast'
 
@@ -12,7 +12,7 @@ const PlanManage = () => {
   const [monthlyPlans, setMonthlyPlans] = useState();
   const [yearlyPlans, setYearlyPlans] = useState();
 
-  const user = useContext(LoggedUserContext);
+  const {loggedUser,updateUser} = useUser();
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
 
@@ -136,7 +136,7 @@ const PlanManage = () => {
 
                     </div>
 
-                    {(plan?.id == user?.subscription?.plan?.id && user?.subscription?.status == "active") ? (
+                    {(plan?.id == loggedUser?.subscription?.plan?.id && loggedUser?.subscription?.status == "active") ? (
                       <button disabled
                         className="py-2.5 px-5 rounded-full font-semibold text-center w-fit mx-auto transition-all duration-300 bg-white text-gray-400 cursor-not-allowed hover:bg-gray-200"
                       >
