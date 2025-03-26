@@ -5,9 +5,10 @@ import Processor from "../../components/Processor";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useUser } from "../../layouts/LoggedUserContext";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Settings() {
-  const {loggedUser,updateUser} = useUser();
+  const { loggedUser, updateUser } = useUser();
   const [processingProfile, setProcessingProfile] = useState(false);
   const [processingPic, setProcessingPic] = useState(false);
   const [removing, setRemoving] = useState(false); // for profile removing process - state ...
@@ -15,6 +16,9 @@ export default function Settings() {
   const token = localStorage.getItem('token');
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [password_type, setPasswordType] = useState("password");
+  const [choosen_file, setChoosenFile] = useState(null);
+
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/user`, {
@@ -57,7 +61,7 @@ export default function Settings() {
       updateUser(updatedUser);
       setPassword('');
     } catch (error) {
-      console.log("error :",error);
+      console.log("error :", error);
       toast.error(error.response?.data?.msg || 'Failed to update profile');
     } finally {
       setProcessingProfile(false);
@@ -91,9 +95,9 @@ export default function Settings() {
       );
 
       toast.success(response.data.msg);
-      updateUser({ ...user, profile_picture: response.data.profile_picture });
+      updateUser({ ...loggedUser, profile_picture: response.data.profile_picture });
     } catch (error) {
-      console.log("error : ",error);
+      console.log("error : ", error);
       toast.error(error.response?.data?.msg || 'Failed to update profile picture');
     } finally {
       setProcessingPic(false);
@@ -170,12 +174,26 @@ export default function Settings() {
                 {/* password field */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter password to update"
-                    className="w-full p-2 mt-1 border border-gray-300 rounded-md"
-                  />
+                  <div className="relative border rounded-md border-gray-400 mt-1">
+                    <input
+                      type={password_type}
+                      id="password"
+                      name="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="block w-full rounded-md outline-none py-2 px-3 pr-12 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
+                      placeholder="············"
+                    />
+                    <button type="button" className="absolute rounded-tr-md rounded-br-md top-0 right-0 h-full px-3 bg-blue-50"
+                      onClick={() => {
+                        password_type == "password" ? setPasswordType("text") : setPasswordType("password")
+                      }}>
+                      {password_type == "password" ? (
+                        <EyeOff className="w-[20px] h-[20px] text-gray-500" />
+                      ) : (
+                        <Eye className="w-[20px] h-[20px] text-gray-500" />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {/* address field */}
                 <div>
@@ -241,9 +259,10 @@ export default function Settings() {
                       <input
                         type="file"
                         accept="image/*"
+                        onChange={(e) => { setChoosenFile(e.target.files[0]) }}
                         className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                       />
-                      <div className="flex flex-col items-center justify-center space-y-3">
+                      <div className="flex flex-col items-center justify-center space-y-3 h-[240px] relative overflow-hidden">
                         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                           <svg
                             width="16"
@@ -272,11 +291,19 @@ export default function Settings() {
                             />
                           </svg>
                         </span>
-                        <p>
-                          <span className="text-primary">Click to upload</span>
-                        </p>
-                        <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                        <p>(max 2MB, preferred 100 X 100px)</p>
+
+                        {!choosen_file ? (<>
+                          <p>
+                            <span className="text-primary">Click to upload</span>
+                          </p>
+                          <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
+                          <p>(max 2MB, preferred 100 X 100px)</p>
+                        </>) : (
+                          <div className="w-full h-auto absolute top-0 left-0">
+                            <img className="object-cover w-full h-auto" src={URL.createObjectURL(choosen_file)} />
+                          </div>
+                        )}
+
                       </div>
                     </div>
 

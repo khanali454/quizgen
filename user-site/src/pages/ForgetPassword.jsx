@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import Processor from '../components/Processor';
+import {GeneralInfoContext} from '../layouts/GeneralInfoContext';
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [processing, setProcessing] = useState(false);
 
+   // general settings 
+   const general_info = useContext(GeneralInfoContext);
   // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -105,7 +108,7 @@ const ForgetPassword = () => {
                 />
               </svg>
               <h1 className="text-indigo-500 text-3xl font-black lowercase">
-                Sowlf Ai
+              {general_info?.website_name||"Tutor Sowlf"}
               </h1>
             </div>
 

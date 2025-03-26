@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import Processor from '../components/Processor';
+import { Eye, EyeOff } from "lucide-react";
+import {GeneralInfoContext} from '../layouts/GeneralInfoContext';
 
 const LoginPage = () => {
   const navigate = useNavigate(); // for page navigations
   const [email, setEmail] = useState(); // email state
   const [password, setPassword] = useState(); // password sate
   const [processing, setProcessing] = useState(false); // processing - login processing
+  const [password_type, setPasswordType] = useState("password");
+
+  // general settings 
+  const general_info = useContext(GeneralInfoContext);
+  
 
   // check if user is logged in then redirect to dashboard
   useEffect(() => {
@@ -39,7 +46,7 @@ const LoginPage = () => {
           if (response?.data?.status) {
             if (response?.data?.action == "redirect") {
               // verify email otp
-              navigate(`/verify-email`,{state:{email:email}});
+              navigate(`/verify-email`, { state: { email: email } });
             } else {
               localStorage.setItem("token", response?.data?.token);
               navigate('/dashboard');
@@ -82,11 +89,11 @@ const LoginPage = () => {
           <div className="flex-auto p-6">
             {/* Logo */}
             <div className="mb-10 flex items-center justify-center">
-              <a href="#" className="flex items-center gap-2 text-indigo-500 text-3xl font-black lowercase">
-                Sowlf Ai.
+              <a href="" className="flex items-center gap-2 text-indigo-500 text-3xl font-black capitilize">
+              {general_info?.website_name||"Tutor Sowlf"}
               </a>
             </div>
-            <h4 className="mb-2 font-medium text-gray-700 text-xl">Welcome to Sowlf Ai!</h4>
+            <h4 className="mb-2 font-medium text-gray-700 text-xl capitilize">Welcome to {general_info?.website_name||"Tutor Sowlf"}</h4>
             <p className="mb-6 text-gray-500">Please sign in to access your account</p>
 
             {/* login form */}
@@ -115,14 +122,26 @@ const LoginPage = () => {
                     Forgot Password?
                   </Link>
                 </div>
-                <input
-                  type="password"
-                  id="password"
-                  onKeyDown={handleKeyDown}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md border border-gray-400 py-2 px-3 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
-                  placeholder="············"
-                />
+                <div className="relative border rounded-md border-gray-400">
+                  <input
+                    type={password_type}
+                    id="password"
+                    onKeyDown={handleKeyDown}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="block w-full rounded-md outline-none py-2 px-3 pr-12 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
+                    placeholder="············"
+                  />
+                  <button className="absolute rounded-tr-md rounded-br-md top-0 right-0 h-full px-3 bg-blue-50"
+                    onClick={() => {
+                      password_type == "password" ? setPasswordType("text") : setPasswordType("password")
+                    }}>
+                    {password_type == "password" ? (
+                      <EyeOff className="w-[20px] h-[20px] text-gray-500"/>
+                    ) : (
+                      <Eye className="w-[20px] h-[20px] text-gray-500" />
+                    )}
+                  </button>
+                </div>
               </div>
 
 

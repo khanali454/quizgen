@@ -24,7 +24,7 @@ export default function MultiStepQuizForm() {
   const [choosen_file_name, setChoosenFileName] = useState(null);
   const [mcqCount, setMcqCount] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
-  const [mcqType, setMcqType] = useState("");
+  const [mcqType, setMcqType] = useState("True_False");
   const [topic, setTopic] = useState("");
   const [language, setLanguage] = useState("English"); // choosen language
   const [activeTab, setActiveTab] = useState("questions"); // active tab - questions or answers
@@ -32,7 +32,7 @@ export default function MultiStepQuizForm() {
   const [streaming, setStreaming] = useState(false); // generate started and now streaming
 
   const [download_formats, setDownloadFormats] = useState();
-  const [paper_id, setPaperId] = useState();
+  const [paper_id, setPaperId] = useState(null);
 
 
   const [generated, setGenerated] = useState();
@@ -190,8 +190,8 @@ export default function MultiStepQuizForm() {
       language: language
     }
 
-    if (gen_data?.no_of_questions <= 0 || gen_data?.no_of_questions > loggedUser?.subscription?.plan?.mcq_per_request) {
-      toast.error(`Please enter a valid number of questions in the range: 1 to ${loggedUser?.subscription?.plan?.mcq_per_request}.`);
+    if (gen_data?.no_of_questions <= 2 || gen_data?.no_of_questions > loggedUser?.subscription?.plan?.mcq_per_request) {
+      toast.error(`Please enter a valid number of questions in the range: 3 to ${loggedUser?.subscription?.plan?.mcq_per_request}.`);
       return;
     }
     if (gen_data?.question_type == "") {
@@ -558,14 +558,17 @@ export default function MultiStepQuizForm() {
                 </button>
                 <div className="flex gap-3 items-center overflow-x-auto">
 
-                  <Link
-                  to={`/mcqs/${paper_id}`}
-                  disabled={!paper_id}
-                    className="inline-flex text-nowrap items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
-                  >
-                    <FaCheck className="w-4 h-4 mr-2" />
-                    Online Test
-                  </Link>
+
+          
+                   <button
+                   disabled={!paper_id}
+                   onClick={()=>{navigate(`/mcqs/${paper_id}`);}}
+                     className="inline-flex text-sm text-nowrap items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                   >
+                     <FaCheck className="w-4 h-4 mr-2" />
+                     Online Test
+                   </button>
+                 
 
                   {/* PDF Download Button */}
                   <button

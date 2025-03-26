@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css"; // Import default styles
 import toast from "react-hot-toast";
 import axios from "axios";
 import Processor from "../components/Processor";
+import { GeneralInfoContext } from '../layouts/GeneralInfoContext';
+import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
-  const {plan_id} = useParams();
+  const { plan_id } = useParams();
   const navigate = useNavigate(); // For navigation
   const [name, setName] = useState(""); // Name state
   const [email, setEmail] = useState(""); // Email state
@@ -16,6 +18,10 @@ const Register = () => {
   const [processing, setProcessing] = useState(false); // Processing state
   const [loading, setLoading] = useState(false); // Loading state
   const [plan, setPlan] = useState(false); // Loading state
+
+  const [password_type, setPasswordType] = useState("password");
+  // general settings 
+  const general_info = useContext(GeneralInfoContext);
 
   // Check if user is logged in, then redirect to dashboard
   useEffect(() => {
@@ -74,9 +80,11 @@ const Register = () => {
         <div className="relative flex flex-col sm:w-[30rem] rounded-lg border-gray-400 bg-white shadow-lg px-4">
           <div className="flex-auto p-6">
             <div className="mb-10 flex items-center justify-center">
-              <a href="#" className="text-indigo-500 text-3xl font-black">Sowlf Ai.</a>
+              <a href="" className="text-indigo-500 text-3xl font-black">
+                {general_info?.website_name || "Tutor Sowlf"}
+              </a>
             </div>
-            <h4 className="mb-2 font-medium text-gray-700 xl:text-xl">Welcome to Sowlf Ai!</h4>
+            <h4 className="mb-2 font-medium text-gray-700 xl:text-xl">Welcome to  {general_info?.website_name || "Tutor Sowlf"}</h4>
             <p className="mb-6 text-gray-500">Please sign-up to create your account</p>
 
             <form className="mb-4">
@@ -121,13 +129,28 @@ const Register = () => {
               {/* Password Input */}
               <div className="mb-4">
                 <label className="mb-2 block text-xs font-medium uppercase text-gray-700">Password</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md border border-gray-400 py-2 px-3 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                  placeholder="Enter your password"
-                />
+
+                <div className="relative border rounded-md border-gray-400">
+                  <input
+                    type={password_type}
+                    id="password"
+                    name="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="block w-full rounded-md outline-none py-2 px-3 pr-12 text-sm focus:border-indigo-500 focus:bg-white focus:shadow"
+                    placeholder="············"
+                  />
+                  <button type="button" className="absolute rounded-tr-md rounded-br-md top-0 right-0 h-full px-3 bg-blue-50"
+                    onClick={() => {
+                      password_type == "password" ? setPasswordType("text") : setPasswordType("password")
+                    }}>
+                    {password_type == "password" ? (
+                      <EyeOff className="w-[20px] h-[20px] text-gray-500" />
+                    ) : (
+                      <Eye className="w-[20px] h-[20px] text-gray-500" />
+                    )}
+                  </button>
+                </div>
+
               </div>
 
               {/* Submit Button */}
