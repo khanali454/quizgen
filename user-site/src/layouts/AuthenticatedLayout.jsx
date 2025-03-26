@@ -66,7 +66,7 @@ const AuthenticatedLayout = () => {
           <LoggedUserContext.Provider value={{loggedUser,updateUser}}>
             <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
               <SidebarWithBurgerMenu />
-              <div className="h-[calc(100vh-56px)] relative w-full mt-14 p-4 overflow-y-auto">
+              <div className="h-[calc(100vh-56px)] relative w-full mt-14 py-4 px-2 overflow-y-auto">
                 <Outlet />
               </div>
               {/* for toast messages */}

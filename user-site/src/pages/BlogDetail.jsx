@@ -46,25 +46,27 @@ const BlogDetail = () => {
       {/* Blog Cover Image */}
       <div className="mb-8">
         <img
-          src={blog.feature_image}
-          alt={blog.title}
+          src={blog?.feature_image}
+          alt={blog?.title}
           className="w-full rounded-xl shadow-lg"
         />
       </div>
 
       {/* Blog Title */}
-      <h1 className="text-4xl font-bold text-gray-900 mb-4">{blog.title}</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">{blog?.title}</h1>
 
       {/* Author & Date */}
       <div className="flex items-center space-x-4 mb-6">
         <div className="flex items-center space-x-2">
+          <div className="w-[50px] h-[50px] overflow-hidden rounded-full border border-gray-100">
           <img
-            src="https://i.pravatar.cc/40"
-            alt={blog.author.name}
-            className="w-10 h-10 rounded-full"
+            src={blog?.author?.profile_picture}
+            alt={blog?.author?.name}
+            className="w-full h-full object-cover rounded-full"
           />
+          </div>
           <span className="text-lg font-medium text-gray-700">
-            {blog.author.name}
+            {blog?.author?.name}
           </span>
         </div>
         <span className="text-gray-500 text-sm">

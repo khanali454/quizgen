@@ -135,15 +135,15 @@ export default function Invoices() {
     }
 
     return (
-        <div className="p-6 w-full">
-            <div className="bg-white rounded-2xl shadow-lg p-6">
+        <div className="py-6 w-full">
+            <div className="bg-white rounded-2xl shadow-lg p-2">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Transaction History</h2>
 
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-t-lg">
                             <tr>
-                                <th className="px-4 py-3 text-left rounded-tl-lg">Payment ID</th>
+                                <th className="px-4 py-3 text-left rounded-tl-lg text-nowrap">Payment ID</th>
                                 <th className="px-4 py-3 text-left">Amount</th>
                                 <th className="px-4 py-3 text-left">Plan</th>
                                 <th className="px-4 py-3 text-left">Status</th>

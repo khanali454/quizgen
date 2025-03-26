@@ -299,12 +299,12 @@ export default function MultiStepQuizForm() {
 
   // Custom Components for Better Reusability
   const StepIndicator = ({ number, active, label }) => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 mx-2">
       <div className={`w-8 h-8 rounded-full flex items-center justify-center 
         ${active ? "bg-blue-600 text-white" : "bg-gray-100 border-2 border-gray-300"}`}>
         {number}
       </div>
-      <span className={`text-sm font-medium ${active ? "text-blue-600" : "text-gray-500"}`}>
+      <span className={`text-sm text-nowrap font-medium ${active ? "text-blue-600" : "text-gray-500"}`}>
         {label}
       </span>
     </div>
@@ -325,12 +325,11 @@ export default function MultiStepQuizForm() {
   return (
     <>
       {loading ? (<><HomeLoader /></>) : (<>
-        <div className="w-full p-8 bg-white rounded-xl shadow-lg">
+        <div className="w-full py-8 px-2 bg-white rounded-xl shadow-lg">
           {/* Header Section */}
 
-
           {/* Progress Steps */}
-          <div className="flex justify-between mb-10 px-4">
+          <div className="flex justify-between mb-10 overflow-x-auto py-4">
             <StepIndicator number={1} active={step === 1} label="Upload Document" />
             <StepIndicator number={2} active={step === 2} label="Configure Quiz" />
             <StepIndicator number={3} active={step === 3} label="Review & Export" />
@@ -461,13 +460,13 @@ export default function MultiStepQuizForm() {
               <div className="flex justify-between pt-6">
                 <button
                   onClick={() => setStep(1)}
-                  className="px-6 py-2 text-gray-600 hover:text-blue-600 font-medium transition-colors"
+                  className="px-6 py-2 text-gray-600 text-nowrap hover:text-blue-600 font-medium transition-colors"
                 >
                   ← Back
                 </button>
                 <button
                   onClick={() => { generatePaper() }}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2 text-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Generate Questions →
                 </button>
@@ -553,16 +552,16 @@ export default function MultiStepQuizForm() {
                 <button
                   disabled={generating}
                   onClick={() => setStep(2)}
-                  className="px-6 py-2 text-gray-600 hover:text-blue-600 font-medium transition-colors"
+                  className="px-6 py-2 text-nowrap text-gray-600 hover:text-blue-600 font-medium transition-colors"
                 >
                   ← Back
                 </button>
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-center overflow-x-auto">
 
                   <Link
                   to={`/mcqs/${paper_id}`}
                   disabled={!paper_id}
-                    className="inline-flex items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                    className="inline-flex text-nowrap items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
                   >
                     <FaCheck className="w-4 h-4 mr-2" />
                     Online Test

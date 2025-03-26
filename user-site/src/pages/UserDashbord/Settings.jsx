@@ -111,7 +111,7 @@ export default function Settings() {
     }).then((response) => {
       if (response?.data?.status) {
         toast.success(response?.data?.msg);
-        updateUser({ ...user, profile_picture: null });
+        updateUser({ ...loggedUser, profile_picture: null });
       } else {
         toast.error(response?.data?.msg);
       }
@@ -125,7 +125,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-fit mt-5 flex justify-center px-4">
+    <div className="min-h-fit mt-5 flex justify-center px-2">
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {loading ? (
           <HomeLoader />
