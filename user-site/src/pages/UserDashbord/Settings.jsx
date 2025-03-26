@@ -53,10 +53,11 @@ export default function Settings() {
       );
 
       toast.success(response.data.msg);
-      const updatedUser = { ...user, ...response.data.user };
-      updateUser(updateUser);
+      const updatedUser = { ...loggedUser, ...response.data.user };
+      updateUser(updatedUser);
       setPassword('');
     } catch (error) {
+      console.log("error :",error);
       toast.error(error.response?.data?.msg || 'Failed to update profile');
     } finally {
       setProcessingProfile(false);
@@ -140,9 +141,8 @@ export default function Settings() {
                   <input
                     type="text"
                     name="name"
-                    value={loggedUser?.name}
+                    defaultValue={loggedUser?.name}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
-
                   />
                 </div>
                 {/* phone number field */}
@@ -151,7 +151,7 @@ export default function Settings() {
                   <input
                     type="text"
                     name="phone_number"
-                    value={loggedUser?.phone_number}
+                    defaultValue={loggedUser?.phone_number}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
 
                   />
@@ -162,7 +162,7 @@ export default function Settings() {
                   <input
                     type="email"
                     name="email"
-                    value={loggedUser?.email}
+                    defaultValue={loggedUser?.email}
                     className="w-full p-2 mt-1 border border-gray-300 rounded-md bg-gray-100"
 
                   />

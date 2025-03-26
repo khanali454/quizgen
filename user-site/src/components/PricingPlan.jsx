@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { AlertCircle } from "lucide-react";
 
 const PricingPlan = ({ monthlyPlans, yearlyPlans, setMonthlyPlans, setYearlyPlans }) => {
-  const [activeTab, setActiveTab] = useState("monthly");
+  const [activeTab, setActiveTab] = useState("yearly");
 
 
 
@@ -56,7 +56,7 @@ const PricingPlan = ({ monthlyPlans, yearlyPlans, setMonthlyPlans, setYearlyPlan
                     {plan.PlanFeatures.split("|").map((feature, index) => (
                       <li key={index} className="flex items-center space-x-3">
                         <svg
-                          className="w-5 h-5 text-green-500"
+                          className="w-5 h-5 text-white"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { SSE } from 'sse.js';
 import axios from 'axios';
 import { useUser } from "../../layouts/LoggedUserContext";
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import HomeLoader from "../../components/HomeLoader";
 import { jsonAutocomplete } from "@bonniernews/json-autocomplete";
 import * as clipboard from "clipboard-polyfill";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaCheck, FaExclamationCircle } from "react-icons/fa";
 import { FaCopy, FaFilePdf, FaFilePowerpoint, FaFileWord } from "react-icons/fa";
 
 
@@ -49,8 +49,8 @@ export default function MultiStepQuizForm() {
     })
       .then((response) => {
         updateUser(response?.data);
-      }).catch((error)=>{
-        console.log("error in updating user data :",error);
+      }).catch((error) => {
+        console.log("error in updating user data :", error);
       });
   }
 
@@ -558,6 +558,15 @@ export default function MultiStepQuizForm() {
                   ← Back
                 </button>
                 <div className="flex gap-3">
+
+                  <Link
+                  to={`/mcqs/${paper_id}`}
+                  disabled={!paper_id}
+                    className="inline-flex items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                  >
+                    <FaCheck className="w-4 h-4 mr-2" />
+                    Online Test
+                  </Link>
 
                   {/* PDF Download Button */}
                   <button

@@ -13,13 +13,13 @@ import {
   DocumentIcon,
   DocumentDuplicateIcon,
   CurrencyDollarIcon,
-  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightCircleIcon, LogOutIcon, ReceiptIcon } from "lucide-react";
 import axios from "axios";
 import { useUser } from "../layouts/LoggedUserContext";
 import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
 import { FaFileInvoice, FaFileInvoiceDollar } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 
 export function SidebarWithBurgerMenu() {

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { GeneralInfoContext } from '../layouts/GeneralInfoContext';
+import { useTranslation } from "react-i18next";
 
 // Navbar for guest User
 const Navbar = () => {
@@ -10,10 +11,14 @@ const Navbar = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const generalInfo = useContext(GeneralInfoContext);
 
+// multi lingual handling
+  const [t, i18n] = useTranslation("global");
+  // handle language change
   const handleLanguageChange = (language) => {
+    i18n.changeLanguage(language);
     setSelectedLanguage(language);
     setIsLanguageMenuOpen(false);
-  };
+  }
 
 
   let token = localStorage.getItem('token');
@@ -32,7 +37,7 @@ const Navbar = () => {
               />) : (
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white mr-3">
                   {generalInfo?.website_name ? generalInfo?.website_name : "Sowlf Ai"}
-                </span> 
+                </span>
               )}
             </a>
 
@@ -64,14 +69,14 @@ const Navbar = () => {
               {isLanguageMenuOpen && (
                 <div className="absolute left-0 mt-2 w-40 bg-white rounded-lg shadow-md py-2 dark:bg-gray-700">
                   <button
-                    onClick={() => handleLanguageChange("English")}
+                    onClick={() => handleLanguageChange("en")}
                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full dark:text-gray-200 dark:hover:bg-gray-600"
                   >
                     <span className="mr-2">🇺🇸</span>
                     English
                   </button>
                   <button
-                    onClick={() => handleLanguageChange("Arabic")}
+                    onClick={() => handleLanguageChange("ar")}
                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full dark:text-gray-200 dark:hover:bg-gray-600"
                   >
                     <span className="mr-2">🇸🇦</span>
@@ -90,7 +95,7 @@ const Navbar = () => {
                 to="/dashboard"
                 className="text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
               >
-                Dashboard
+                {t('Dashboard')}
               </Link>
             ) : (
               <>
@@ -98,23 +103,20 @@ const Navbar = () => {
                   to="/login"
                   className="hidden md:block text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2  lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
                 >
-                  Log in
+                  {t('Log In')}
                 </Link>
 
                 <Link
                   to="/register"
                   className="text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
                 >
-                  Get started
+                  {t('Get started')}
                 </Link>
               </>
             )}
 
 
             {/* when user is logged in */}
-
-
-
 
 
             <button
@@ -160,11 +162,10 @@ const Navbar = () => {
           >
             <ul className="flex flex-col text-white mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               {[
-                { name: "Home", path: "/" },
-                { name: "Company", path: "/About-Us" },
-                { name: "Blogs", path: "/blogs" },
-                // { name: "Features", path: "/features" },
-                { name: "Contact", path: "/contact" },
+                { name: t("Home"), path: "/" },
+                { name: t("Company"), path: "/About-Us" },
+                { name: t("Blogs"), path: "/blogs" },
+                { name: t("Contact"), path: "/contact" },
               ].map((item, index) => (
                 <li key={index}>
                   <Link

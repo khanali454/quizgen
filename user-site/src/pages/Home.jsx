@@ -7,11 +7,17 @@ import ReviewSection from "../components/ReviewSection";
 import BlogsSection from "../components/BlogsSection";
 import HomeLoader from '../components/HomeLoader';
 import axios from 'axios';
+// for translations - 
+import { useTranslation } from 'react-i18next';
+
 function Home() {
     const [loading, setLoading] = useState(true);
     const [recent_blogs, setRecentBlogs] = useState([]);
     const [monthlyPlans, setMonthlyPlans] = useState([]);
     const [yearlyPlans, setYearlyPlans] = useState([]);
+
+    // transaltion
+    const { t } = useTranslation("global");
   
   
     useEffect(() => {
