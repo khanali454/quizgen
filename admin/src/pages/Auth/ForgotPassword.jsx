@@ -29,7 +29,7 @@ export default function ForgotPassword() {
                 .then((response) => {
                     if (response?.data?.status) {
                         toast.success("Password reset link sent to your email!");
-                        navigate('/login');
+                        navigate('/');
                     } else {
                         toast.error(response?.data?.msg || "Failed to send reset link");
                     }
@@ -123,7 +123,7 @@ export default function ForgotPassword() {
                     <p className="text-center text-sm mt-6 text-gray-600 dark:text-gray-300">
                         Remember your password?{" "}
                         <Link 
-                            to="/login" 
+                            to="/" 
                             className="text-primary hover:text-primary-dark font-medium"
                         >
                             Return to Login
