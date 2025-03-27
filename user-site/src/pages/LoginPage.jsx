@@ -156,7 +156,7 @@ const LoginPage = () => {
             </div>
 
             <p className="text-center">
-              New to  MCQ AI?
+              New to  {general_info?.website_name||"Tutor Sowlf"}?
               <Link to="/register" className="text-indigo-500 hover:text-indigo-600">Create an account</Link>
             </p>
           </div>

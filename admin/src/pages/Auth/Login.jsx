@@ -76,7 +76,7 @@ function Login() {
                 <div className="hidden w-full xl:block xl:w-1/2">
                     <div className="py-17.5 px-26 text-center">
                         <Link className="mb-5.5 inline-block" to="/">
-                            <b className="text-bold text-black text-xl">Quizgen AI</b>
+                            <b className="text-bold text-black text-xl">Tutor Sowlf</b>
                         </Link>
                         <p className="2xl:px-20">
                             An AI platform for generating papers efficiently

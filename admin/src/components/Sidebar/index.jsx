@@ -63,7 +63,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
           {/* <img src={Logo} alt="Logo" /> */}
-          <b className="text-bold text-white text-xl">GenQuizz</b>
+          <b className="text-bold text-white text-xl">Tutor Sowlf</b>
         </NavLink>
 
         <button

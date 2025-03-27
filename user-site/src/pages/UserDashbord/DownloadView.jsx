@@ -6,8 +6,12 @@ import HomeLoader from "../../components/HomeLoader";
 import * as clipboard from "clipboard-polyfill";
 import { FaCopy, FaFilePdf, FaFilePowerpoint, FaFileWord, FaRedo, FaCheck, FaTrophy, FaAward, FaMedal } from "react-icons/fa";
 import { useUser } from "../../layouts/LoggedUserContext";
+import { useTranslation } from "react-i18next";
+
 
 const DownloadView = () => {
+    const [t, i18n] = useTranslation("global");
+  
   const [activeTab, setActiveTab] = useState("question");
   const [loading, setLoading] = useState(true);
   const [mcqs, setMcqs] = useState({ questions: [], answers: [] });
@@ -78,7 +82,7 @@ const DownloadView = () => {
 
   const handleAttemptOnline = () => {
     if (!checkAllAttempted()) {
-      toast.error("Please attempt all questions before submitting!");
+      toast.error(t("Please attempt all questions before submitting!"));
       return;
     }
 
@@ -166,11 +170,11 @@ const DownloadView = () => {
     } catch (error) {
       console.error('Download error:', error);
       if (error.status === 404) {
-        toast.error("Paper does not exist in our records. Try refreshing the page and request again");
+        toast.error(t("Paper does not exist in our records. Try refreshing the page and request again"));
       } else if (error.status === 403) {
-        toast.error("You are not allowed to download paper in this format");
+        toast.error(t("You are not allowed to download paper in this format"));
       } else {
-        toast.error("Error in downloading the paper");
+        toast.error(t("Error in downloading the paper"));
       }
     }
   };
@@ -191,7 +195,7 @@ const DownloadView = () => {
       textToCopy += `Answer: ${mcqs?.answers[index]?.answer}\n\n`;
     });
     clipboard.writeText(textToCopy).then(
-      () => { toast.success("Copied to clipboard successfully") },
+      () => { toast.success(t("Copied to clipboard successfully")) },
       () => { console.log("Copy to clipboard failed"); }
     );
   };
@@ -203,30 +207,30 @@ const DownloadView = () => {
     let PerformanceIcon = FaTrophy;
 
     if (score.percentage >= 90) {
-      performanceText = "Outstanding!";
+      performanceText = t("Outstanding!");
       performanceColor = "text-purple-600";
       PerformanceIcon = FaTrophy;
     } else if (score.percentage >= 75) {
-      performanceText = "Excellent!";
+      performanceText = t("Excellent!");
       performanceColor = "text-green-600";
       PerformanceIcon = FaAward;
     } else if (score.percentage >= 60) {
-      performanceText = "Good Job!";
+      performanceText = t("Good Job!");
       performanceColor = "text-blue-600";
       PerformanceIcon = FaMedal;
     } else if (score.percentage >= 40) {
-      performanceText = "Keep Practicing!";
+      performanceText = t("Keep Practicing!");
       performanceColor = "text-yellow-600";
     } else {
-      performanceText = "Needs Improvement";
+      performanceText = t("Needs Improvement");
       performanceColor = "text-red-600";
     }
 
     return (
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 backgroud-[rgba(0,0,0,0.5)]">
+      <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{background:"rgba(0,0,0,0.5)"}}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold mb-2">Quiz Results</h2>
+            <h2 className="text-3xl font-bold mb-2">{t("Quiz Results")}</h2>
             <div className={`flex items-center justify-center ${performanceColor}`}>
               <PerformanceIcon className="w-8 h-8 mr-2" />
               <span className="text-2xl font-bold">{performanceText}</span>
@@ -235,29 +239,29 @@ const DownloadView = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-lg text-center mb-3">Summary</h3>
+              <h3 className="font-semibold text-lg text-center mb-3">{t("Summary")}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span>Total Questions:</span>
+                  <span>{t("Total Questions")}:</span>
                   <span className="font-medium">{score.total}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Correct Answers:</span>
+                  <span>{t("Correct Answers")}:</span>
                   <span className="font-medium text-green-600">{score.correct}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Incorrect Answers:</span>
+                  <span>{t("Incorrect Answers")}:</span>
                   <span className="font-medium text-red-600">{score.total - score.correct}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Percentage:</span>
+                  <span>{t("Percentage")}:</span>
                   <span className="font-medium">{score.percentage}%</span>
                 </div>
               </div>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-lg text-center mb-3">Performance</h3>
+              <h3 className="font-semibold text-lg text-center mb-3">{t("Performance")}</h3>
               <div className="w-full bg-gray-200 rounded-full h-4">
                 <div
                   className="bg-gradient-to-r from-blue-500 to-purple-500 h-4 rounded-full"
@@ -273,7 +277,7 @@ const DownloadView = () => {
           </div>
 
           <div className="mb-6">
-            <h3 className="font-semibold text-lg mb-3">Question Review</h3>
+            <h3 className="font-semibold text-lg mb-3">{t("Question Review")}</h3>
             <div className="space-y-4">
               {userAnswers.map((answer, index) => (
                 <div
@@ -282,15 +286,15 @@ const DownloadView = () => {
                 >
                   <p className="font-medium mb-1">Q{index + 1}: {answer.question}</p>
                   <p className={answer.isCorrect ? 'text-green-600' : 'text-red-600'}>
-                    Your answer: {answer.userAnswer || "Not answered"}
+                    {t("Your answer")}: {answer.userAnswer || "Not answered"}
                   </p>
                   {!answer.isCorrect && (
-                    <p className="text-green-600">Correct answer: {answer.correctAnswer}</p>
+                    <p className="text-green-600">{t("Correct answer")}: {answer.correctAnswer}</p>
                   )}
                   {paper_type !== "Fill_in_the_Blanks" && (
                     <div className="text-xs text-gray-500 mt-1">
-                      (You selected option {answer.userAnswerIndex + 1},
-                      correct was option {answer.correctAnswerIndex + 1})
+                      ({t("You selected option")} {answer.userAnswerIndex + 1},
+                      {t("correct was option")} {answer.correctAnswerIndex + 1})
                     </div>
                   )}
                 </div>
@@ -303,7 +307,7 @@ const DownloadView = () => {
               onClick={onClose}
               className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-600 transition-colors"
             >
-              Close Results
+              {t("Close Results")}
             </button>
           </div>
         </div>
@@ -328,13 +332,13 @@ const DownloadView = () => {
           className={`px-4 py-2 font-medium ${activeTab === "question" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-500 hover:text-gray-700"}`}
           onClick={() => setActiveTab("question")}
         >
-          Question
+          {t("Questions")}
         </button>
         <button
           className={`px-4 py-2 font-medium ${activeTab === "answer" ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-500 hover:text-gray-700"}`}
           onClick={() => setActiveTab("answer")}
         >
-          Answer
+          {t("Answers")}
         </button>
       </div>
 
@@ -354,7 +358,7 @@ const DownloadView = () => {
                     <ul className="mt-3 space-y-2">
                       {paper_type === "Fill_in_the_Blanks" ? (
                         <li>
-                          <label htmlFor={`fill-${qindex}`} className="text-gray-400">Answer:</label>
+                          <label htmlFor={`fill-${qindex}`} className="text-gray-400">{t("Answer")}:</label>
                           <input 
                             type="text" 
                             id={`fill-${qindex}`}
@@ -411,7 +415,7 @@ const DownloadView = () => {
                 className="inline-flex items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
               >
                 <FaCheck className="w-4 h-4 mr-2" />
-                Online Test
+                {t("Online Test")}
               </button>
 
               {/* Reset Button */}
@@ -421,7 +425,7 @@ const DownloadView = () => {
                 className="inline-flex items-center disabled:opacity-50 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
               >
                 <FaRedo className="w-4 h-4 mr-2" />
-                Reset
+                {t("Reset")}
               </button>
             </>
           ) : (
@@ -432,7 +436,7 @@ const DownloadView = () => {
                 className="inline-flex items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
               >
                 <FaCheck className="w-4 h-4 mr-2" />
-                Online Test
+                {t("Online Test")}
               </button>
 
               {/* Reset Button */}
@@ -441,7 +445,7 @@ const DownloadView = () => {
                 className="inline-flex items-center disabled:opacity-50 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
               >
                 <FaRedo className="w-4 h-4 mr-2" />
-                Reset
+                {t("Reset")}
               </button>
             </>
           )}

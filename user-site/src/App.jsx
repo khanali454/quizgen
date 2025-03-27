@@ -59,7 +59,7 @@ function App() {
           } />
           <Route path="/mcqs" element={
             <>
-              <PageTitle title={"Generated MCQs"} />
+              <PageTitle title={"Quizzes"} />
               <GenratedMcqs />
             </>
           } />
@@ -77,7 +77,7 @@ function App() {
           } />
           <Route path="/transactions" element={
             <>
-              <PageTitle title={"All Transaction"} />
+              <PageTitle title={"All Transactions"} />
               <Invoices />
             </>
           } />
@@ -113,17 +113,71 @@ function App() {
           <Route path="/reset-password" element={
             <><PageTitle title={"Reset Password"} /><ResetPassword /></>
           } />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/verify-email" element={<EmailVerify />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/blogs" element={<AllBlogs />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-conditions" element={<TermsConditions />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="*" element={<Page404 />} />
+          <Route path="/login" element={
+            <><PageTitle title={"Login"} /> <LoginPage /></>
+          } />
+          <Route path="/register" element={
+            <>
+              <PageTitle title={"Sign Up"} />
+              <RegisterPage />
+            </>
+          } />
+          <Route path="/verify-email" element={
+            <>
+              <PageTitle title={"Verify Email"} />
+              <EmailVerify />
+            </>
+          }
+          />
+          <Route path="/pricing" element={
+            <>
+              <PageTitle title={"Our Pricing"} />
+              <Pricing />
+            </>
+          } />
+          <Route path="/blogs" element={
+            <>
+              <PageTitle title={"Blogs"} />
+              <AllBlogs />
+            </>
+          } />
+          <Route path="/privacy-policy" element={
+            <>
+              <PageTitle title={"Privacy Policy"} />
+              <PrivacyPolicy />
+            </>
+          } />
+          <Route path="/terms-conditions" element={
+            <>
+              <PageTitle title={"Terms and Conditions"} />
+              <TermsConditions />
+            </>
+          } />
+          <Route path="/about-us" element={
+            <>
+              <PageTitle title={"About Us"} />
+              <AboutUs />
+            </>
+          } />
+          <Route path="/contact" element={
+            <>
+              <PageTitle title={"Contact Us"} />
+              <Contact />
+            </>
+          } />
+          <Route path="/blog/:id" element={
+            <>
+              <PageTitle title={"Blog Detail"} />
+              <BlogDetail />
+            </>
+          } />
+          <Route path="*" element={
+            <>
+              <PageTitle title={"Page Not Found"} />
+              <Page404 />
+            </>
+          }
+          />
         </Route>
 
         {/* Guest Routes -  for the guest user */}

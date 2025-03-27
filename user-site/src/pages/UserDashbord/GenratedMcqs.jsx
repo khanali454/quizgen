@@ -7,7 +7,10 @@ import Processor from '../../components/Processor';
 import ConfirmBox from '../../components/ConfirmBox';
 import toast from 'react-hot-toast';
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 export default function GenratedMcqs() {
+  const [t, i18n] = useTranslation("global"); // translations handling
+
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [mcqs, setMcqs] = useState([]);
@@ -105,7 +108,7 @@ export default function GenratedMcqs() {
           p-6 rounded-2xl bg-white shadow-lg cursor-pointer hover:bg-gray-100 w-full"
               >
                 <PlusCircle className="w-12 h-12 text-blue-500" />
-                <p className={`mt-2 text-gray-700 font-medium text-sm text-center`}>Generate New</p>
+                <p className={`mt-2 text-gray-700 font-medium text-sm text-center`}>{t("Generate New")}</p>
               </Link>
 
               {/* File Cards */}
@@ -135,7 +138,7 @@ export default function GenratedMcqs() {
                       className="mt-4 px-4 text-nowrap py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full 
                 shadow-md flex items-center"
                     >
-                      <RefreshCw className="w-5 h-5 mr-2" /> View & Download
+                      <RefreshCw className="w-5 h-5 mr-2" /> {t("View & Download")}
                     </motion.button>
                   </Link>
                 </div>
@@ -175,8 +178,8 @@ export default function GenratedMcqs() {
           {/* confirm box */}
           {showConfirm && (
             <ConfirmBox
-              message="Are you sure you want to proceed?"
-              buttonText={deleting ? (<div className='flex items-center justify-center'><Processor borderColorValue='white' widthValue={4} heightValue={4} /> <span className="ml-2">Confirm</span> </div>) : (<>Confirm</>)}
+              message={t("Are you sure you want to proceed?")}
+              buttonText={deleting ? (<div className='flex items-center justify-center'><Processor borderColorValue='white' widthValue={4} heightValue={4} /> <span className="ml-2">{t("Confirm")}</span> </div>) : (<>{t("Confirm")}</>)}
               onConfirm={() => {
                 proceedDelete();
               }}

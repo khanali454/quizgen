@@ -10,9 +10,11 @@ import { jsonAutocomplete } from "@bonniernews/json-autocomplete";
 import * as clipboard from "clipboard-polyfill";
 import { FaCheck, FaExclamationCircle } from "react-icons/fa";
 import { FaCopy, FaFilePdf, FaFilePowerpoint, FaFileWord } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 
 export default function MultiStepQuizForm() {
+  const [t, i18n] = useTranslation("global"); // translations handling
 
   const { id } = useParams();
   const [step, setStep] = useState(1);
@@ -138,7 +140,7 @@ export default function MultiStepQuizForm() {
           }
         });
       } else {
-        toast.error("Please select file");
+        toast.error(t("Please select file"));
       }
     }
   }
@@ -165,7 +167,7 @@ export default function MultiStepQuizForm() {
       textToCopy += `Answer: ${generated?.answers[index]?.answer}\n\n`;
     });
     clipboard.writeText(textToCopy).then(
-      () => { toast.success("Copied to clipboard successfully") },
+      () => { toast.success(t("Copied to clipboard successfully")) },
       () => { console.log("Copy to clipboard failed"); }
     );
   }
@@ -174,7 +176,7 @@ export default function MultiStepQuizForm() {
   const generatePaper = async () => {
 
     if (!loggedUser?.subscription || loggedUser?.subscription?.status != "active") {
-      toast.error("You don't have an active subscription. Please subscribe a plan");
+      toast.error(t("You don't have an active subscription. Please subscribe a plan"));
       navigate('/manage-subscription');
       return;
     }
@@ -195,7 +197,7 @@ export default function MultiStepQuizForm() {
       return;
     }
     if (gen_data?.question_type == "") {
-      toast.error("Question type is required");
+      toast.error(t("Question type is required"));
       return;
     }
     // set generating true
@@ -267,7 +269,7 @@ export default function MultiStepQuizForm() {
 
   const downloadPaper = async (format) => {
     if (!paper_id) {
-      toast.error("Error in downloading paper,Try again later");
+      toast.error(t("Error in downloading paper,Try again later"));
     }
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/download-paper/${paper_id}/${format}`, {
@@ -286,11 +288,11 @@ export default function MultiStepQuizForm() {
     } catch (error) {
       console.error('Download error:', error);
       if (error.status == 404) {
-        toast.error("Paper does not exists in our records, Try refreshing the page and request again");
+        toast.error(t("Paper does not exists in our records, Try refreshing the page and request again"));
       } else if (error.status == 403) {
-        toast.error("You are not allowed to download paper in this format");
+        toast.error(t("You are not allowed to download paper in this format"));
       } else {
-        toast.error("Error in downloading the paper");
+        toast.error(t("Error in downloading the paper"));
       }
     }
   };
@@ -330,9 +332,9 @@ export default function MultiStepQuizForm() {
 
           {/* Progress Steps */}
           <div className="flex justify-between mb-10 overflow-x-auto py-4">
-            <StepIndicator number={1} active={step === 1} label="Upload Document" />
-            <StepIndicator number={2} active={step === 2} label="Configure Quiz" />
-            <StepIndicator number={3} active={step === 3} label="Review & Export" />
+            <StepIndicator number={1} active={step === 1} label={t("Upload Document")} />
+            <StepIndicator number={2} active={step === 2} label={t("Configure Quiz")} />
+            <StepIndicator number={3} active={step === 3} label={t("Review & Export")} />
           </div>
 
           {/* Step 1 - File Upload */}
@@ -359,9 +361,9 @@ export default function MultiStepQuizForm() {
                       <p className="text-gray-700 font-medium">{file?.name || choosen_file_name}</p>
                     ) : (<></>)}
                     <>
-                      <p className="text-gray-700 font-medium">Drag & drop files or click to upload</p>
-                      <p className="text-sm text-gray-500 mt-1">Supported formats: {loggedUser?.subscription?.plan?.upload_formats?.toString()}</p>
-                      {uploading && (<div className="flex items-center justify-center text-gray-400 my-2"><Processor widthValue={4} heightValue={4} borderColorValue="primary" /> <span className="ml-2">Please wait</span> </div>)}
+                      <p className="text-gray-700 font-medium">{t("Drag & Drop or Click to Upload")}</p>
+                      <p className="text-sm text-gray-500 mt-1">{t("Supported formats")}: {loggedUser?.subscription?.plan?.upload_formats?.toString()}</p>
+                      {uploading && (<div className="flex items-center justify-center text-gray-400 my-2"><Processor widthValue={4} heightValue={4} borderColorValue="primary" /> <span className="ml-2">{t("Please wait")}</span> </div>)}
                     </>
 
                   </div>
@@ -372,7 +374,7 @@ export default function MultiStepQuizForm() {
                 className="w-full bg-blue-600 cursor-pointer text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
                 disabled={!(file || choosen_file_id) || uploading}
               >
-                Continue →
+                {t("Continue")} →
               </button>
             </div>
           )}
@@ -381,7 +383,7 @@ export default function MultiStepQuizForm() {
           {step === 2 && (
             <div className="space-y-8">
               <div className="space-y-4">
-                <label className="block text-gray-700 font-medium">Number of Questions</label>
+                <label className="block text-gray-700 font-medium">{t("Number of Questions")}</label>
                 <input
                   type="number"
                   value={mcqCount}
@@ -394,7 +396,7 @@ export default function MultiStepQuizForm() {
 
 
               <div className="space-y-4">
-                <label className="block text-gray-700 font-medium">Question Type</label>
+                <label className="block text-gray-700 font-medium">{t("Question Type")}</label>
                 <div className="flex gap-3 flex-wrap">
                   {(loggedUser?.subscription?.plan?.mcq_types || ["True_False"]).map(type => (
                     <OptionButton
@@ -410,7 +412,7 @@ export default function MultiStepQuizForm() {
 
 
               <div className="space-y-4">
-                <label className="block text-gray-700 font-medium">Difficulty Level</label>
+                <label className="block text-gray-700 font-medium">{t("Difficulty Level")}</label>
                 <div className="flex gap-3 flex-wrap">
                   {(loggedUser?.subscription?.plan?.difficulty_levels || ["Easy"]).map(level => (
                     <OptionButton
@@ -427,7 +429,7 @@ export default function MultiStepQuizForm() {
 
 
               <div className="space-y-4">
-                <label className="block text-gray-700 font-medium">Language</label>
+                <label className="block text-gray-700 font-medium">{t("Language")}</label>
                 <div className="flex gap-3 flex-wrap">
                   {(loggedUser?.subscription?.plan?.language_support || ["English"]).map(lang => (
                     <OptionButton
@@ -442,7 +444,7 @@ export default function MultiStepQuizForm() {
               </div>
 
               <div className="space-y-4">
-                <label className={`block ${loggedUser?.subscription?.plan?.specific_subject == 0 ? "text-gray-300" : "text-gray-700"} font-medium`}>Specific subject/topic {loggedUser?.subscription?.plan?.specific_subject == 0 ? (<span className="text-red-400 text-xs">(Upgrade Plan)</span>) : (<></>)}
+                <label className={`block ${loggedUser?.subscription?.plan?.specific_subject == 0 ? "text-gray-300" : "text-gray-700"} font-medium`}>{t("Specific subject/topic")} {loggedUser?.subscription?.plan?.specific_subject == 0 ? (<span className="text-red-400 text-xs">({t("Upgrade Plan")})</span>) : (<></>)}
                 </label>
                 <textarea
                   value={topic}
@@ -462,13 +464,13 @@ export default function MultiStepQuizForm() {
                   onClick={() => setStep(1)}
                   className="px-6 py-2 text-gray-600 text-nowrap hover:text-blue-600 font-medium transition-colors"
                 >
-                  ← Back
+                  ← {t("Back")}
                 </button>
                 <button
                   onClick={() => { generatePaper() }}
                   className="px-6 py-2 text-nowrap bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Generate Questions →
+                  {t("Generate Questions")} →
                 </button>
               </div>
             </div>
@@ -480,7 +482,7 @@ export default function MultiStepQuizForm() {
               {/* Tabs Navigation */}
               <div className="border-b border-gray-200">
                 <div className="flex gap-4">
-                  {["questions", "answers"].map(tab => (
+                  {[t("Questions"), t("Answers")].map(tab => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -554,7 +556,7 @@ export default function MultiStepQuizForm() {
                   onClick={() => setStep(2)}
                   className="px-6 py-2 text-nowrap text-gray-600 hover:text-blue-600 font-medium transition-colors"
                 >
-                  ← Back
+                  ← {t("Back")}
                 </button>
                 <div className="flex gap-3 items-center overflow-x-auto">
 
@@ -566,7 +568,7 @@ export default function MultiStepQuizForm() {
                      className="inline-flex text-sm text-nowrap items-center disabled:opacity-50 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
                    >
                      <FaCheck className="w-4 h-4 mr-2" />
-                     Online Test
+                     {t("Online Test")}
                    </button>
                  
 

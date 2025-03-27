@@ -8,15 +8,16 @@ import ConfirmBox from '../../components/ConfirmBox';
 import toast from 'react-hot-toast';
 import axios from "axios";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
+
 export default function AllFiles() {
+  const [t, i18n] = useTranslation("global"); // translations handling
   const [file, setFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [uploading, setUploading] = useState(false);
-
-
 
 
   const fileRef = useRef(null);
@@ -160,10 +161,12 @@ export default function AllFiles() {
           p-6 rounded-2xl bg-white shadow-lg cursor-pointer hover:bg-gray-100 w-full"
               >
                 <Upload className="w-12 h-12 text-blue-500" />
-                <p className={`mt-2 ${uploading?"text-gray-400":"text-gray-700"} font-medium text-sm text-center`}>Drag & Drop or Click to Upload</p>
+                <p className={`mt-2 ${uploading ? "text-gray-400" : "text-gray-700"} font-medium text-sm text-center`}>
+                  {t("Drag & Drop or Click to Upload")}
+                </p>
                 <input type="file" ref={fileRef} disabled={uploading} onChange={handleFileSelect} className="hidden" />
-                {uploading && (<div className="flex items-center justify-center text-gray-400"><Processor widthValue={4} heightValue={4} borderColorValue="primary" /> <span className="ml-2">Please wait</span> </div>)}
-                
+                {uploading && (<div className="flex items-center justify-center text-gray-400"><Processor widthValue={4} heightValue={4} borderColorValue="primary" /> <span className="ml-2">{t("Please wait")}</span> </div>)}
+
               </label>
 
 
@@ -194,7 +197,8 @@ export default function AllFiles() {
                       className="mt-4 px-4 text-nowrap py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full 
                 shadow-md flex items-center"
                     >
-                      <RefreshCw className="w-5 h-5 mr-2" /> Generate New Quiz
+                      <RefreshCw className="w-5 h-5 mr-2" />
+                      {t("Generate New Quiz")}
                     </motion.button>
                   </Link>
                 </div>
@@ -234,8 +238,8 @@ export default function AllFiles() {
           {/* confirm box */}
           {showConfirm && (
             <ConfirmBox
-              message="Are you sure you want to proceed?"
-              buttonText={deleting ? (<div className='flex items-center justify-center'><Processor borderColorValue='white' widthValue={4} heightValue={4} /> <span className="ml-2">Confirm</span> </div>) : (<>Confirm</>)}
+              message={t("Are you sure you want to proceed") + "?"}
+              buttonText={deleting ? (<div className='flex items-center justify-center'><Processor borderColorValue='white' widthValue={4} heightValue={4} /> <span className="ml-2">{t("Confirm")}</span> </div>) : (<>{t("Confirm")}</>)}
               onConfirm={() => {
                 proceedDelete();
               }}

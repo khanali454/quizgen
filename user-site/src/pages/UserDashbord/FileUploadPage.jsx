@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import SidebarWithBurgerMenu from "../../components/SidebarWithBurgerMenu";
+import { useTranslation } from "react-i18next";
 
 export function FileUploadPage() {
   const [file, setFile] = useState(null);
+  const [t, i18n] = useTranslation("global"); // translations handling
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -14,7 +16,7 @@ export function FileUploadPage() {
       alert(`File Uploaded: ${file.name}`);
       // Implement upload logic here
     } else {
-      alert("Please select a file first");
+      alert(t("Please select a file first"));
     }
   };
 

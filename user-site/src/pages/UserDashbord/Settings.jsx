@@ -6,8 +6,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useUser } from "../../layouts/LoggedUserContext";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Settings() {
+  const [t, i18n] = useTranslation("global"); // translations handling
+
   const { loggedUser, updateUser } = useUser();
   const [processingProfile, setProcessingProfile] = useState(false);
   const [processingPic, setProcessingPic] = useState(false);
@@ -30,7 +33,7 @@ export default function Settings() {
         updateUser(response?.data);
       })
       .catch((error) => {
-        toast.error("Error in fetching user");
+        toast.error(t("Error in fetching user"));
       }).finally(() => {
         setLoading(false);
       });
@@ -62,7 +65,7 @@ export default function Settings() {
       setPassword('');
     } catch (error) {
       console.log("error :", error);
-      toast.error(error.response?.data?.msg || 'Failed to update profile');
+      toast.error(error.response?.data?.msg || t('Failed to update profile'));
     } finally {
       setProcessingProfile(false);
     }
@@ -75,7 +78,7 @@ export default function Settings() {
     const fileInput = e.target.querySelector('input[type="file"]');
 
     if (!fileInput.files.length) {
-      toast.error('Please select a profile picture');
+      toast.error(t("Please select a profile picture"));
       setProcessingPic(false);
       return;
     }
@@ -98,7 +101,7 @@ export default function Settings() {
       updateUser({ ...loggedUser, profile_picture: response.data.profile_picture });
     } catch (error) {
       console.log("error : ", error);
-      toast.error(error.response?.data?.msg || 'Failed to update profile picture');
+      toast.error(error.response?.data?.msg || t("Failed to update profile picture"));
     } finally {
       setProcessingPic(false);
     }
@@ -123,7 +126,7 @@ export default function Settings() {
       setRemoving(false);
       setRefresh(!refresh);
     }).catch((error) => {
-      toast.error(error?.response?.data?.msg || "Unexpected error has occured");
+      toast.error(error?.response?.data?.msg || t("Unexpected error has occured"));
     });
 
   }
@@ -137,11 +140,11 @@ export default function Settings() {
           <>
             {/* Left Card: Edit Profile Info */}
             <form onSubmit={handleProfileSubmit} className="bg-white shadow-md rounded-lg p-6 md:col-span-2">
-              <h2 className="text-xl font-semibold mb-4">Your Profile</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("Your Profile")}</h2>
               <div className="space-y-4">
                 {/* full name field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-700">{t("Full Name")}</label>
                   <input
                     type="text"
                     name="name"
@@ -151,7 +154,7 @@ export default function Settings() {
                 </div>
                 {/* phone number field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                  <label className="block text-sm font-medium text-gray-700">{t("Phone Number")}</label>
                   <input
                     type="text"
                     name="phone_number"
@@ -162,7 +165,7 @@ export default function Settings() {
                 </div>
                 {/* email field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Email Address</label>
+                  <label className="block text-sm font-medium text-gray-700">{t("Email Address")}</label>
                   <input
                     type="email"
                     name="email"
@@ -173,7 +176,7 @@ export default function Settings() {
                 </div>
                 {/* password field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Password</label>
+                  <label className="block text-sm font-medium text-gray-700">{t("Password")}</label>
                   <div className="relative border rounded-md border-gray-400 mt-1">
                     <input
                       type={password_type}
@@ -197,7 +200,7 @@ export default function Settings() {
                 </div>
                 {/* address field */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Address</label>
+                  <label className="block text-sm font-medium text-gray-700">{t("Address")}</label>
                   <input
                     type="text"
                     name="address"
@@ -210,8 +213,8 @@ export default function Settings() {
               <div className="flex justify-end space-x-2 mt-6">
                 <button type="submit" className="px-4 py-2 flex items-center justify-center bg-blue-600 text-white rounded-md cursor-pointer" disabled={processingProfile}>
                   {processingProfile ? (<>
-                    <Processor widthValue={4} heightValue={4} borderColorValue="white" /> <span className="ml-2">Saving...</span>
-                  </>) : (<>Save</>)}
+                    <Processor widthValue={4} heightValue={4} borderColorValue="white" /> <span className="ml-2">{t("Saving")}...</span>
+                  </>) : (<>{t("Save")}</>)}
                 </button>
               </div>
             </form>
@@ -221,7 +224,7 @@ export default function Settings() {
               <div className="rounded-sm bg-white shadow-default">
                 <div className="border-b py-4 px-7 border-gray-200">
                   <h3 className="font-medium text-black">
-                    Your Photo
+                    {t("Your Photo")}
                   </h3>
                 </div>
                 <div className="p-7">
@@ -237,13 +240,13 @@ export default function Settings() {
                       </div>
                       <div>
                         <span className="mb-1.5 text-black ">
-                          Edit your photo
+                         {t("Edit your photo")}
                         </span>
                         <span className="flex gap-2.5">
                           {(loggedUser?.profile_picture && loggedUser?.profile_picture != null) && (
                             <button type='button' className={`text-sm hover:text-primary flex items-center`} onClick={removeProfilePicture}>
-                              {removing ? (<><Processor widthValue={4} heightValue={4} /> <span className='ml-2'>Removing..</span></>) : (
-                                <>Remove profile</>
+                              {removing ? (<><Processor widthValue={4} heightValue={4} /> <span className='ml-2'>{t("Removing")}..</span></>) : (
+                                <>{t("Remove profile")}</>
                               )}
                             </button>
                           )}
@@ -294,10 +297,10 @@ export default function Settings() {
 
                         {!choosen_file ? (<>
                           <p>
-                            <span className="text-primary">Click to upload</span>
+                            <span className="text-primary">{t("Click to upload")}</span>
                           </p>
                           <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                          <p>(max 2MB, preferred 100 X 100px)</p>
+                          <p>(<>{t("max 2MB, preferred 100 X 100px")}</>)</p>
                         </>) : (
                           <div className="w-full h-auto absolute top-0 left-0">
                             <img className="object-cover w-full h-auto" src={URL.createObjectURL(choosen_file)} />
@@ -317,10 +320,10 @@ export default function Settings() {
                         {processingPic ? (
                           <div className="flex items-center justify-center">
                             <Processor borderColorValue="white" widthValue={4} heightValue={4} />
-                            <span className="ml-2">Saving...</span>
+                            <span className="ml-2">{t("Saving")}...</span>
                           </div>
                         ) : (
-                          'Save'
+                          <>{t("Save")}</>
                         )}
                       </button>
                     </div>

@@ -73,8 +73,8 @@ const NewPlan = () => {
             return false;
         }
 
-        if (plan.mcqPerRequest < 1) {
-            toast.error("MCQs per request must be at least 1.");
+        if (plan.mcqPerRequest < 3) {
+            toast.error("MCQs per request must be at least 3.");
             return false;
         }
 
@@ -311,7 +311,7 @@ const NewPlan = () => {
                                             checked={planData.onlineTest}
                                             onChange={(e) => setPlanData(prev => ({ ...prev, onlineTest: e.target.checked }))}
                                         />
-                                        <span className="text-black dark:text-white">Online Test  <span className="text-xs text-red-400">(Not supported in this version)</span> </span>
+                                        <span className="text-black dark:text-white">Online Test</span>
                                     </label>
                                 </div>
 

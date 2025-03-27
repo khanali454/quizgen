@@ -14,12 +14,14 @@ import {
   DocumentDuplicateIcon,
   CurrencyDollarIcon,
 } from "@heroicons/react/24/outline";
-import { ArrowRightCircleIcon, LogOutIcon, ReceiptIcon } from "lucide-react";
+import { ArrowRightCircleIcon, BotIcon, CircleDollarSign, CircleDollarSignIcon, LogOutIcon, ReceiptIcon } from "lucide-react";
 import axios from "axios";
 import { useUser } from "../layouts/LoggedUserContext";
 import { GeneralInfoContext } from "../layouts/GeneralInfoContext";
 import { FaFileInvoice, FaFileInvoiceDollar } from "react-icons/fa";
 import toast from "react-hot-toast";
+import ClickOutside from "./ClickOutside";
+import { useTranslation } from "react-i18next";
 
 
 export function SidebarWithBurgerMenu() {
@@ -30,7 +32,7 @@ export function SidebarWithBurgerMenu() {
   const sidebarRef = useRef(null);
   const burgerRef = useRef(null);
   const [isOpenUserNav, setIsOpenUserNav] = useState(false);
-  const {loggedUser,updateUser} = useUser();
+  const { loggedUser, updateUser } = useUser();
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
@@ -68,6 +70,14 @@ export function SidebarWithBurgerMenu() {
   const navigate = useNavigate();
 
 
+
+   // multi lingual handling
+   const [t, i18n] = useTranslation("global");
+   // handle language change
+   const handleLanguageChange = (language) => {
+     i18n.changeLanguage(language);
+     setSelectedLanguage(language);
+   }
 
   const logoutUser = () => {
     setProcessing(true);
@@ -124,7 +134,7 @@ export function SidebarWithBurgerMenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                      onClick={() => setSelectedLanguage('en')}
+                      onClick={() => handleLanguageChange('en')}
                       className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''
                         }`}
                     >
@@ -135,7 +145,7 @@ export function SidebarWithBurgerMenu() {
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                      onClick={() => setSelectedLanguage('ar')}
+                      onClick={() => handleLanguageChange('ar')}
                       className={`flex items-center gap-2 w-full px-4 py-2 text-sm ${active ? 'bg-gray-100' : ''
                         }`}
                     >
@@ -148,46 +158,51 @@ export function SidebarWithBurgerMenu() {
           </Menu>
 
           {/* User Profile Menu */}
-          <div as="div" className="relative inline-block text-left">
-            <div onClick={() => { setIsOpenUserNav(!isOpenUserNav) }} as={IconButton} variant="text">
-              <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                <img
-                  src={(loggedUser?.profile_picture && loggedUser?.profile_picture != null)
-                    ? loggedUser.profile_picture
-                    : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/public/default-profile.jpg`}
-                  alt="User"
-                />
-              </div>
+          <ClickOutside onClick={()=>{setIsOpenUserNav(false)}}>
+            <div as="div" className="relative inline-block text-left">
+              <div onClick={() => { setIsOpenUserNav(!isOpenUserNav) }} as={IconButton} variant="text">
+                <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                  <img
+                    src={(loggedUser?.profile_picture && loggedUser?.profile_picture != null)
+                      ? loggedUser.profile_picture
+                      : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}/public/default-profile.jpg`}
+                    alt="User"
+                  />
+                </div>
 
+              </div>
+              {isOpenUserNav && (
+                <div className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+
+                  <Link
+                    to={'/settings'}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm`}
+                  >
+                    <UserCircleIcon className="h-5 w-5" /> {t("Profile")}
+                  </Link>
+
+                  <button
+                    onClick={(e) => { logoutUser(); }}
+                    className={`w-full flex items-center gap-2 px-4 py-2 text-sm cursor-pointer`}
+                  >
+                    {processing ? (
+                      <>
+                        <LogOutIcon className="h-5 w-5" />
+                        <span className="mr-2">Logout</span>
+                        <Processor widthValue={4} heightValue={4} />
+                      </>
+                    ) : (
+                      <><LogOutIcon className="h-5 w-5" /> {t("Logout")}</>
+                    )}
+                  </button>
+
+                </div>
+              )}
             </div>
-            {isOpenUserNav && (
-              <div className="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg focus:outline-none">
+          </ClickOutside>
 
-                <Link
-                  to={'/settings'}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm`}
-                >
-                  <UserCircleIcon className="h-5 w-5" /> Profile
-                </Link>
 
-                <button
-                  onClick={(e) => { logoutUser(); }}
-                  className={`w-full flex items-center gap-2 px-4 py-2 text-sm cursor-pointer`}
-                >
-                  {processing ? (
-                    <>
-                      <LogOutIcon className="h-5 w-5" />
-                      <span className="mr-2">Logout</span>
-                      <Processor widthValue={4} heightValue={4} />
-                    </>
-                  ) : (
-                    <><LogOutIcon className="h-5 w-5" /> Logout</>
-                  )}
-                </button>
 
-              </div>
-            )}
-          </div>
         </div>
       </div>
 
@@ -204,7 +219,7 @@ export function SidebarWithBurgerMenu() {
               onClick={closeSidebar}
               className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white gap-3 p-3 text-normal font-normal"
             >
-              Generate New Quiz
+              {t("Generate New Quiz")}
             </Link>
 
             <Link
@@ -213,7 +228,7 @@ export function SidebarWithBurgerMenu() {
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
                 ${location.pathname.endsWith("/dashboard") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
-              <HomeIcon className="h-6 w-6" /> Dashboard
+              <HomeIcon className="h-6 w-6" /> {t("Dashboard")}
             </Link>
 
             <Link
@@ -222,7 +237,7 @@ export function SidebarWithBurgerMenu() {
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
                 ${location.pathname.endsWith("/mcqs") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
-              <DocumentIcon className="h-6 w-6" /> Generated MCQs
+              <DocumentIcon className="h-6 w-6" /> {t("Quizzes")}
             </Link>
 
             <Link
@@ -231,7 +246,7 @@ export function SidebarWithBurgerMenu() {
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
                 ${location.pathname.endsWith("/files") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
-              <DocumentDuplicateIcon className="h-6 w-6" /> All Files
+              <DocumentDuplicateIcon className="h-6 w-6" /> {t("All Files")}
             </Link>
 
             <Link
@@ -240,7 +255,7 @@ export function SidebarWithBurgerMenu() {
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
                 ${location.pathname.endsWith("/transactions") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
-              <ReceiptIcon className="h-6 w-6" /> My Transactions
+              <CurrencyDollarIcon className="h-6 w-6" /> {t("Transactions")}
             </Link>
 
             <Link
@@ -249,7 +264,7 @@ export function SidebarWithBurgerMenu() {
               className={`flex items-center gap-3 p-3 text-lg font-normal rounded-lg 
                 ${location.pathname.endsWith("/settings") ? "text-blue-500 font-semibold" : "text-gray-700"}`}
             >
-              <Cog6ToothIcon className="h-6 w-6" /> Settings
+              <Cog6ToothIcon className="h-6 w-6" /> {t("Settings")}
             </Link>
 
             <div className="border-t border-gray-400 border-dotted my-4"></div>
@@ -259,15 +274,15 @@ export function SidebarWithBurgerMenu() {
               onClick={closeSidebar}
               className="flex items-center gap-3 p-3 text-sm font-normal text-gray-600"
             >
-              <CurrencyDollarIcon className="h-6 w-6" />
-              Ai Credits: {loggedUser?.subscription?.status=="active"?(<> {loggedUser?.subscription?.sent_requests || 0} / {loggedUser?.subscription?.plan?.requests || 0}</>):(<>0</>)}
+              <BotIcon className="h-6 w-6" />
+              Ai Credits: {loggedUser?.subscription?.status == "active" ? (<> {loggedUser?.subscription?.sent_requests || 0} / {loggedUser?.subscription?.plan?.requests || 0}</>) : (<>0</>)}
             </Link>
           </div>
 
           <div className="p-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white shadow-lg">
-            <h5 className="mb-2 font-bold">Want More?</h5>
+            <h5 className="mb-2 font-bold">{t("Want More")}</h5>
             <p className="mb-4 text-sm opacity-90">
-              Get access to exclusive features and premium support.
+              {t("Get access to exclusive features and premium support")}.
             </p>
             <Link
               to="/manage-subscription"
@@ -275,7 +290,7 @@ export function SidebarWithBurgerMenu() {
               onClick={closeSidebar}
               className="flex items-center gap-2 px-4 py-2 bg-white text-blue-700 text-sm rounded-full"
             >
-              <ArrowUpCircleIcon className="h-6 w-6" /> Upgrade Now
+              <ArrowUpCircleIcon className="h-6 w-6" /> {t("Upgrade Now")}
             </Link>
           </div>
         </div>

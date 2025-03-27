@@ -8,7 +8,15 @@ import global_en from './translations/en/global.json';
 import global_ar from './translations/ar/global.json';
 
 i18next.init({
-    interpolation: { escapeValue: false },
+    interpolation: {
+        escapeValue: false,
+        format: (value, format) => {
+            if (format === 'arabicNumerals') {
+                return new Intl.NumberFormat('ar-EG').format(value); // For Converting ===> 100 to "١٠٠"
+            }
+            return value;
+        }
+    },
     lng: "en",
     resources: {
         en: { global: global_en },

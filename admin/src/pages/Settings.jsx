@@ -15,6 +15,8 @@ const Settings = () => {
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
+   const [choosen_file, setChoosenFile] = useState(null);
+
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/admin/user`, {
       headers: {
@@ -299,9 +301,10 @@ const Settings = () => {
                       <input
                         type="file"
                         accept="image/*"
+                        onChange={(e) => { setChoosenFile(e.target.files[0]) }}
                         className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                       />
-                      <div className="flex flex-col items-center justify-center space-y-3">
+                      <div className="flex flex-col items-center justify-center space-y-3 h-[240px] relative overflow-hidden">
                         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                           <svg
                             width="16"
@@ -330,11 +333,20 @@ const Settings = () => {
                             />
                           </svg>
                         </span>
-                        <p>
-                          <span className="text-primary">Click to upload</span>
-                        </p>
-                        <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
-                        <p>(max 2MB, preferred 100 X 100px)</p>
+
+                        {!choosen_file ? (<>
+                          <p>
+                            <span className="text-primary">Click to upload</span>
+                          </p>
+                          <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
+                          <p>(max 2MB, preferred 100 X 100px)</p>
+                        </>) : (
+                          <div className="w-full h-auto absolute top-0 left-0">
+                            <img className="object-cover w-full h-auto" src={URL.createObjectURL(choosen_file)} />
+                          </div>
+                        )}
+
+                        
                       </div>
                     </div>
 

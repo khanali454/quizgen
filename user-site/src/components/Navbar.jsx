@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
   const generalInfo = useContext(GeneralInfoContext);
 
 // multi lingual handling
@@ -48,7 +48,7 @@ const Navbar = () => {
                 className="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-700 dark:text-gray-400 dark:hover:text-white"
               >
                 <span className="mr-1">
-                  {selectedLanguage === "English" ? "🇺🇸" : "🇸🇦"}
+                  {selectedLanguage === "ar" ? "🇸🇦" : "🇺🇸"}
                 </span>
                 <svg
                   className="w-4 h-4"

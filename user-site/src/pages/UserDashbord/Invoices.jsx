@@ -4,8 +4,11 @@ import { toast } from 'react-hot-toast';
 import axios from "axios";
 import { jsPDF } from "jspdf";
 import { FaExclamationCircle, FaFilePdf, FaSadCry } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function Invoices() {
+    const [t, i18n] = useTranslation("global"); // translations handling
+
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [transactions, setTransactions] = useState([]);
@@ -143,12 +146,12 @@ export default function Invoices() {
                     <table className="w-full">
                         <thead className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-t-lg">
                             <tr>
-                                <th className="px-4 py-3 text-left rounded-tl-lg text-nowrap">Payment ID</th>
-                                <th className="px-4 py-3 text-left">Amount</th>
-                                <th className="px-4 py-3 text-left">Plan</th>
-                                <th className="px-4 py-3 text-left">Status</th>
-                                <th className="px-4 py-3 text-left">Date</th>
-                                <th className="px-4 py-3 text-right rounded-tr-lg">Actions</th>
+                                <th className="px-4 py-3 text-left rounded-tl-lg text-nowrap">{t("Payment ID")}</th>
+                                <th className="px-4 py-3 text-left">{t("Amount")}</th>
+                                <th className="px-4 py-3 text-left">{t("Plan")}</th>
+                                <th className="px-4 py-3 text-left">{t("Status")}</th>
+                                <th className="px-4 py-3 text-left">{t("Date")}</th>
+                                <th className="px-4 py-3 text-right rounded-tr-lg">{t("Actions")}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -157,7 +160,7 @@ export default function Invoices() {
                                     <td className="w-full px-4 py-8 text-sm font-medium text-gray-700" colSpan={6}>
                                         <div className="flex flex-col items-center justify-center py-4 gap-3">
                                             <FaExclamationCircle size={40} />
-                                            <span>No Transaction was found.</span>
+                                            <span>{t("No Transaction was found")}.</span>
                                         </div>
                                     </td>
                                 </tr>
