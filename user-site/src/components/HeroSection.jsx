@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+// import mainhero from'../assets/slider_over.png';
 
 const HeroSection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,8 +65,12 @@ const HeroSection = () => {
 
   return (
     <div className="overflow-x-hidden bg-gradient-to-b from-white to-blue-50">
-      <div className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative py-12 sm:py-16 lg:pt-20 xl:pb-0 ">
+      {/* <div className="absolute top-0 right-0 -z-0">
+        <img src={mainhero} alt="Main Hero" />
+    </div> */}
+        
+        <div className="relative mx-auto max-w-7xl px-4 z-10 sm:px-6 lg:px-8">
           <motion.div 
             className="mx-auto max-w-3xl text-center"
             initial="hidden"
@@ -137,7 +142,7 @@ const HeroSection = () => {
 
         {/* Features Section */}
         <motion.div 
-          className="mt-16 mb-16 flex flex-col items-center justify-center divide-y divide-gray-300 sm:flex-row sm:divide-x sm:divide-y-0 md:mt-20"
+          className="z-10 mt-16 mb-16 flex flex-col items-center justify-center divide-y divide-gray-300 sm:flex-row sm:divide-x sm:divide-y-0 md:mt-20"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
